@@ -4,7 +4,7 @@ A standalone light and dark theme with a frosted navigation rail, subtle control
 
 [中文说明](./README.zh-CN.md) · [Download](https://github.com/ZephyrHaven/cockpit-glass/releases/latest) · [Architecture](./docs/ARCHITECTURE.md) · [Audit](./docs/AUDIT.md)
 
-Version **1.3.0**, for app version **1.14.0+**. The theme previously shipped as 1.2.0 inside Cockpit Dashboard. Community directory submission is pending; GitHub releases can be installed manually.
+Version **1.3.1**, for app version **1.14.0+**. The theme previously shipped as 1.2.0 inside Cockpit Dashboard. Community directory review is pending; GitHub releases can be installed manually.
 
 ## Screenshots
 
@@ -34,7 +34,7 @@ This is a source project, with generated installation files:
 src/*.css → build.js → theme.css + dist/
                               ├── theme.css
                               ├── manifest.json
-                              ├── Cockpit-Glass-1.3.0.zip
+                              ├── Cockpit-Glass-1.3.1.zip
                               └── SHA256SUMS.txt
 ```
 
@@ -68,6 +68,10 @@ npm run test:ui
 
 Local host CSS and synthetic screenshots stay in ignored `output/`. They are not community-store screenshots. Tooling tests exercise backup, rollback, locks, external edits and release packaging; browser tests use a synthetic DOM with the local host stylesheet. Real-device acceptance is recorded separately in [the audit](./docs/AUDIT.md).
 
-`npm run release:check` validates the GitHub release package. `npm run community:check` additionally requires a real-app demo screenshot for community submission. See [publishing instructions](./docs/RELEASING.md).
+`npm run release:check` validates the GitHub release package. `npm run community:check` checks the screenshot selected by `communityScreenshot` in `theme.config.json`. The selected screenshot must also exist in the commit tagged for the release. See [publishing instructions](./docs/RELEASING.md).
+
+## Support
+
+If Cockpit Glass is useful to you, you can support its ongoing development and maintenance on [Afdian](https://afdian.com/a/zephyrhaven). Thank you for your support!
 
 MIT License. Original attribution is preserved in [LICENSE](./LICENSE). Cockpit Dashboard remains optional; its bundled installer can retain its older offline snapshot without replacing a newer installed theme.

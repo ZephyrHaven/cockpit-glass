@@ -2,7 +2,7 @@
 
 独立的浅色 / 深色玻璃主题，提供轻透导航栏、细腻的按钮反馈和清晰的笔记阅读面，跟随用户强调色。无需驾驶舱插件、远程字体、图片或网络请求。
 
-当前 **1.3.0**，最低宿主版本 **1.14.0**。从驾驶舱内置的 1.2.0 独立发展；社区目录尚未提交。
+当前 **1.3.1**，最低宿主版本 **1.14.0**。从驾驶舱内置的 1.2.0 独立发展；社区目录审核中。
 
 ## 主题预览
 
@@ -73,6 +73,10 @@ bash deploy.sh
 - [构建、GitHub Release 与社区提交步骤](./docs/RELEASING.md)
 - [拆分来源](./docs/EXTRACTION.md)
 
-`npm run release:check` 验证 GitHub 发布包；`npm run community:check` 额外要求真实应用演示截图。浏览器验证使用本地宿主 CSS 与虚构页面，不代表所有真机交互已验收。主题不包含驾驶舱的仪表盘功能，驾驶舱仍可作为可选插件搭配。
+`npm run release:check` 验证 GitHub 发布包；`npm run community:check` 检查 `theme.config.json` 中 `communityScreenshot` 指定的实际截图；截图也必须存在于发布标签对应的提交中。浏览器验证使用本地宿主 CSS 与虚构页面，不代表所有真机交互已验收。主题不包含驾驶舱的仪表盘功能，驾驶舱仍可作为可选插件搭配。
+
+## 支持开发
+
+如果 Cockpit Glass 对你有帮助，欢迎通过[爱发电](https://afdian.com/a/zephyrhaven)支持后续开发与维护。感谢你的支持！
 
 MIT 许可，保留原项目版权声明。

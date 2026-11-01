@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.1
+
+- Include light and dark screenshots in the released revision so the community scanner can resolve the selected screenshot.
+- Validate the configured listing screenshot before release and document the release-tag requirement.
+- Add Afdian support links to both READMEs.
+
 ## 1.3.0
 
 - Cockpit Glass is now a standalone light and dark theme that works without Cockpit Dashboard.

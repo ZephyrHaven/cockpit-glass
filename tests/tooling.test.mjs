@@ -6,8 +6,9 @@ import os from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { unzipSync } from 'fflate';
-import { compileTheme, PROJECT_ROOT } from '../build.js';
+import { buildTheme, compileTheme, PROJECT_ROOT } from '../build.js';
 import { deployTheme } from '../scripts/deploy-core.mjs';
+import { validateProject } from '../scripts/validate.mjs';
 
 const artifact = compileTheme();
 async function sandbox(t) {
@@ -139,4 +140,31 @@ test('CLI rejects a configuration directory escaping the vault', async t => {
   const result = spawnSync(process.execPath, [cli, '--vault', options.root, '--config-dir', '../outside'], { cwd: PROJECT_ROOT, encoding: 'utf8' });
   assert.equal(result.status, 1);
   assert.match(result.stderr, /inside the vault/);
+});
+
+async function validationSandbox(t) {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'cockpit-glass-release-'));
+  t.after(() => fs.rm(root, { recursive: true, force: true }));
+  const config = JSON.parse(await fs.readFile(path.join(PROJECT_ROOT, 'theme.config.json'), 'utf8'));
+  const files = ['manifest.json', 'package.json', 'versions.json', 'theme.config.json', 'LICENSE',
+    'README.md', 'README.zh-CN.md', 'docs/RELEASING.md', `releases/${artifact.manifest.version}.md`,
+    ...config.sources, config.communityScreenshot];
+  for (const name of files) {
+    await fs.mkdir(path.dirname(path.join(root, name)), { recursive: true });
+    await fs.copyFile(path.join(PROJECT_ROOT, name), path.join(root, name));
+  }
+  buildTheme({ root });
+  return { root, screenshot: path.join(root, config.communityScreenshot) };
+}
+
+test('release validation rejects a missing listing screenshot', async t => {
+  const fixture = await validationSandbox(t);
+  await fs.unlink(fixture.screenshot);
+  assert.throws(() => validateProject({ root: fixture.root, release: true }), /Community screenshot is missing/);
+});
+
+test('community validation accepts the configured screenshot without store.png', async t => {
+  const fixture = await validationSandbox(t);
+  await assert.rejects(fs.stat(path.join(fixture.root, 'screenshots/store.png')), { code: 'ENOENT' });
+  assert.equal(validateProject({ root: fixture.root, community: true }).version, artifact.manifest.version);
 });

@@ -7,5 +7,6 @@
     "src/40-controls.css",
     "src/50-dialogs.css",
     "src/60-states.css"
-  ]
+  ],
+  "communityScreenshot": "screenshots/cockpit-glass-dark.png"
 }

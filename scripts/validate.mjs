@@ -36,10 +36,11 @@ export function validateProject({ root = PROJECT_ROOT, release = false, communit
       const [sha, name] = line.split('  ');
       assert.equal(digest(fs.readFileSync(path.join(root, 'dist', name))), sha, `Checksum mismatch: ${name}`);
     }
-  }
-  if (community) {
-    const screenshot = path.join(root, 'screenshots/store.png');
-    if (!fs.existsSync(screenshot)) throw new Error('Community submission needs a real-app demo screenshot at screenshots/store.png. See docs/RELEASING.md.');
+    const screenshotPath = JSON.parse(read('theme.config.json')).communityScreenshot;
+    assert.equal(typeof screenshotPath, 'string', 'Configure communityScreenshot in theme.config.json');
+    assert.match(screenshotPath, /^screenshots\/[a-z0-9-]+\.png$/, 'Use a PNG file inside screenshots/');
+    const screenshot = path.join(root, screenshotPath);
+    if (!fs.existsSync(screenshot)) throw new Error(`Community screenshot is missing: ${screenshotPath}. Commit it before tagging a release.`);
     const png = fs.readFileSync(screenshot);
     assert.equal(png.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
     assert.ok(png.readUInt32BE(16) >= 512 && png.readUInt32BE(20) >= 288);

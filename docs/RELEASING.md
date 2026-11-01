@@ -1,6 +1,6 @@
 # 发布与社区提交
 
-独立仓库：[ZephyrHaven/cockpit-glass](https://github.com/ZephyrHaven/cockpit-glass)。源码在 `src/`，维护规则见 `ARCHITECTURE.md`。当前首个独立发布版本为 1.3.0。
+独立仓库：[ZephyrHaven/cockpit-glass](https://github.com/ZephyrHaven/cockpit-glass)。源码在 `src/`，维护规则见 `ARCHITECTURE.md`。首个独立版本为 1.3.0；当前修复版本为 1.3.1。
 
 ## 每次发布
 
@@ -35,12 +35,12 @@ Release 的 **theme.css 与 manifest.json 两个独立附件必需**；ZIP 供�
 GitHub Release 可以先发布；社区提交还需要真实应用截图与实际验收。首次提交前：
 
 1. 在空白演示库中安装发布包，关闭所有社区插件，验证主题独立可用。完成审计中适用的真机验收。
-2. 使用虚构笔记在真实应用中截图，保存为 `screenshots/store.png`，推荐 512×288 或更大同宽高比图片。不要用浏览器模拟图冒充真实应用截图。
+2. 使用虚构笔记在真实应用中截图，保存到 `theme.config.json` 的 `communityScreenshot` 所指定的路径，当前为 `screenshots/cockpit-glass-dark.png`，与社区表单一致。官方推荐 512×288 或更大同宽高比图片。不要用浏览器模拟图冒充真实应用截图。
 3. 在 README 引用截图并检查隐私，然后运行 `npm run community:check`。
 4. 在 [community.obsidian.md](https://community.obsidian.md) 登录并连接 GitHub 账户，通过 Add a plugin or theme 提交仓库地址，填写截图路径并选择 Light / Dark 模式。
 5. 按自动审核反馈修改、递增版本并发布新 Release。社区主题显示名称提交后不能更改，提交前确认使用 **Cockpit Glass**。
 
-社区目录读取默认分支 HEAD 的清单；安装文件来自与清单版本一致的 GitHub Release。主题名是否实时可用，以社区提交表单为准。没有自动替用户提交社区审核。
+社区目录读取默认分支 HEAD 的清单，审核还会核对该发布版本所指向的提交。截图必须包含在发布标签对应的提交中；只在标签创建后补交到 main，旧版本审核仍会找不到截图，此时需要发布递增版本。安装文件来自与清单版本一致的 GitHub Release。主题名是否实时可用，以社区提交表单为准。审核结果以登录后的社区管理页面为准。
 
 ## 官方依据（2026-11-01 核对）
 

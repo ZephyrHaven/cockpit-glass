@@ -11,7 +11,7 @@ src/
   40-controls.css     按钮、搜索、焦点和减少动态效果
   50-dialogs.css      弹窗、设置窗口与减少透明度
   60-states.css       状态、RTL、触控、强制颜色、打印
-theme.config.json    显式拼接顺序
+theme.config.json    显式拼接顺序与社区截图路径
 manifest.json        主题名称与版本
 build.js             严格解析、压缩、打包、校验和
 theme.css            生成并提交的社区主题文件
