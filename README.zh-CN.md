@@ -4,6 +4,18 @@
 
 当前 **1.3.0**，最低宿主版本 **1.14.0**。从驾驶舱内置的 1.2.0 独立发展；社区目录尚未提交。
 
+## 主题预览
+
+### 浅色模式
+
+![Cockpit Glass 浅色模式](./screenshots/cockpit-glass-light.png)
+
+### 深色模式
+
+![Cockpit Glass 深色模式](./screenshots/cockpit-glass-dark.png)
+
+以上为 macOS 实际界面截图。图中的 Cockpit 标签与 AI 入口来自可选的 Cockpit Dashboard 插件，主题本身可独立使用。
+
 ## 安装使用
 
 从 [GitHub Releases](https://github.com/ZephyrHaven/cockpit-glass/releases/latest) 下载 ZIP，将解压后的 `Cockpit Glass` 文件夹放入库配置目录的 `themes/` 下（默认 `.obsidian/themes/`）。也可单独下载 `theme.css` 和 `manifest.json`，放入 `themes/Cockpit Glass/`。

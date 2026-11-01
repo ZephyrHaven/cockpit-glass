@@ -6,6 +6,18 @@ A standalone light and dark theme with a frosted navigation rail, subtle control
 
 Version **1.3.0**, for app version **1.14.0+**. The theme previously shipped as 1.2.0 inside Cockpit Dashboard. Community directory submission is pending; GitHub releases can be installed manually.
 
+## Screenshots
+
+### Light mode
+
+![Cockpit Glass in light mode](./screenshots/cockpit-glass-light.png)
+
+### Dark mode
+
+![Cockpit Glass in dark mode](./screenshots/cockpit-glass-dark.png)
+
+Screenshots show the actual macOS interface. The Cockpit tab and AI shortcut are provided by the optional Cockpit Dashboard plugin; the theme works independently.
+
 ## Install
 
 Download the ZIP from [Releases](https://github.com/ZephyrHaven/cockpit-glass/releases/latest), then place its `Cockpit Glass` folder inside your vault configuration directory's `themes/` folder (normally `.obsidian/themes/`). Alternatively, copy the release's two individual files, `theme.css` and `manifest.json`, into `themes/Cockpit Glass/`.
