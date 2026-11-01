@@ -77,6 +77,8 @@ bash deploy.sh
 
 ## 支持开发
 
+[![爱发电支持 Cockpit Glass](./assets/afdian-badge-zh.svg)](https://afdian.com/a/zephyrhaven)
+
 如果 Cockpit Glass 对你有帮助，欢迎通过[爱发电](https://afdian.com/a/zephyrhaven)支持后续开发与维护。感谢你的支持！
 
 MIT 许可，保留原项目版权声明。

@@ -72,6 +72,8 @@ Local host CSS and synthetic screenshots stay in ignored `output/`. They are not
 
 ## Support
 
+[![Support Cockpit Glass on Afdian](./assets/afdian-badge.svg)](https://afdian.com/a/zephyrhaven)
+
 If Cockpit Glass is useful to you, you can support its ongoing development and maintenance on [Afdian](https://afdian.com/a/zephyrhaven). Thank you for your support!
 
 MIT License. Original attribution is preserved in [LICENSE](./LICENSE). Cockpit Dashboard remains optional; its bundled installer can retain its older offline snapshot without replacing a newer installed theme.
