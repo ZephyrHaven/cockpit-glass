@@ -29,7 +29,6 @@ body:not(.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-mo
 }
 body:not(.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal)) .workspace-split.mod-left-split {
   background: linear-gradient(155deg, color-mix(in srgb, var(--interactive-accent) 6%, transparent), transparent 45%), var(--cg-sidebar-sheet);
-  box-shadow: inset -1px 0 0 var(--cg-hairline);
 }
 
 /* The operating system supplies the window blur; the theme supplies tint and edges. */
@@ -80,13 +79,19 @@ body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) 
 /* A single translucent navigation rail gives the left dock its own depth. */
 body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-split.mod-left-split {
   background: linear-gradient(155deg, color-mix(in srgb, var(--interactive-accent) 8%, transparent), transparent 38%), var(--cg-sidebar-sheet);
-  box-shadow: inset -1px 0 0 var(--cg-hairline);
 }
 
-/* Notes read on a soft sheet; media and dialogs keep a firmer surface. */
-body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .markdown-source-view,
-body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .markdown-preview-view {
+/* Top-level notes share the native window glass in reading, live preview and
+   source mode. Embedded notes, media and dialogs retain their own surfaces. */
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-leaf-content[data-type="markdown"] > .view-content > .markdown-source-view,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-leaf-content[data-type="markdown"] > .view-content > .markdown-reading-view > .markdown-preview-view {
   background: var(--cg-reading);
+}
+
+/* Fade the resting pane seam only. Native hit areas, cursors and accent
+   feedback on hover/resize stay intact for both sidebar and document splits. */
+body:not(.is-mobile):is(.theme-light, .theme-dark) .workspace-leaf-resize-handle {
+  --divider-color: var(--cg-divider);
 }
 
 body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-tab-header.is-active {

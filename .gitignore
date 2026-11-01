@@ -1,6 +1,7 @@
 node_modules/
 dist/
 output/
+.codegraph/
 deploy.local.json
 .DS_Store
 *.backup*

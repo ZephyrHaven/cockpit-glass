@@ -22,6 +22,7 @@ body :is(.prompt, .menu, .popover) {
     --cg-control-hover: var(--background-secondary-alt);
     --cg-control-active: var(--background-secondary-alt);
     --cg-reading: var(--background-primary);
+    --cg-divider: var(--background-modifier-border);
     --cg-solid: var(--cg-window-surface);
   }
 }
@@ -33,6 +34,9 @@ body.is-mobile :is(.nav-action-button, .workspace-drawer-vault-actions .clickabl
 }
 
 @media (forced-colors: active) {
+  body:is(.theme-light, .theme-dark) {
+    --cg-divider: CanvasText;
+  }
   body .workspace-tab-header.is-active .workspace-tab-header-inner {
     outline: 1px solid Highlight;
   }

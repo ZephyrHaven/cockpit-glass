@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.2
+
+- Notes share the native translucent window in reading, live preview and source mode.
+- Light mode uses a thinner shell and sidebar tint to reveal more native glass.
+- Resting pane dividers are softer in both modes, with native resize targets and interaction feedback retained.
+- Solid platform fallbacks, dialogs and reduced-transparency surfaces remain available.
+
 ## 1.3.1
 
 - Include light and dark screenshots in the released revision so the community scanner can resolve the selected screenshot.

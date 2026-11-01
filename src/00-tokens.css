@@ -9,10 +9,11 @@ body.theme-light {
   --text-muted: #58616a;
   --interactive-normal: rgba(255, 255, 255, .64);
   --interactive-hover: rgba(255, 255, 255, .78);
-  --cg-shell: rgba(250, 251, 253, .04);
-  --cg-haze: rgba(255, 255, 255, .05);
+  --cg-shell: rgba(250, 251, 253, .025);
+  --cg-haze: rgba(255, 255, 255, .025);
   --cg-tab-active: color-mix(in srgb, var(--interactive-accent) 5%, rgba(255, 255, 255, .09));
-  --cg-reading: var(--background-primary);
+  --cg-reading: transparent;
+  --cg-divider: rgba(49, 61, 73, .035);
   --cg-solid: #f2f5f7;
   --cg-window-surface: #f2f5f7;
   --cg-line: rgba(255, 255, 255, .32);
@@ -26,11 +27,11 @@ body.theme-light {
   --cg-shadow: rgba(30, 42, 55, .09);
   --cg-selection: color-mix(in srgb, var(--interactive-accent) 10%, var(--cg-control-active));
   --cg-hairline: rgba(49, 61, 73, .11);
-  --cg-sidebar-sheet: rgba(248, 250, 253, .46);
+  --cg-sidebar-sheet: rgba(248, 250, 253, .14);
   --cg-sidebar-tray: rgba(255, 255, 255, .38);
   --cg-sidebar-row: rgba(255, 255, 255, .14);
   --cg-sidebar-row-hover: rgba(255, 255, 255, .35);
-  --workspace-background-translucent: rgba(250, 251, 253, .04);
+  --workspace-background-translucent: rgba(250, 251, 253, .025);
 }
 
 body.theme-dark {
@@ -47,7 +48,8 @@ body.theme-dark {
   --cg-shell: rgba(13, 15, 19, .04);
   --cg-haze: rgba(255, 255, 255, .025);
   --cg-tab-active: color-mix(in srgb, var(--interactive-accent) 7%, rgba(255, 255, 255, .025));
-  --cg-reading: var(--background-primary);
+  --cg-reading: transparent;
+  --cg-divider: rgba(255, 255, 255, .03);
   --cg-solid: #27292f;
   --cg-window-surface: #27292f;
   --cg-line: rgba(255, 255, 255, .08);

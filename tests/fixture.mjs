@@ -4,6 +4,7 @@ export function fixture() {
   <body class="theme-light mod-macos is-focused is-hidden-frameless is-frameless">
   <div class="app-container"><div class="horizontal-main-container"><div class="workspace">
     <div class="workspace-split mod-horizontal mod-left-split mod-primary-split" style="width:248px; flex:0 0 248px">
+      <div class="workspace-leaf-resize-handle" id="left-divider"></div>
       <div class="workspace-tabs mod-sidedock"><div class="workspace-tab-container"><div class="workspace-leaf"><div class="workspace-leaf-content" data-type="file-explorer">
         <div class="nav-header"><div class="nav-buttons-container">
           <div class="clickable-icon nav-action-button" tabindex="0" role="button" aria-label="New note">${icon}</div>
@@ -30,16 +31,25 @@ export function fixture() {
           <div class="workspace-tab-header-tab-list"><div class="clickable-icon" tabindex="0" role="button" aria-label="List tabs">⌄</div></div>
           <div class="sidebar-toggle-button mod-right"><div class="clickable-icon" tabindex="0" role="button" aria-label="Toggle right sidebar">${icon}</div></div>
         </div>
-        <div class="workspace-tab-container"><div class="workspace-leaf"><div class="workspace-leaf-content" data-type="markdown">
+        <div class="workspace-tab-container"><div class="workspace-leaf"><div class="workspace-leaf-content is-read-mode" data-type="markdown">
           <div class="view-header"><div class="view-header-title-container"><div class="view-header-title">A quieter workspace</div></div></div>
           <div class="view-content"><div class="markdown-reading-view"><div class="markdown-preview-view markdown-rendered"><div class="markdown-preview-sizer"><h1>A quieter workspace</h1><p>Make room for the things worth noticing.</p><h2>Field notes</h2><p>Soft surfaces, clear text, and a familiar place to think. Cockpit Glass follows your accent color while keeping your notes at the center.</p><blockquote><p>Small details make everyday tools feel considered.</p></blockquote><h2>Today</h2><ul><li>Read a chapter</li><li>Collect a few ideas</li><li>Leave space for tomorrow</li></ul><hr><p><a href="#">Reading list</a> · <code>local notes</code></p></div></div></div></div>
         </div></div></div>
       </div>
     </div>
+    <div class="workspace-split mod-horizontal mod-right-split mod-secondary-split" style="display:none; width:200px; flex:0 0 200px" id="right-dock">
+      <div class="workspace-leaf-resize-handle" id="right-divider"></div>
+      <div class="workspace-tabs mod-sidedock"><div class="workspace-tab-container"><div class="workspace-leaf"><div class="workspace-leaf-content" data-type="backlink"><div class="view-content"><p>No linked mentions</p></div></div></div></div></div>
+    </div>
   </div></div></div>
   <div class="modal-container mod-dim" id="dialog" style="display:none"><div class="modal-bg"></div><div class="modal"><div class="modal-title">A clear surface</div><div class="modal-content"><p>This is a synthetic dialog used to check opacity.</p><button>Continue</button></div></div></div>
   <div class="modal-container mod-dim" id="settings" style="display:none"><div class="modal-bg"></div><div class="modal mod-settings mod-sidebar-layout"><div class="modal-content vertical-tabs-container"><div class="vertical-tab-header"><div class="vertical-tab-header-group"><div class="vertical-tab-nav-item is-active">Appearance</div></div></div><div class="vertical-tab-content setting-page"><div class="setting-page-titlebar"><div class="setting-page-title">Appearance</div></div><div class="setting-page-content">${'<div class="setting-item"><div class="setting-item-info"><div class="setting-item-name">Example setting</div><div class="setting-item-description">Synthetic content for scrolling checks</div></div><div class="setting-item-control"><button>Choose</button></div></div>'.repeat(24)}</div></div></div></div></div>
   </body></html>`;
+}
+
+// CodeMirror's document structure; content and dimensions stand in for app JS.
+export function editor(livePreview = false) {
+  return `<div class="markdown-source-view mod-cm6 is-readable-line-width ${livePreview ? 'is-live-preview' : ''}"><div class="cm-editor"><div class="cm-scroller"><div class="cm-gutters"><div class="cm-gutter cm-lineNumbers"><div class="cm-gutterElement">1</div></div></div><div class="cm-sizer"><div class="cm-contentContainer"><div class="cm-content" contenteditable="true" role="textbox" aria-label="Note editor"><div class="cm-line"># A quieter workspace</div><div class="cm-line">Keep a little room for new ideas.</div></div></div></div></div></div></div>`;
 }
 
 export function tabs(count) {
@@ -58,4 +68,8 @@ export const fixtureStyles = `
   .search-input-container { margin:8px 12px; }
   .search-input-container input { width:100%; }
   .markdown-preview-sizer { max-width:660px; margin:auto; padding:42px 34px; }
+  /* Geometry normally injected by CodeMirror's runtime stylesheet. */
+  .cm-editor { display:flex; flex-direction:column; }
+  .cm-scroller { display:flex; align-items:flex-start; height:100%; overflow:auto; position:relative; }
+  .cm-content { flex-grow:2; flex-shrink:0; }
 `;

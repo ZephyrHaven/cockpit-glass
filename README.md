@@ -4,7 +4,7 @@ A standalone light and dark theme with a frosted navigation rail, subtle control
 
 [中文说明](./README.zh-CN.md) · [Download](https://github.com/ZephyrHaven/cockpit-glass/releases/latest) · [Architecture](./docs/ARCHITECTURE.md) · [Audit](./docs/AUDIT.md)
 
-Version **1.3.1**, for app version **1.14.0+**. The theme previously shipped as 1.2.0 inside Cockpit Dashboard. Community directory review is pending; GitHub releases can be installed manually.
+Version **1.3.2**, for app version **1.14.0+**. The theme previously shipped as 1.2.0 inside Cockpit Dashboard. Community directory review is pending; GitHub releases can be installed manually.
 
 ## Screenshots
 
@@ -16,7 +16,7 @@ Version **1.3.1**, for app version **1.14.0+**. The theme previously shipped as 
 
 ![Cockpit Glass in dark mode](./screenshots/cockpit-glass-dark.png)
 
-Screenshots show the actual macOS interface. The Cockpit tab and AI shortcut are provided by the optional Cockpit Dashboard plugin; the theme works independently.
+Screenshots show the actual macOS interface before the 1.3.2 note-transparency and divider changes. The Cockpit tab and AI shortcut are provided by the optional Cockpit Dashboard plugin; the theme works independently.
 
 ## Install
 
@@ -24,7 +24,7 @@ Download the ZIP from [Releases](https://github.com/ZephyrHaven/cockpit-glass/re
 
 Select **Cockpit Glass** in **Settings → Appearance → Themes**. No Node.js, build step or plugin is needed for end users.
 
-On macOS, **Translucent window** is optional. Notes, dialogs and search palettes retain clear surfaces. Other platforms, fullscreen and detached settings use solid fallbacks; CSS cannot provide native desktop wallpaper blur there. Windows/Linux and mobile visual acceptance are still pending. To uninstall, choose another theme and remove this theme's folder; no user data is stored by the theme.
+On macOS, **Translucent window** is optional. Notes share the native window glass in reading and editing modes; dialogs and search palettes retain solid surfaces. Pane dividers stay faint until hovered or dragged. Other platforms, fullscreen and detached settings use solid fallbacks; CSS cannot provide native desktop wallpaper blur there. Windows/Linux and mobile visual acceptance are still pending. To uninstall, choose another theme and remove this theme's folder; no user data is stored by the theme.
 
 ## Maintain and deploy
 
@@ -34,7 +34,7 @@ This is a source project, with generated installation files:
 src/*.css → build.js → theme.css + dist/
                               ├── theme.css
                               ├── manifest.json
-                              ├── Cockpit-Glass-1.3.1.zip
+                              ├── Cockpit-Glass-1.3.2.zip
                               └── SHA256SUMS.txt
 ```
 

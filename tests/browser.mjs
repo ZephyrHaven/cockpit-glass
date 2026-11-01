@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
-import { fixture, tabs, fixtureStyles } from './fixture.mjs';
+import { fixture, tabs, fixtureStyles, editor } from './fixture.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const hostPath = process.env.COCKPIT_HOST_CSS || path.join(root, 'output/host.css');
@@ -21,6 +21,8 @@ let checks = 0;
 const check = (value, message) => { assert.ok(value, message); checks++; };
 const style = (selector, prop) => page.locator(selector).first().evaluate((el, p) => getComputedStyle(el).getPropertyValue(p), prop);
 const opaque = value => /^rgb\(/.test(value) || /,\s*1\)$/.test(value);
+const clear = value => value === 'rgba(0, 0, 0, 0)';
+const alpha = value => /^rgb\(/.test(value) ? 1 : parseFloat(value.split(',').at(-1));
 async function settle() {
   await page.evaluate(async () => {
     await Promise.all(document.getAnimations().filter(a => a.effect.getComputedTiming().iterations !== Infinity).map(a => a.finished.catch(() => {})));
@@ -40,9 +42,54 @@ try {
     await classes(`theme-${mode} mod-macos is-focused is-hidden-frameless is-frameless`);
     await settle();
     check(opaque(await style('.app-container', 'background-color')), `${mode}: opaque fallback shell`);
+    check(opaque(await style('.markdown-preview-view', 'background-color')), `${mode}: opaque fallback note`);
     await page.screenshot({ path: path.join(output, `${mode}-fixture.png`) });
     await classes(`theme-${mode} mod-macos is-translucent is-focused is-hidden-frameless is-frameless`);
-    check(opaque(await style('.markdown-preview-view', 'background-color')), `${mode}: solid note reading surface`);
+    for (const selector of ['.view-content', '.markdown-reading-view', '.markdown-preview-view']) {
+      check(clear(await style(selector, 'background-color')), `${mode}: ${selector} shares window glass`);
+    }
+    const reading = await page.locator('.mod-root .view-content').innerHTML();
+    for (const live of [false, true]) {
+      await page.locator('.mod-root .workspace-leaf-content').evaluate(el => el.classList.remove('is-read-mode'));
+      await page.locator('.mod-root .view-content').evaluate((el, html) => { el.innerHTML = html; }, editor(live));
+      for (const selector of ['.markdown-source-view', '.cm-editor', '.cm-scroller', '.cm-gutters']) {
+        check(clear(await style(selector, 'background-color')), `${mode}: ${live ? 'live preview' : 'source'} ${selector} shares window glass`);
+      }
+      await page.locator('[aria-label="Note editor"]').fill('A new thought');
+      check(await page.locator('.cm-content').textContent() === 'A new thought', `${mode}: editor remains editable`);
+    }
+    await page.locator('.mod-root .workspace-leaf-content').evaluate(el => el.classList.add('is-read-mode'));
+    await page.locator('.mod-root .view-content').evaluate((el, html) => { el.innerHTML = html; }, reading);
+    await page.locator('#right-dock').evaluate(el => { el.style.display = 'flex'; });
+    check(await style('.mod-left-split', 'box-shadow') === 'none', `${mode}: sidebar does not double the seam with a shadow`);
+    await page.mouse.move(640, 400);
+    await settle();
+    for (const side of ['left', 'right']) {
+      const handle = `#${side}-divider`;
+      const border = side === 'left' ? 'border-right-color' : 'border-left-color';
+      check(alpha(await style(handle, border)) <= .04, `${mode}: ${side} resting divider is faint`);
+      check(parseFloat(await style(handle, 'width')) >= 3 && await style(handle, 'cursor') === 'col-resize', `${mode}: ${side} resize target and cursor retained`);
+      await page.locator(handle).hover();
+      await settle();
+      check(opaque(await style(handle, 'background-color')), `${mode}: ${side} divider visible on hover`);
+      await page.locator(handle).evaluate(el => el.classList.add('is-active'));
+      await page.mouse.move(640, 400);
+      await settle();
+      check(opaque(await style(handle, border)), `${mode}: ${side} active resize feedback retained`);
+      await page.locator(handle).evaluate(el => el.classList.remove('is-active'));
+    }
+    if (mode === 'light') {
+      check(alpha(await style('.mod-left-split', 'background-color')) <= .16, 'light: sidebar lets more native glass through');
+      check(alpha(await style('.app-container', 'background-color')) <= .03, 'light: shell avoids a thick white veil');
+    }
+    // Synthetic light/dark backdrops show transparency, not native vibrancy.
+    const backdrop = mode === 'light'
+      ? 'linear-gradient(135deg, #b7bacd, #c3c7c4 45%, #a2b9bf)'
+      : 'linear-gradient(135deg, #303341, #313b3d 45%, #20393f)';
+    await page.addStyleTag({ content: `html { background: ${backdrop}; }` });
+    await settle();
+    await page.screenshot({ path: path.join(output, `${mode}-glass-fixture.png`) });
+    await page.locator('#right-dock').evaluate(el => { el.style.display = 'none'; });
     await page.locator('#dialog').evaluate(el => { el.style.display = 'flex'; });
     check(opaque(await style('#dialog .modal', 'background-color')), `${mode}: dialog opacity`);
     check(!['transparent', 'rgba(0, 0, 0, 0)'].includes(await style('#dialog .modal-bg', 'background-color')), `${mode}: modal backdrop retained`);
@@ -112,6 +159,10 @@ try {
   check(await page.evaluate(() => matchMedia('(prefers-reduced-transparency: reduce)').matches), 'browser supports reduced transparency emulation');
   await classes('theme-dark mod-macos is-translucent');
   check(opaque(await style('.app-container', 'background-color')), 'reduced transparency: workspace opaque');
+  check(opaque(await style('.markdown-preview-view', 'background-color')), 'reduced transparency: note reading surface opaque');
+  await page.locator('.mod-root .view-content').evaluate((el, html) => { el.innerHTML = html; }, editor(true));
+  check(opaque(await style('.markdown-source-view', 'background-color')), 'reduced transparency: editor surface opaque');
+  check(alpha(await style('#left-divider', 'border-right-color')) >= .14, 'reduced transparency: divider contrast restored');
   await page.locator('[aria-label="Search files"]').evaluate(async el => {
     await Promise.all(el.getAnimations().map(animation => animation.finished.catch(() => {})));
   });
