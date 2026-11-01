@@ -6,6 +6,6 @@ Original directory: `theme/cockpit-glass/`, bundled version 1.2.0. Original them
 
 The original theme files had no uncommitted changes when copied. Existing unrelated plugin edits were preserved. No plugin source, user configuration, private vault content, backup CSS, build output or Git history was imported.
 
-The independent theme remains named **Cockpit Glass**, advances to 1.3.0, retains the MIT license and original attribution. It uses only host classes and CSS variables; Cockpit Dashboard is optional. Root `theme.css` is the maintained source and release file. No build or sibling repository is needed.
+The independent theme remains named **Cockpit Glass**, advances to 1.3.0, retains the MIT license and original attribution. It uses only host classes and CSS variables; Cockpit Dashboard is optional. Styles are now maintained in `src/*.css` in the order declared by `theme.config.json`. `build.js` generates root `theme.css` and the local `dist/` release package. No sibling repository is needed.
 
 The plugin's `theme/cockpit-glass` stays as its existing offline installation snapshot, not a linked checkout. Future bundling can copy a reviewed theme release into that directory explicitly; theme work does not require rebuilding the plugin. The plugin installer already refuses to replace a newer installed theme with an older bundle.

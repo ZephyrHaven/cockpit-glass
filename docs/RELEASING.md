@@ -1,54 +1,52 @@
-# 发布准备
+# 发布与社区提交
 
-本地独立项目已经就绪；用户将自行在 GitHub 创建新仓库。建议仓库名 `cockpit-glass`，名称可自行决定。尚未绑定远端、推送、打 tag、发布 Release 或提交社区审核。
+独立仓库：[ZephyrHaven/cockpit-glass](https://github.com/ZephyrHaven/cockpit-glass)。源码在 `src/`，维护规则见 `ARCHITECTURE.md`。当前首个独立发布版本为 1.3.0。
 
-## 首次发布前
+## 每次发布
 
-1. 在真实宿主的空白演示库安装本项目，关闭所有社区插件，确认浅色与深色模式独立可用。
-2. 完成 `AUDIT.md` 中的真机验收，使用虚构笔记，在真实应用里截取截图，保存为 `screenshots/store.png`。官方推荐 512×288；更大的同宽高比截图也可以。不要将本项目的浏览器模拟图冒充真实截图。
-3. 将截图链接加入 README，例如 `![Cockpit Glass](./screenshots/store.png)`，确认截图不含私人笔记、账户或桌面通知。
-4. 执行 `npm ci && npm test && npm run test:ui && npm run release:check`；浏览器检查需要先按 README 准备本地宿主 CSS 与 Chromium。
-5. 更新审计文档记录真机结果。保持 manifest、package、versions 三处版本一致。
-
-## 连接用户创建的空仓库
-
-在项目目录执行（将地址替换成实际新仓库）：
+1. 完成相关回归与必要的真实宿主验收，结果记入 `AUDIT.md`。
+2. 同步 `manifest.json`、`package.json`、`versions.json`，添加 `releases/<版本>.md`，按用户可感知的结果撰写说明。
+3. 执行以下命令：
 
 ```sh
-git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPO.git
-git push -u origin main
+npm ci
+npm test
+npm run build:check
+npm run release:check
+bash deploy.sh
 ```
 
-仓库建议创建为空仓库，不预建 README / License，避免不相关的远程提交。若已创建，请先合并远程历史，不要强制覆盖。
+一键部署需要先按 README 配置本机目标；没有配置默认目标时可使用 `bash deploy.sh --vault /path/to/vault`。只构建、不部署时显式跳过最后一步。修改视觉样式时还需执行 `npm run test:ui`，按 README 先准备本地宿主 CSS 和 Chromium。
 
-## GitHub Release
-
-主题与插件不同：本项目不产出 `main.js` 或 `styles.css`，只分发根目录的 `manifest.json` 与 `theme.css`。
+4. 审查并提交源码、根目录生成的 `theme.css`、版本与说明。`dist/`、`deploy.local.json`、本地宿主 CSS 和测试截图不提交。推送并等待 CI 通过。
+5. 确认 tag 与 manifest 完全一致。首次发布示例：
 
 ```sh
 git tag 1.3.0
+git push origin main
 git push origin 1.3.0
-GH_FORCE_TTY=0 gh release create 1.3.0 --title 'Cockpit Glass 1.3.0' --notes-file CHANGELOG.md manifest.json theme.css
+GH_FORCE_TTY=0 gh release create 1.3.0 --verify-tag --title 'Cockpit Glass 1.3.0' --notes-file releases/1.3.0.md dist/theme.css dist/manifest.json dist/Cockpit-Glass-1.3.0.zip dist/SHA256SUMS.txt
 ```
 
-Tag 必须和 manifest 的 `version` 完全一致，使用 `x.y.z`。确认 Release 正式发布并包含两个独立附件，不能只上传 ZIP。默认分支的 manifest 也必须提交并同步。
+Release 的 **theme.css 与 manifest.json 两个独立附件必需**；ZIP 供手动安装，校验和用于验证下载。不要只上传 ZIP，不需要插件的 `main.js` / `styles.css`。发布后下载附件比对校验和，确认 Release 正式发布且为所需版本。版本与标签都用 `x.y.z`，不加 `v`。
 
-## 社区提交
+## 社区目录提交：独立于 GitHub Release
 
-截至 2026-11-01，官方流程为 **Obsidian Community directory**，不再按旧教程修改主题列表 JSON 提 PR：
+GitHub Release 可以先发布；社区提交还需要真实应用截图与实际验收。首次提交前：
 
-1. 登录 [community.obsidian.md](https://community.obsidian.md)，连接 GitHub 账户。
-2. 通过 Add a plugin or theme 提交新仓库地址。
-3. 填写截图路径 `screenshots/store.png`，选择 Light 和 Dark 模式。
-4. 按自动检查反馈修复、递增版本并发布新 Release。
+1. 在空白演示库中安装发布包，关闭所有社区插件，验证主题独立可用。完成审计中适用的真机验收。
+2. 使用虚构笔记在真实应用中截图，保存为 `screenshots/store.png`，推荐 512×288 或更大同宽高比图片。不要用浏览器模拟图冒充真实应用截图。
+3. 在 README 引用截图并检查隐私，然后运行 `npm run community:check`。
+4. 在 [community.obsidian.md](https://community.obsidian.md) 登录并连接 GitHub 账户，通过 Add a plugin or theme 提交仓库地址，填写截图路径并选择 Light / Dark 模式。
+5. 按自动审核反馈修改、递增版本并发布新 Release。社区主题显示名称提交后不能更改，提交前确认使用 **Cockpit Glass**。
 
-主题提交后的显示名称不能修改，提交前确认使用 **Cockpit Glass**。2026-11-01 检查旧公开主题列表没有同名条目，但该列表不能证明新目录名称实时可用，提交表单仍需确认。
+社区目录读取默认分支 HEAD 的清单；安装文件来自与清单版本一致的 GitHub Release。主题名是否实时可用，以社区提交表单为准。没有自动替用户提交社区审核。
 
-## 官方依据
+## 官方依据（2026-11-01 核对）
 
 - [Submit your theme](https://docs.obsidian.md/themes/app-themes/submit-theme)
 - [Set up and claim](https://docs.obsidian.md/community-directory/set-up-and-claim)
 - [Manifest](https://docs.obsidian.md/Reference/Manifest)
 - [Theme guidelines](https://docs.obsidian.md/Themes/App%20themes/Theme%20guidelines)
 
-保持离线可用，优先 CSS 变量，避免复杂结构覆盖和 `!important`。不发布本地提取的宿主 CSS；它只用于兼容验证。
+主题保持离线可用，优先 CSS 变量，尊重用户 snippet 覆盖。不要提交从已安装应用中提取的宿主 CSS。

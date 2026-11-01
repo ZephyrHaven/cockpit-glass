@@ -1,0 +1,66 @@
+/* Small controls gain light on hover and settle on press; content never moves. */
+body:is(.theme-light, .theme-dark) :is(.nav-action-button, .workspace-tab-header-inner-close-button, .workspace-tab-header-new-tab .clickable-icon, .workspace-tab-header-tab-list .clickable-icon, .sidebar-toggle-button .clickable-icon, .workspace-ribbon .clickable-icon, .workspace-drawer-vault-actions .clickable-icon, .view-header .clickable-icon) {
+  border-radius: 8px;
+  transition: background-color var(--cg-motion) var(--cg-ease), box-shadow var(--cg-motion) var(--cg-ease), color var(--cg-motion) ease, scale var(--cg-motion-fast) var(--cg-ease);
+}
+body:is(.theme-light, .theme-dark) :is(.nav-action-button, .workspace-tab-header-new-tab .clickable-icon, .workspace-tab-header-tab-list .clickable-icon, .sidebar-toggle-button .clickable-icon, .workspace-ribbon .clickable-icon, .workspace-drawer-vault-actions .clickable-icon, .view-header .clickable-icon) {
+  display: grid;
+  place-items: center;
+  min-width: 28px;
+  min-height: 28px;
+}
+body:is(.theme-light, .theme-dark) :is(.nav-action-button, .workspace-tab-header-new-tab .clickable-icon, .workspace-tab-header-tab-list .clickable-icon, .sidebar-toggle-button .clickable-icon, .workspace-ribbon .clickable-icon, .workspace-drawer-vault-actions .clickable-icon, .view-header .clickable-icon) svg {
+  width: 16px;
+  height: 16px;
+}
+@media (hover: hover) {
+  body:is(.theme-light, .theme-dark) :is(.nav-action-button, .workspace-tab-header-inner-close-button, .workspace-tab-header-new-tab .clickable-icon, .workspace-tab-header-tab-list .clickable-icon, .sidebar-toggle-button .clickable-icon, .workspace-ribbon .clickable-icon, .workspace-drawer-vault-actions .clickable-icon, .view-header .clickable-icon):not(:disabled, .is-disabled, [aria-disabled="true"]):hover {
+    background-color: var(--cg-control-hover);
+    box-shadow: var(--cg-glass-edge), 0 3px 8px -5px var(--cg-shadow);
+    color: var(--text-normal);
+  }
+  body:is(.theme-light, .theme-dark) :is(.mod-left-split, .mod-right-split) .tree-item-self:not(.is-active, .is-selected, .is-being-dragged, .is-being-dragged-over, .is-being-renamed, .has-active-menu, .has-focus):hover {
+    box-shadow: inset 0 1px 0 var(--cg-glint);
+  }
+  body:is(.theme-light, .theme-dark) .mod-left-split .nav-folder.mod-root > .nav-folder-children > .nav-folder > .nav-folder-title:not(.is-active, .is-selected, .is-being-dragged, .is-being-dragged-over, .is-being-renamed, .has-active-menu, .has-focus):hover {
+    background: linear-gradient(var(--interactive-accent), var(--interactive-accent)) var(--cg-marker-position) center / 2px 14px no-repeat, linear-gradient(90deg, var(--cg-sidebar-row-hover), transparent 90%);
+    box-shadow: none;
+  }
+  body:is(.theme-light, .theme-dark) .mod-left-split .nav-file-title:not(.is-active, .is-selected, .is-being-dragged, .is-being-dragged-over, .is-being-renamed, .has-active-menu, .has-focus):hover {
+    background: var(--cg-sidebar-row-hover);
+  }
+}
+body:is(.theme-light, .theme-dark) :is(.nav-action-button, .workspace-tab-header-inner-close-button, .workspace-tab-header-new-tab .clickable-icon, .workspace-tab-header-tab-list .clickable-icon, .sidebar-toggle-button .clickable-icon, .workspace-ribbon .clickable-icon, .workspace-drawer-vault-actions .clickable-icon, .view-header .clickable-icon):not(:disabled, .is-disabled, [aria-disabled="true"]):active {
+  scale: .97;
+  background-color: var(--cg-control-active);
+}
+body:is(.theme-light, .theme-dark) :is(.workspace-tab-header, .tree-item-self, .nav-action-button, .workspace-tab-header-inner-close-button, .workspace-tab-header-new-tab .clickable-icon, .workspace-tab-header-tab-list .clickable-icon, .sidebar-toggle-button .clickable-icon, .workspace-ribbon .clickable-icon, .workspace-drawer-vault-actions .clickable-icon, .view-header .clickable-icon):focus-visible {
+  outline: 2px solid var(--interactive-accent);
+  outline-offset: -2px;
+}
+
+/* Search has its own shallow surface; the surrounding sidebar stays clear. */
+body:is(.theme-light, .theme-dark) :is(.mod-left-split, .mod-right-split) .search-input-container input {
+  background: var(--cg-control);
+  border-color: var(--cg-edge-low);
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 var(--cg-glint);
+  transition: background-color var(--cg-motion) ease, box-shadow var(--cg-motion) ease;
+}
+body:is(.theme-light, .theme-dark) :is(.mod-left-split, .mod-right-split) .search-input-container input:focus {
+  background: var(--cg-control-hover);
+  border-color: var(--interactive-accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--interactive-accent) 20%, transparent);
+}
+body:is(.theme-light, .theme-dark) .status-bar {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body:is(.theme-light, .theme-dark) { --cg-motion: 0ms; --cg-motion-fast: 0ms; }
+  body:is(.theme-light, .theme-dark) :is(.nav-action-button, .workspace-tab-header-inner-close-button, .workspace-tab-header-new-tab .clickable-icon, .workspace-tab-header-tab-list .clickable-icon, .sidebar-toggle-button .clickable-icon, .workspace-ribbon .clickable-icon, .workspace-drawer-vault-actions .clickable-icon, .view-header .clickable-icon):not(:disabled, .is-disabled, [aria-disabled="true"]):is(:hover, :active) {
+    scale: none;
+  }
+}

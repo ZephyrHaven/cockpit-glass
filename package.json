@@ -2,19 +2,33 @@
   "name": "cockpit-glass",
   "version": "1.3.0",
   "private": true,
-  "description": "Independent light and dark glass theme",
+  "description": "Maintainable standalone light and dark theme with build, deployment and release tooling",
   "license": "MIT",
   "type": "module",
   "engines": {
     "node": ">=22"
   },
   "scripts": {
-    "test": "node scripts/validate.mjs",
+    "build": "node build.js",
+    "build:check": "node build.js --check",
+    "deploy": "node scripts/deploy.mjs",
+    "test": "node scripts/validate.mjs && node --test tests/tooling.test.mjs",
     "test:ui": "node tests/browser.mjs",
-    "release:check": "node scripts/validate.mjs --release"
+    "release:check": "node scripts/validate.mjs --release",
+    "community:check": "node scripts/validate.mjs --community",
+    "pretest": "node build.js"
   },
   "devDependencies": {
     "lightningcss": "1.33.0",
-    "playwright": "1.64.1"
+    "playwright": "1.64.1",
+    "fflate": "0.8.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZephyrHaven/cockpit-glass.git"
+  },
+  "homepage": "https://github.com/ZephyrHaven/cockpit-glass",
+  "bugs": {
+    "url": "https://github.com/ZephyrHaven/cockpit-glass/issues"
   }
 }

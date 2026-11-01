@@ -1,0 +1,62 @@
+body:is(.theme-light, .theme-dark) .modal {
+  background: var(--cg-solid);
+  border: 1px solid var(--cg-line);
+  box-shadow: inset 0 1px 0 var(--cg-glint), 0 22px 60px rgba(0, 0, 0, .18);
+}
+
+/* Settings paint one surface only. Nested headers/panes must not add opaque fills. */
+body:is(.theme-light, .theme-dark) .modal:is(.mod-settings, .mod-community-modal) {
+  --settings-background: var(--cg-window-surface);
+  --modal-sidebar-background: transparent;
+  background: var(--cg-window-surface);
+}
+body:is(.theme-light, .theme-dark) .modal:is(.mod-settings, .mod-community-modal) :is(.modal-content, .vertical-tabs-container, .vertical-tab-header, .vertical-tab-content, .modal-sidebar, .setting-page-content) {
+  background: transparent;
+  box-shadow: none;
+}
+/* Detached windows may lack is-translucent. Their entire shell shares one tint. */
+body.is-popout-modal {
+  --titlebar-background: var(--cg-window-surface);
+  --titlebar-background-focused: var(--cg-window-surface);
+  background: var(--cg-window-surface);
+}
+body.is-popout-modal.is-frameless .titlebar {
+  background: var(--cg-window-surface);
+  border-bottom: 0;
+  box-shadow: none;
+}
+body.is-popout-modal > .modal:is(.mod-settings, .mod-community-modal) {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal),
+  body:is(.theme-light, .theme-dark):not(.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal)) {
+    --cg-sidebar-sheet: var(--background-secondary);
+    --cg-sidebar-tray: var(--background-primary);
+    --cg-sidebar-row: var(--background-primary);
+    --cg-sidebar-row-hover: var(--background-secondary-alt);
+  }
+  body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .app-container,
+  body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace,
+  body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-split.mod-root,
+  body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-tabs,
+  body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-tab-container {
+    background: var(--background-primary);
+  }
+  body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-ribbon,
+  body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-split.mod-right-split {
+    background: transparent;
+  }
+  body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-split.mod-left-split {
+    background: var(--background-secondary);
+  }
+  body .modal { background: var(--background-primary); }
+  body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .markdown-source-view,
+  body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .markdown-preview-view,
+  body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .modal:is(.mod-settings, .mod-community-modal) {
+    background: var(--background-primary);
+  }
+}

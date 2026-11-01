@@ -1,0 +1,11 @@
+{
+  "sources": [
+    "src/00-tokens.css",
+    "src/10-window.css",
+    "src/20-tabs.css",
+    "src/30-navigation.css",
+    "src/40-controls.css",
+    "src/50-dialogs.css",
+    "src/60-states.css"
+  ]
+}

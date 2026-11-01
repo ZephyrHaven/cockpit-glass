@@ -3,6 +3,7 @@
 ## 1.3.0
 
 - Cockpit Glass is now a standalone light and dark theme that works without Cockpit Dashboard.
+- Modular CSS sources, deterministic release packaging, one-command deployment with backups and rollback, and cross-platform tooling CI support ongoing maintenance.
 - Narrow split panes retain usable tab and sidebar controls by following the native tab layout.
 - Dialogs and notes use solid reading surfaces, with the native modal backdrop retained.
 - Native translucency is limited to supported macOS windows, with solid fallbacks elsewhere.

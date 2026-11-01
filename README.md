@@ -1,41 +1,52 @@
 # Cockpit Glass
 
-A quiet light and dark theme with a frosted navigation rail, subtle controls and clear reading surfaces. It follows your accent color and works independently of Cockpit Dashboard. No plugins, remote fonts, images or network requests are required.
+A standalone light and dark theme with a frosted navigation rail, subtle controls and clear reading surfaces. It follows your accent color and needs no plugins, remote assets or network requests.
 
-[中文说明](./README.zh-CN.md) · [Release guide](./docs/RELEASING.md) · [Interaction audit](./docs/AUDIT.md)
+[中文说明](./README.zh-CN.md) · [Download](https://github.com/ZephyrHaven/cockpit-glass/releases/latest) · [Architecture](./docs/ARCHITECTURE.md) · [Audit](./docs/AUDIT.md)
 
-Version **1.3.0**, for app version **1.14.0+**. This is the first standalone project; the theme previously shipped as version 1.2.0 inside Cockpit Dashboard. Community submission is pending.
+Version **1.3.0**, for app version **1.14.0+**. The theme previously shipped as 1.2.0 inside Cockpit Dashboard. Community directory submission is pending; GitHub releases can be installed manually.
 
-## Install manually
+## Install
 
-1. Create `themes/Cockpit Glass/` inside your vault's configuration directory (normally `.obsidian`).
-2. Copy the root `manifest.json` and `theme.css` into that folder.
-3. In **Settings → Appearance → Themes**, choose **Cockpit Glass**. No build step is needed.
+Download the ZIP from [Releases](https://github.com/ZephyrHaven/cockpit-glass/releases/latest), then place its `Cockpit Glass` folder inside your vault configuration directory's `themes/` folder (normally `.obsidian/themes/`). Alternatively, copy the release's two individual files, `theme.css` and `manifest.json`, into `themes/Cockpit Glass/`.
 
-On macOS, native window translucency is optional. Turn on **Translucent window** in Appearance if you want the desktop frosted shell. Notes, search palettes and dialogs retain solid reading surfaces. Windows, Linux, mobile, fullscreen and detached settings use solid surfaces; CSS cannot provide native desktop wallpaper blur on those platforms. Mobile and Windows/Linux hardware acceptance are still pending.
+Select **Cockpit Glass** in **Settings → Appearance → Themes**. No Node.js, build step or plugin is needed for end users.
 
-To uninstall, choose another theme and remove this theme's folder. The theme has no scripts, settings migration or stored user data.
+On macOS, **Translucent window** is optional. Notes, dialogs and search palettes retain clear surfaces. Other platforms, fullscreen and detached settings use solid fallbacks; CSS cannot provide native desktop wallpaper blur there. Windows/Linux and mobile visual acceptance are still pending. To uninstall, choose another theme and remove this theme's folder; no user data is stored by the theme.
 
-## Interaction details
+## Maintain and deploy
 
-- Native tab overflow, stacked tabs, sidebar toggles and window drag regions retain the app's layout.
-- File selection, keyboard focus, drag targets and rename states retain native feedback.
-- Toolbar buttons respond to hover and press; keyboard focus is visible and touch targets are larger on mobile.
-- Reduced motion disables theme transitions and scaling. Reduced transparency uses opaque surfaces. Forced colors retain focus and selected-tab outlines.
-- Search, dialogs and sticky settings headings remain legible over a busy workspace.
+This is a source project, with generated installation files:
 
-Cockpit Dashboard's own cards and controls belong to the plugin, not this theme. That plugin is entirely optional. Its bundled theme installer may still offer an earlier offline snapshot; it will not overwrite a newer installed theme.
+```text
+src/*.css → build.js → theme.css + dist/
+                              ├── theme.css
+                              ├── manifest.json
+                              ├── Cockpit-Glass-1.3.0.zip
+                              └── SHA256SUMS.txt
+```
 
-## Development
+Edit the modules under `src/`; their cascade order is declared in `theme.config.json`. Root `theme.css` is generated and committed for the community directory. Never edit it directly. The project is self-contained and does not build from the plugin repository.
 
-`theme.css` is both readable source and the release file. The repository is self-contained; do not edit the plugin's copy to develop this theme.
+Requires Node.js 22+ and npm for development:
 
 ```sh
 npm ci
 npm test
+npm run release:check
 ```
 
-For browser regression checks with a locally installed host stylesheet:
+One-command deployment on macOS/Linux installs missing build dependencies, builds, validates, backs up the installed theme, then copies only the two runtime files:
+
+```sh
+bash deploy.sh --vault /path/to/vault
+```
+
+Use `--config-dir custom-config` for a vault with a different configuration directory. To reuse a local default, copy `deploy.local.example.json` to `deploy.local.json` and set `themeDir` to your theme folder; then run **`bash deploy.sh`** without arguments. The local file is ignored by Git. `COCKPIT_THEME_DIR` also works.
+
+On Windows, run `npm ci` once, then `npm run deploy -- --vault C:/path/to/vault`; the Node deployment implementation is shared across platforms. Backups live under the installed theme's `.cockpit-backups/`. Existing newer themes, another theme's files and concurrent deployments are refused. Theme preferences and unrelated files are preserved. See [architecture](./docs/ARCHITECTURE.md) for recovery and locking details.
+
+## Verify interactions
 
 ```sh
 node scripts/extract-host-css.mjs /path/to/host.asar
@@ -43,6 +54,8 @@ npx playwright install chromium
 npm run test:ui
 ```
 
-The local host CSS and synthetic fixture screenshots stay in ignored `output/`. They are not community screenshots. See [the audit](./docs/AUDIT.md) for what was tested and what still needs real-device checks.
+Local host CSS and synthetic screenshots stay in ignored `output/`. They are not community-store screenshots. Tooling tests exercise backup, rollback, locks, external edits and release packaging; browser tests use a synthetic DOM with the local host stylesheet. Real-device acceptance is recorded separately in [the audit](./docs/AUDIT.md).
 
-MIT License. Original copyright and attribution are preserved in [LICENSE](./LICENSE).
+`npm run release:check` validates the GitHub release package. `npm run community:check` additionally requires a real-app demo screenshot for community submission. See [publishing instructions](./docs/RELEASING.md).
+
+MIT License. Original attribution is preserved in [LICENSE](./LICENSE). Cockpit Dashboard remains optional; its bundled installer can retain its older offline snapshot without replacing a newer installed theme.

@@ -1,0 +1,100 @@
+/* Shared controls stay visible even without native window translucency. */
+body.theme-light:where(:not(.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal))) {
+  --cg-control: rgba(255, 255, 255, .58);
+  --cg-control-hover: rgba(255, 255, 255, .85);
+  --cg-control-active: rgba(255, 255, 255, .92);
+  --cg-sidebar-sheet: #e9edef;
+  --cg-sidebar-tray: rgba(255, 255, 255, .55);
+  --cg-sidebar-row: rgba(255, 255, 255, .45);
+  --cg-sidebar-row-hover: rgba(255, 255, 255, .7);
+  --cg-reflection: rgba(255, 255, 255, .4);
+  --cg-line: rgba(38, 43, 48, .14);
+}
+body.theme-dark:where(:not(.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal))) {
+  --cg-control: rgba(255, 255, 255, .045);
+  --cg-control-hover: rgba(255, 255, 255, .09);
+  --cg-control-active: rgba(255, 255, 255, .12);
+  --cg-sidebar-sheet: #25292f;
+  --cg-sidebar-tray: rgba(255, 255, 255, .045);
+  --cg-sidebar-row: rgba(255, 255, 255, .035);
+  --cg-sidebar-row-hover: rgba(255, 255, 255, .08);
+}
+body:not(.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal)) {
+  --workspace-background-translucent: var(--background-primary);
+  --tab-background-active: transparent;
+  --tab-container-background: var(--background-secondary);
+}
+body:not(.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal)) .app-container {
+  background: var(--background-primary);
+}
+body:not(.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal)) .workspace-split.mod-left-split {
+  background: linear-gradient(155deg, color-mix(in srgb, var(--interactive-accent) 6%, transparent), transparent 45%), var(--cg-sidebar-sheet);
+  box-shadow: inset -1px 0 0 var(--cg-hairline);
+}
+
+/* The operating system supplies the window blur; the theme supplies tint and edges. */
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) {
+  --titlebar-background: transparent;
+  --titlebar-background-focused: transparent;
+  --tab-container-background: transparent;
+  --tab-background-active: var(--cg-tab-active);
+  --tab-divider-color: transparent;
+  --tab-outline-color: transparent;
+  --tab-outline-width: 0px;
+  background: transparent;
+}
+
+/* One tint over the native frosted window, rather than a tint per pane. */
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .app-container {
+  background: radial-gradient(ellipse 95% 70% at 50% 10%, var(--cg-haze), transparent 75%), var(--cg-shell);
+}
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .titlebar,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .horizontal-main-container,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-split.mod-root,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-split.mod-left-split,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-split.mod-right-split,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-ribbon,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-ribbon::before,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-tabs,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-tab-header-container,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-tab-container,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-sidedock-vault-profile,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-leaf,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-leaf-content,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .view-header,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-split.mod-root .view-content {
+  background: transparent;
+}
+
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-ribbon,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-split.mod-left-split,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-split.mod-right-split,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-tab-header-container,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-sidedock-vault-profile,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .titlebar {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+/* A single translucent navigation rail gives the left dock its own depth. */
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-split.mod-left-split {
+  background: linear-gradient(155deg, color-mix(in srgb, var(--interactive-accent) 8%, transparent), transparent 38%), var(--cg-sidebar-sheet);
+  box-shadow: inset -1px 0 0 var(--cg-hairline);
+}
+
+/* Notes read on a soft sheet; media and dialogs keep a firmer surface. */
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .markdown-source-view,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .markdown-preview-view {
+  background: var(--cg-reading);
+}
+
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-tab-header.is-active {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-tab-header.is-active::before,
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-tab-header.is-active::after {
+  box-shadow: none;
+}

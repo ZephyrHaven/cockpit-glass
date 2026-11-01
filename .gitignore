@@ -1,4 +1,6 @@
 node_modules/
+dist/
 output/
+deploy.local.json
 .DS_Store
 *.backup*

@@ -1,0 +1,75 @@
+/* Thin glass controls on one continuous window. No pane-level blur or tint. */
+body:is(.theme-light, .theme-dark) {
+  --tab-text-color: var(--text-muted);
+  --tab-text-color-focused: var(--text-muted);
+  --tab-text-color-active: var(--text-normal);
+  --tab-text-color-focused-active: var(--text-normal);
+  --tab-text-color-focused-active-current: var(--text-normal);
+  --tab-background-hover: transparent;
+  --tab-inner-background-hover: var(--cg-control-hover);
+  --tab-inner-background-active: var(--cg-control-active);
+  --tab-inner-border-color: transparent;
+  --tab-inner-border-color-hover: transparent;
+  --tab-inner-border-color-active: transparent;
+  --nav-item-background-hover: var(--cg-control-hover);
+  --nav-item-background-active: var(--cg-selection);
+  --nav-item-color: var(--text-muted);
+  --nav-item-color-hover: var(--text-normal);
+  --nav-item-color-active: var(--text-normal);
+  --nav-item-weight-active: 600;
+  --nav-item-radius: 9px;
+}
+
+/* Keep the native traffic-light spacing, drag region and stacked-tab layout. */
+body:not(.is-mobile):is(.theme-light, .theme-dark) .workspace-tabs:not(.mod-stacked) > .workspace-tab-header-container .workspace-tab-header {
+  padding: 2px 3px 5px;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+body:not(.is-mobile):is(.theme-light, .theme-dark) .workspace-tabs:not(.mod-stacked) > .workspace-tab-header-container .workspace-tab-header::before,
+body:not(.is-mobile):is(.theme-light, .theme-dark) .workspace-tabs:not(.mod-stacked) > .workspace-tab-header-container .workspace-tab-header::after {
+  display: none;
+}
+body:not(.is-mobile):is(.theme-light, .theme-dark) .workspace-tabs:not(.mod-stacked) > .workspace-tab-header-container .workspace-tab-header-inner {
+  border-radius: 10px;
+  transition: background-color var(--cg-motion) var(--cg-ease), box-shadow var(--cg-motion) var(--cg-ease), color var(--cg-motion) ease;
+}
+body:not(.is-mobile):is(.theme-light, .theme-dark) .workspace-tabs:not(.mod-stacked) > .workspace-tab-header-container .workspace-tab-header.is-active .workspace-tab-header-inner {
+  background-image: var(--cg-glass-face);
+  box-shadow: var(--cg-glass-edge), 0 3px 9px -5px var(--cg-shadow);
+}
+body:is(.theme-light, .theme-dark) .workspace-tab-header.is-active .workspace-tab-header-inner-title {
+  font-weight: 600;
+}
+body:is(.theme-light, .theme-dark) .workspace-tab-header-inner-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  align-self: center;
+  transition: color var(--cg-motion) var(--cg-ease);
+}
+body:is(.theme-light, .theme-dark) .workspace-tab-header-inner-icon svg {
+  width: 15px;
+  height: 15px;
+}
+body:is(.theme-light, .theme-dark) .workspace-tab-header-inner-title {
+  line-height: 1.3;
+}
+body:is(.theme-light, .theme-dark) .workspace-tab-header.is-active .workspace-tab-header-inner-icon {
+  color: var(--interactive-accent);
+}
+
+/* Preserve the host flex layout, window-control gutters, drag regions and
+   overflow menu. Fixed symmetric gutters can consume an entire narrow split. */
+body:not(.is-mobile) .mod-root .workspace-tabs:not(.mod-stacked) > .workspace-tab-header-container > .workspace-tab-header-container-inner {
+  min-width: 0;
+}
+
+/* A faint accent tint and lower stroke identify the selected tab without closing the glass canvas. */
+body:not(.is-mobile):is(.theme-light, .theme-dark) .mod-root .workspace-tabs:not(.mod-stacked) > .workspace-tab-header-container .workspace-tab-header.is-active .workspace-tab-header-inner {
+  background: var(--cg-tab-active);
+  box-shadow: inset 0 0 0 1px var(--cg-edge-low), inset 0 -2px 0 color-mix(in srgb, var(--interactive-accent) 65%, transparent);
+}
