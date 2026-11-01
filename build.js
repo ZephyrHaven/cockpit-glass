@@ -20,7 +20,8 @@ export function compileTheme(root = PROJECT_ROOT) {
   }).join('\n');
   const css = transform({ filename: 'theme.css', code: Buffer.from(source), minify: true, errorRecovery: false });
   if (css.warnings.length) throw new Error(JSON.stringify(css.warnings));
-  const banner = `/* Cockpit Glass ${manifest.version} | MIT | Generated from src/ by npm run build. */\n`;
+  const license = read('LICENSE').trim().split('\n').map(line => line ? ' * ' + line : ' *').join('\n');
+  const banner = `/*! Cockpit Glass ${manifest.version} | Generated from src/ by npm run build.\n${license}\n */\n`;
   const files = {
     'theme.css': Buffer.concat([Buffer.from(banner), css.code, Buffer.from('\n')]),
     'manifest.json': Buffer.from(JSON.stringify(manifest, null, 2) + '\n')
