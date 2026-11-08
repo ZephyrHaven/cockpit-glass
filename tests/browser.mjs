@@ -23,12 +23,20 @@ const style = (selector, prop) => page.locator(selector).first().evaluate((el, p
 const opaque = value => /^rgb\(/.test(value) || /,\s*1\)$/.test(value);
 const clear = value => value === 'rgba(0, 0, 0, 0)';
 const alpha = value => /^rgb\(/.test(value) ? 1 : parseFloat(value.split(',').at(-1));
+const backdropFor = mode => mode === 'light'
+  ? 'linear-gradient(135deg, #b7bacd, #c3c7c4 45%, #a2b9bf)'
+  : 'linear-gradient(135deg, #303341, #313b3d 45%, #20393f)';
 async function settle() {
   await page.evaluate(async () => {
     await Promise.all(document.getAnimations().filter(a => a.effect.getComputedTiming().iterations !== Infinity).map(a => a.finished.catch(() => {})));
   });
 }
 const classes = async value => page.locator('body').evaluate((el, v) => { el.className = v; }, value);
+const glassContainers = ['body', '.app-container', '.horizontal-main-container', '.workspace', '.workspace-split.mod-root', '.mod-left-split', '.mod-right-split', '.nav-files-container', '.markdown-reading-view', '.markdown-preview-view'];
+const composition = () => page.evaluate(selectors => selectors.map(selector => {
+  const css = getComputedStyle(document.querySelector(selector));
+  return Object.fromEntries(['transform', 'scale', 'filter', 'backdrop-filter', 'will-change', 'contain', 'isolation'].map(prop => [prop, css.getPropertyValue(prop)]));
+}), glassContainers);
 async function load(themeCss = theme) {
   await page.setContent(fixture());
   await page.addStyleTag({ content: host });
@@ -37,6 +45,9 @@ async function load(themeCss = theme) {
   await page.locator('#tabs').evaluate((el, html) => { el.innerHTML = html; }, tabs(3));
 }
 try {
+  await load('');
+  await classes('theme-light mod-macos is-translucent is-focused is-hidden-frameless is-frameless');
+  const nativeComposition = await composition();
   await load();
   for (const mode of ['light', 'dark']) {
     await classes(`theme-${mode} mod-macos is-focused is-hidden-frameless is-frameless`);
@@ -45,6 +56,8 @@ try {
     check(opaque(await style('.markdown-preview-view', 'background-color')), `${mode}: opaque fallback note`);
     await page.screenshot({ path: path.join(output, `${mode}-fixture.png`) });
     await classes(`theme-${mode} mod-macos is-translucent is-focused is-hidden-frameless is-frameless`);
+    check(JSON.stringify(await composition()) === JSON.stringify(nativeComposition), `${mode}: glass and scroll containers retain native composition properties`);
+    check(await page.evaluate(() => document.getAnimations().every(a => a.effect.getComputedTiming().iterations !== Infinity)), `${mode}: no continuously animated background or control`);
     for (const selector of ['.view-content', '.markdown-reading-view', '.markdown-preview-view']) {
       check(clear(await style(selector, 'background-color')), `${mode}: ${selector} shares window glass`);
     }
@@ -61,13 +74,16 @@ try {
     await page.locator('.mod-root .workspace-leaf-content').evaluate(el => el.classList.add('is-read-mode'));
     await page.locator('.mod-root .view-content').evaluate((el, html) => { el.innerHTML = html; }, reading);
     await page.locator('#right-dock').evaluate(el => { el.style.display = 'flex'; });
+    for (const dock of ['.mod-left-split', '.mod-right-split']) {
+      check(clear(await style(dock, 'background-color')) && await style(dock, 'background-image') === 'none', `${mode}: ${dock} has no independent surface or accent wash`);
+    }
     check(await style('.mod-left-split', 'box-shadow') === 'none', `${mode}: sidebar does not double the seam with a shadow`);
     await page.mouse.move(640, 400);
     await settle();
     for (const side of ['left', 'right']) {
       const handle = `#${side}-divider`;
       const border = side === 'left' ? 'border-right-color' : 'border-left-color';
-      check(alpha(await style(handle, border)) <= .04, `${mode}: ${side} resting divider is faint`);
+      check(alpha(await style(handle, border)) <= .015, `${mode}: ${side} resting divider is nearly invisible`);
       check(parseFloat(await style(handle, 'width')) >= 3 && await style(handle, 'cursor') === 'col-resize', `${mode}: ${side} resize target and cursor retained`);
       await page.locator(handle).hover();
       await settle();
@@ -83,10 +99,7 @@ try {
       check(alpha(await style('.app-container', 'background-color')) <= .03, 'light: shell avoids a thick white veil');
     }
     // Synthetic light/dark backdrops show transparency, not native vibrancy.
-    const backdrop = mode === 'light'
-      ? 'linear-gradient(135deg, #b7bacd, #c3c7c4 45%, #a2b9bf)'
-      : 'linear-gradient(135deg, #303341, #313b3d 45%, #20393f)';
-    await page.addStyleTag({ content: `html { background: ${backdrop}; }` });
+    await page.addStyleTag({ content: `html { background: ${backdropFor(mode)}; }` });
     await settle();
     await page.screenshot({ path: path.join(output, `${mode}-glass-fixture.png`) });
     await page.locator('#right-dock').evaluate(el => { el.style.display = 'none'; });
@@ -102,6 +115,75 @@ try {
     const pane = await page.locator('.setting-page').boundingBox();
     check(Math.abs(heading.y - pane.y) < 2, `${mode}: settings heading stays pinned on scroll`);
     await page.locator('#settings').evaluate(el => { el.style.display = 'none'; });
+  }
+
+  // Exercise long documents and an independently scrollable tree against the
+  // host CSS. This checks browser behavior, not macOS native-window compositing.
+  for (const mode of ['light', 'dark']) {
+    await load();
+    await classes(`theme-${mode} mod-macos is-translucent is-focused is-hidden-frameless is-frameless`);
+    await page.addStyleTag({ content: `html { background: ${backdropFor(mode)}; }` });
+    const preview = page.locator('.markdown-preview-view');
+    const sizer = preview.locator('.markdown-preview-sizer');
+    const fontSize = parseFloat(await style('.markdown-preview-view', 'font-size'));
+    check(parseFloat(await style('.markdown-preview-view', 'line-height')) >= fontSize * 1.7, `${mode}: reading lines have room to breathe`);
+    check((await sizer.boundingBox()).width <= 737, `${mode}: readable width limits long lines`);
+    await preview.evaluate(el => el.classList.remove('is-readable-line-width'));
+    check(await style('.markdown-preview-sizer', 'max-width') === 'none', `${mode}: native full-width reading preference remains available`);
+    await preview.evaluate(el => el.classList.add('is-readable-line-width'));
+    await sizer.evaluate(el => {
+      for (let i = 0; i < 40; i++) {
+        const p = document.createElement('p');
+        p.textContent = `阅读记录 ${i + 1}：在完整的玻璃背景上阅读长文，滚动时内容应当连续、稳定。This synthetic paragraph exercises scrolling without private notes.`;
+        el.append(p);
+      }
+    });
+    const box = await preview.boundingBox();
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.wheel(0, 650);
+    await page.waitForFunction(() => document.querySelector('.markdown-preview-view').scrollTop > 0, undefined, { timeout: 3000 });
+    check(await preview.evaluate(el => el.scrollTop > 0), `${mode}: long reading preview responds to wheel scrolling`);
+    await preview.evaluate(el => { el.scrollTop = 500; });
+    await page.locator('[aria-label="Search files"]').fill('reading');
+    for (let i = 0; i < 12; i++) {
+      await page.locator('#folder').evaluate((el, active) => el.classList.toggle('has-focus', active), i % 2 === 0);
+      await page.locator('#right-dock').evaluate((el, open) => { el.style.display = open ? 'flex' : 'none'; }, i % 2 === 0);
+    }
+    check(await preview.evaluate(el => Math.abs(el.scrollTop - 500) < 2), `${mode}: search and sidebar state changes preserve reading position`);
+    await page.locator('.nav-folder.mod-root > .nav-folder-children').evaluate(el => {
+      for (let i = 0; i < 80; i++) {
+        const row = document.createElement('div');
+        row.className = 'nav-file';
+        row.innerHTML = `<div class="tree-item-self nav-file-title" tabindex="0"><div class="tree-item-inner">Synthetic note ${i + 1}</div></div>`;
+        el.append(row);
+      }
+    });
+    const tree = page.locator('.nav-files-container');
+    const treeBox = await tree.boundingBox();
+    await page.mouse.move(treeBox.x + treeBox.width / 2, treeBox.y + treeBox.height / 2);
+    await page.mouse.wheel(0, 500);
+    await page.waitForFunction(() => document.querySelector('.nav-files-container').scrollTop > 0, undefined, { timeout: 3000 });
+    check(await tree.evaluate(el => el.scrollTop > 0), `${mode}: long file tree scrolls independently`);
+    check(await preview.evaluate(el => Math.abs(el.scrollTop - 500) < 2), `${mode}: tree scrolling leaves the document in place`);
+    await preview.evaluate(el => {
+      el.scrollTop = 0;
+      const range = document.createRange();
+      range.selectNodeContents(el.querySelector('h1'));
+      getSelection().removeAllRanges();
+      getSelection().addRange(range);
+    });
+    check(await page.evaluate(() => getSelection().toString()) === '留一点空间，安静地阅读', `${mode}: native text selection remains available`);
+    await page.evaluate(() => getSelection().removeAllRanges());
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.locator('.mod-left-split').evaluate(el => { el.style.display = 'none'; });
+    check(await preview.evaluate(el => el.scrollWidth <= el.clientWidth + 1), `${mode}: narrow reading has no page-wide horizontal overflow`);
+    check(await style('.markdown-preview-view pre', 'white-space') === 'pre-wrap', `${mode}: code retains native line wrapping`);
+    await preview.locator('pre').evaluate(el => el.style.setProperty('--code-white-space', 'pre'));
+    check(await preview.locator('pre').evaluate(el => el.scrollWidth > el.clientWidth), `${mode}: unwrapped code scrolls inside its own block`);
+    await preview.locator('pre').evaluate(el => el.style.removeProperty('--code-white-space'));
+    check(await preview.evaluate(el => el.scrollTop === 0), `${mode}: resizing keeps the reading origin stable`);
+    await page.screenshot({ path: path.join(output, `${mode}-narrow-reading.png`) });
+    await page.setViewportSize({ width: 1280, height: 800 });
   }
 
   for (const width of [240, 320, 480, 960]) {
@@ -137,6 +219,8 @@ try {
   }
   await page.locator('#folder').evaluate(el => { el.className = 'tree-item-self nav-folder-title'; });
   await classes('theme-light mod-rtl');
+  await page.locator('#folder').hover();
+  await settle();
   check((await style('#folder', 'background-position')).startsWith('100%'), 'RTL folder marker mirrored');
 
   await classes('theme-light mod-macos is-focused');
@@ -158,6 +242,7 @@ try {
   await cdp.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-transparency', value: 'reduce' }] });
   check(await page.evaluate(() => matchMedia('(prefers-reduced-transparency: reduce)').matches), 'browser supports reduced transparency emulation');
   await classes('theme-dark mod-macos is-translucent');
+  await settle();
   check(opaque(await style('.app-container', 'background-color')), 'reduced transparency: workspace opaque');
   check(opaque(await style('.markdown-preview-view', 'background-color')), 'reduced transparency: note reading surface opaque');
   await page.locator('.mod-root .view-content').evaluate((el, html) => { el.innerHTML = html; }, editor(true));

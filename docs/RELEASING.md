@@ -1,6 +1,6 @@
 # 发布与社区提交
 
-独立仓库：[ZephyrHaven/cockpit-glass](https://github.com/ZephyrHaven/cockpit-glass)。源码在 `src/`，维护规则见 `ARCHITECTURE.md`。首个独立版本为 1.3.0；当前修复版本为 1.3.2。
+独立仓库：[ZephyrHaven/cockpit-glass](https://github.com/ZephyrHaven/cockpit-glass)。源码在 `src/`，维护规则见 `ARCHITECTURE.md`。首个独立版本为 1.3.0；当前修复版本为 1.3.3。
 
 ## 每次发布
 

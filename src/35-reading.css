@@ -1,0 +1,54 @@
+/* Reading rhythm on the same window glass. Scope layout to the top-level note;
+   native readable-width toggles, embeds and editor geometry stay independent. */
+body:is(.theme-light, .theme-dark) .workspace-leaf-content[data-type="markdown"] > .view-content > .markdown-reading-view > .markdown-preview-view {
+  --file-line-width: 46rem;
+  --file-margins: clamp(24px, 4vh, 48px) clamp(20px, 4%, 48px);
+  --line-height-normal: 1.75;
+  --p-spacing: 1.05em;
+  --heading-spacing: 1.8em;
+  --h1-size: 1.85em;
+  --h2-size: 1.45em;
+  --h3-size: 1.22em;
+  --h4-size: 1.08em;
+  --h1-line-height: 1.3;
+  --h2-line-height: 1.4;
+  --h3-line-height: 1.45;
+  --h1-weight: 600;
+  --h2-weight: 600;
+  --h3-weight: 600;
+  --list-spacing: .2em;
+  --blockquote-border-thickness: 2px;
+  --blockquote-border-color: color-mix(in srgb, var(--interactive-accent) 30%, var(--cg-hairline));
+  --blockquote-background-color: transparent;
+  --code-background: var(--cg-control);
+  --table-header-background: var(--cg-control);
+  --table-border-color: var(--cg-hairline);
+  --hr-color: var(--cg-hairline);
+  --hr-thickness: 1px;
+  line-height: var(--line-height-normal);
+}
+
+body:is(.theme-light, .theme-dark) .workspace-leaf-content[data-type="markdown"] > .view-content > .markdown-reading-view > .markdown-preview-view > .markdown-preview-sizer {
+  text-wrap: pretty;
+}
+body:is(.theme-light, .theme-dark) .workspace-leaf-content[data-type="markdown"] > .view-content > .markdown-reading-view > .markdown-preview-view :is(h1, h2, h3, h4, h5, h6) {
+  text-wrap: balance;
+}
+body:is(.theme-light, .theme-dark) .workspace-leaf-content[data-type="markdown"] > .view-content > .markdown-reading-view > .markdown-preview-view a {
+  text-underline-offset: .18em;
+  text-decoration-thickness: .06em;
+}
+body:is(.theme-light, .theme-dark) .workspace-leaf-content[data-type="markdown"] > .view-content > .markdown-reading-view > .markdown-preview-view pre {
+  border: 1px solid var(--cg-edge-low);
+  border-radius: 10px;
+  padding: 1em 1.15em;
+}
+body:is(.theme-light, .theme-dark) .workspace-leaf-content[data-type="markdown"] > .view-content > .markdown-reading-view > .markdown-preview-view :is(th, td) {
+  padding: .55em .8em;
+}
+
+@media print {
+  body .workspace-leaf-content[data-type="markdown"] > .view-content > .markdown-reading-view > .markdown-preview-view {
+    --file-margins: 0;
+  }
+}

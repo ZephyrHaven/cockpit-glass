@@ -6,6 +6,9 @@ body .mod-left-split .nav-folder-title:is(.is-active, .is-selected, .is-being-dr
 body.mod-rtl {
   --cg-marker-position: right;
 }
+body.mod-rtl :is(.mod-left-split, .mod-right-split) .tree-item-self.is-active:not(.is-selected, .is-being-dragged, .is-being-dragged-over, .is-being-renamed, .has-active-menu, .has-focus) {
+  box-shadow: inset -2px 0 0 var(--interactive-accent);
+}
 
 /* A busy background must never compete with dialog text. Keep the host's
    dimming backdrop and all sticky settings headers on the same solid surface. */
@@ -31,6 +34,10 @@ body :is(.prompt, .menu, .popover) {
 body.is-mobile :is(.nav-action-button, .workspace-drawer-vault-actions .clickable-icon, .view-header .clickable-icon) {
   min-width: 40px;
   min-height: 40px;
+}
+body.is-mobile :is(.mod-left-split, .mod-right-split) .tree-item-self {
+  min-height: 40px;
+  padding-block: 6px;
 }
 
 @media (forced-colors: active) {

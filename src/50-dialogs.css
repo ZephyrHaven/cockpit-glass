@@ -34,9 +34,6 @@ body.is-popout-modal > .modal:is(.mod-settings, .mod-community-modal) {
 @media (prefers-reduced-transparency: reduce) {
   body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal),
   body:is(.theme-light, .theme-dark):not(.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal)) {
-    --cg-sidebar-sheet: var(--background-secondary);
-    --cg-sidebar-tray: var(--background-primary);
-    --cg-sidebar-row: var(--background-primary);
     --cg-sidebar-row-hover: var(--background-secondary-alt);
   }
   body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .app-container,
@@ -51,7 +48,7 @@ body.is-popout-modal > .modal:is(.mod-settings, .mod-community-modal) {
     background: transparent;
   }
   body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-split.mod-left-split {
-    background: var(--background-secondary);
+    background: transparent;
   }
   body .modal { background: var(--background-primary); }
   body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .markdown-source-view,

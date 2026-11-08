@@ -8,6 +8,7 @@ src/
   10-window.css       原生透明窗口与实色兜底
   20-tabs.css         标签栏、活动标签与原生布局兼容
   30-navigation.css   文件树与侧栏
+  35-reading.css      笔记阅读版式与正文节奏
   40-controls.css     按钮、搜索、焦点和减少动态效果
   50-dialogs.css      弹窗、设置窗口与减少透明度
   60-states.css       状态、RTL、触控、强制颜色、打印

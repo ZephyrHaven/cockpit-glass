@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.3
+
+- Sidebars share the window glass without a separate accent wash or panel fill; resting divider lines are quieter.
+- File-tree hierarchy uses lighter type and tighter spacing, with simpler toolbars and stable, short interaction feedback.
+- Reading mode has a comfortable line length, more generous line spacing, clearer headings, and refined lists, quotes, code blocks and tables.
+- Background lighting stays static: no continuous animation, extra blur, transformed scroll containers or new compositing hints are added.
+
 ## 1.3.2
 
 - Notes share the native translucent window in reading, live preview and source mode.

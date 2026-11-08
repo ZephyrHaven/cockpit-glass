@@ -1,5 +1,6 @@
 const icon = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M9 4v16"/></svg>';
 export function fixture() {
+  // Reading-view inline dimensions mirror the host's runtime constructor.
   return `<!doctype html><html><head><meta charset="utf-8"><title>Cockpit Glass — synthetic regression fixture</title></head>
   <body class="theme-light mod-macos is-focused is-hidden-frameless is-frameless">
   <div class="app-container"><div class="horizontal-main-container"><div class="workspace">
@@ -33,7 +34,7 @@ export function fixture() {
         </div>
         <div class="workspace-tab-container"><div class="workspace-leaf"><div class="workspace-leaf-content is-read-mode" data-type="markdown">
           <div class="view-header"><div class="view-header-title-container"><div class="view-header-title">A quieter workspace</div></div></div>
-          <div class="view-content"><div class="markdown-reading-view"><div class="markdown-preview-view markdown-rendered"><div class="markdown-preview-sizer"><h1>A quieter workspace</h1><p>Make room for the things worth noticing.</p><h2>Field notes</h2><p>Soft surfaces, clear text, and a familiar place to think. Cockpit Glass follows your accent color while keeping your notes at the center.</p><blockquote><p>Small details make everyday tools feel considered.</p></blockquote><h2>Today</h2><ul><li>Read a chapter</li><li>Collect a few ideas</li><li>Leave space for tomorrow</li></ul><hr><p><a href="#">Reading list</a> · <code>local notes</code></p></div></div></div></div>
+          <div class="view-content"><div class="markdown-reading-view" style="width:100%;height:100%"><div class="markdown-preview-view markdown-rendered is-readable-line-width"><div class="markdown-preview-sizer"><h1>留一点空间，安静地阅读</h1><p>Make room for the things worth noticing.</p><h2>让思绪自然展开</h2><p>这是一篇用于版式验证的示例笔记。阅读时，适度的行宽、清楚的标题层级和自然的段落间距，让目光沿着内容缓缓向下。背景保持完整通透，为文字留出安静的位置。</p><p>Soft surfaces, clear text, and a familiar place to think. Cockpit Glass follows your accent color while keeping your notes at the center.</p><blockquote><p>Small details make everyday tools feel considered.<br>细节让日常阅读更加从容。</p></blockquote><h2>今天的小计划</h2><ul><li>读完一个章节，记下值得回看的内容</li><li>Collect a few ideas</li><li>给明天留一点空间</li></ul><hr><h2>阅读记录</h2><table><thead><tr><th>内容</th><th>进度</th><th>下一步</th></tr></thead><tbody><tr><td>Field notes</td><td>已整理</td><td>补充例子</td></tr><tr><td>Reading list</td><td>进行中</td><td>继续阅读</td></tr></tbody></table><pre><code>const note = { title: 'A quieter workspace', tags: ['reading', 'ideas'], updated: '2026-11-08' };</code></pre><p><a href="#">Reading list</a> · <code>local notes</code></p></div></div></div></div>
         </div></div></div>
       </div>
     </div>
@@ -67,7 +68,6 @@ export const fixtureStyles = `
   .workspace-leaf-content { height:100%; display:flex; flex-direction:column; }
   .search-input-container { margin:8px 12px; }
   .search-input-container input { width:100%; }
-  .markdown-preview-sizer { max-width:660px; margin:auto; padding:42px 34px; }
   /* Geometry normally injected by CodeMirror's runtime stylesheet. */
   .cm-editor { display:flex; flex-direction:column; }
   .cm-scroller { display:flex; align-items:flex-start; height:100%; overflow:auto; position:relative; }

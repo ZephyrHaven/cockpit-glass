@@ -1,10 +1,10 @@
 # Cockpit Glass
 
-A standalone light and dark theme with a frosted navigation rail, subtle controls and clear reading surfaces. It follows your accent color and needs no plugins, remote assets or network requests.
+A standalone light and dark theme with one continuous frosted window, subtle controls and comfortable reading typography. It follows your accent color and needs no plugins, remote assets or network requests.
 
 [中文说明](./README.zh-CN.md) · [Download](https://github.com/ZephyrHaven/cockpit-glass/releases/latest) · [Architecture](./docs/ARCHITECTURE.md) · [Audit](./docs/AUDIT.md)
 
-Version **1.3.2**, for app version **1.14.0+**. The theme previously shipped as 1.2.0 inside Cockpit Dashboard. Community directory review is pending; GitHub releases can be installed manually.
+Version **1.3.3**, for app version **1.14.0+**. The theme previously shipped as 1.2.0 inside Cockpit Dashboard. Community directory review is pending; GitHub releases can be installed manually.
 
 ## Screenshots
 
@@ -34,7 +34,7 @@ This is a source project, with generated installation files:
 src/*.css → build.js → theme.css + dist/
                               ├── theme.css
                               ├── manifest.json
-                              ├── Cockpit-Glass-1.3.2.zip
+                              ├── Cockpit-Glass-1.3.3.zip
                               └── SHA256SUMS.txt
 ```
 

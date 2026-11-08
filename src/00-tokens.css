@@ -13,7 +13,7 @@ body.theme-light {
   --cg-haze: rgba(255, 255, 255, .025);
   --cg-tab-active: color-mix(in srgb, var(--interactive-accent) 5%, rgba(255, 255, 255, .09));
   --cg-reading: transparent;
-  --cg-divider: rgba(49, 61, 73, .035);
+  --cg-divider: rgba(49, 61, 73, .012);
   --cg-solid: #f2f5f7;
   --cg-window-surface: #f2f5f7;
   --cg-line: rgba(255, 255, 255, .32);
@@ -27,10 +27,7 @@ body.theme-light {
   --cg-shadow: rgba(30, 42, 55, .09);
   --cg-selection: color-mix(in srgb, var(--interactive-accent) 10%, var(--cg-control-active));
   --cg-hairline: rgba(49, 61, 73, .11);
-  --cg-sidebar-sheet: rgba(248, 250, 253, .14);
-  --cg-sidebar-tray: rgba(255, 255, 255, .38);
-  --cg-sidebar-row: rgba(255, 255, 255, .14);
-  --cg-sidebar-row-hover: rgba(255, 255, 255, .35);
+  --cg-sidebar-row-hover: rgba(255, 255, 255, .22);
   --workspace-background-translucent: rgba(250, 251, 253, .025);
 }
 
@@ -49,7 +46,7 @@ body.theme-dark {
   --cg-haze: rgba(255, 255, 255, .025);
   --cg-tab-active: color-mix(in srgb, var(--interactive-accent) 7%, rgba(255, 255, 255, .025));
   --cg-reading: transparent;
-  --cg-divider: rgba(255, 255, 255, .03);
+  --cg-divider: rgba(255, 255, 255, .012);
   --cg-solid: #27292f;
   --cg-window-surface: #27292f;
   --cg-line: rgba(255, 255, 255, .08);
@@ -63,10 +60,7 @@ body.theme-dark {
   --cg-shadow: rgba(5, 8, 14, .2);
   --cg-selection: color-mix(in srgb, var(--interactive-accent) 13%, var(--cg-control-active));
   --cg-hairline: rgba(255, 255, 255, .085);
-  --cg-sidebar-sheet: rgba(10, 13, 19, .15);
-  --cg-sidebar-tray: rgba(255, 255, 255, .045);
-  --cg-sidebar-row: rgba(255, 255, 255, .035);
-  --cg-sidebar-row-hover: rgba(255, 255, 255, .085);
+  --cg-sidebar-row-hover: rgba(255, 255, 255, .055);
   --workspace-background-translucent: rgba(13, 15, 19, .04);
 }
 
@@ -75,9 +69,9 @@ body {
   --radius-m: 12px;
   --radius-l: 18px;
   --cg-ease: cubic-bezier(.22, 1, .36, 1);
-  --cg-motion: 180ms;
+  --cg-motion: 140ms;
   --cg-marker-position: left;
-  --cg-motion-fast: 130ms;
+  --cg-motion-fast: 90ms;
   --cg-glass-face: linear-gradient(155deg, var(--cg-reflection), transparent 62%);
   --cg-glass-edge: inset 0 1px 0 var(--cg-edge), inset 0 0 0 1px var(--cg-edge-low);
   --modal-background: var(--cg-solid);

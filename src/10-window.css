@@ -3,9 +3,6 @@ body.theme-light:where(:not(.mod-macos.is-translucent:not(.is-mobile, .is-fullsc
   --cg-control: rgba(255, 255, 255, .58);
   --cg-control-hover: rgba(255, 255, 255, .85);
   --cg-control-active: rgba(255, 255, 255, .92);
-  --cg-sidebar-sheet: #e9edef;
-  --cg-sidebar-tray: rgba(255, 255, 255, .55);
-  --cg-sidebar-row: rgba(255, 255, 255, .45);
   --cg-sidebar-row-hover: rgba(255, 255, 255, .7);
   --cg-reflection: rgba(255, 255, 255, .4);
   --cg-line: rgba(38, 43, 48, .14);
@@ -14,9 +11,6 @@ body.theme-dark:where(:not(.mod-macos.is-translucent:not(.is-mobile, .is-fullscr
   --cg-control: rgba(255, 255, 255, .045);
   --cg-control-hover: rgba(255, 255, 255, .09);
   --cg-control-active: rgba(255, 255, 255, .12);
-  --cg-sidebar-sheet: #25292f;
-  --cg-sidebar-tray: rgba(255, 255, 255, .045);
-  --cg-sidebar-row: rgba(255, 255, 255, .035);
   --cg-sidebar-row-hover: rgba(255, 255, 255, .08);
 }
 body:not(.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal)) {
@@ -28,7 +22,7 @@ body:not(.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-mo
   background: var(--background-primary);
 }
 body:not(.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal)) .workspace-split.mod-left-split {
-  background: linear-gradient(155deg, color-mix(in srgb, var(--interactive-accent) 6%, transparent), transparent 45%), var(--cg-sidebar-sheet);
+  background: transparent;
 }
 
 /* The operating system supplies the window blur; the theme supplies tint and edges. */
@@ -43,9 +37,10 @@ body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) 
   background: transparent;
 }
 
-/* One tint over the native frosted window, rather than a tint per pane. */
+/* A static, window-wide wash shares the native glass. No extra rendering layer,
+   animated background, filter or transformed scrolling ancestor is introduced. */
 body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .app-container {
-  background: radial-gradient(ellipse 95% 70% at 50% 10%, var(--cg-haze), transparent 75%), var(--cg-shell);
+  background: radial-gradient(ellipse 130% 110% at 50% 0%, color-mix(in srgb, var(--interactive-accent) 2%, transparent), transparent 90%), radial-gradient(ellipse 120% 90% at 50% 15%, var(--cg-haze), transparent 85%), var(--cg-shell);
 }
 body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .titlebar,
 body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .horizontal-main-container,
@@ -74,11 +69,6 @@ body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) 
 body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .titlebar {
   border-color: transparent;
   box-shadow: none;
-}
-
-/* A single translucent navigation rail gives the left dock its own depth. */
-body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-split.mod-left-split {
-  background: linear-gradient(155deg, color-mix(in srgb, var(--interactive-accent) 8%, transparent), transparent 38%), var(--cg-sidebar-sheet);
 }
 
 /* Top-level notes share the native window glass in reading, live preview and
