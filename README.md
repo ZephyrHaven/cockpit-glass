@@ -4,7 +4,7 @@ A standalone light and dark theme with one continuous frosted window, subtle con
 
 [中文说明](./README.zh-CN.md) · [Download](https://github.com/ZephyrHaven/cockpit-glass/releases/latest) · [Architecture](./docs/ARCHITECTURE.md) · [Audit](./docs/AUDIT.md)
 
-Version **1.3.3**, for app version **1.14.0+**. The theme previously shipped as 1.2.0 inside Cockpit Dashboard. Community directory review is pending; GitHub releases can be installed manually.
+Version **1.4.0**, for app version **1.14.0+**. The theme previously shipped as 1.2.0 inside Cockpit Dashboard. Community directory review is pending; GitHub releases can be installed manually.
 
 ## Screenshots
 
@@ -26,6 +26,16 @@ Select **Cockpit Glass** in **Settings → Appearance → Themes**. No Node.js, 
 
 On macOS, **Translucent window** is optional. Notes sit on a light reading mist over the native window glass in reading and editing modes, so text stays legible on any wallpaper (with the optional Style Settings plugin you can choose Clear glass or Solid instead). Dialogs, menus and search palettes retain solid surfaces. Pane dividers are quiet hairlines that strengthen on hover or drag. Other platforms, fullscreen and detached settings use solid fallbacks; CSS cannot provide native desktop wallpaper blur there. Windows/Linux and mobile visual acceptance are still pending. To uninstall, choose another theme and remove this theme's folder; no user data is stored by the theme.
 
+## Features and options
+
+- **Reading surface** (optional [Style Settings](https://github.com/mgmeyers/obsidian-style-settings) plugin): **Settings → Style Settings → Cockpit Glass → Reading surface**. *Mist* (default) puts a half-opaque layer under top-level notes so text stays legible on any wallpaper; *Clear glass* shows the window glass directly; *Solid* is fully opaque. Without the plugin the theme uses Mist. When the system's *Reduce transparency* is on, notes are always solid.
+- **Readable secondary text**: list markers, placeholders, unchecked checkboxes and other faint text reach about 5.7:1 contrast on solid surfaces and at least 3:1 on glass; muted text is 7:1 or higher.
+- **Visible pane dividers**: resting dividers are quiet hairlines; hover and drag feedback is unchanged.
+- **Consistent typography**: reading view, live preview and source mode share line width, line height and a full h1–h6 scale (h5/h6 use muted color).
+- **Surfaces and components**: code blocks and table headers have their own surface; callouts, tags, properties, embeds, graph, canvas and PDF follow the theme's palette and radius.
+- **Menus and tabs**: menus, the command palette, suggestions and hover previews share one floating style with an accent-tinted selection; root and sidebar tabs use the same active style.
+- **Accessibility**: reduced transparency turns every glass layer solid; forced-colors mode keeps selection, focus and floating borders; on mobile, touch targets are 44px and inputs 16px to avoid iOS zoom.
+
 ## Maintain and deploy
 
 This is a source project, with generated installation files:
@@ -34,7 +44,7 @@ This is a source project, with generated installation files:
 src/*.css → build.js → theme.css + dist/
                               ├── theme.css
                               ├── manifest.json
-                              ├── Cockpit-Glass-1.3.3.zip
+                              ├── Cockpit-Glass-1.4.0.zip
                               └── SHA256SUMS.txt
 ```
 

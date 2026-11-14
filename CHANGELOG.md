@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.4.0
 
 - Readability: themed `--text-faint` and a full `--color-base-00…100` ramp. List markers, placeholders and unchecked checkboxes now reach 5.7:1 on the solid surface (was 2.1:1 light / 2.8:1 dark) and stay at or above 3:1 on glass; light `--text-muted` darkened to 7.2:1.
 - Notes sit on a half-opaque reading mist so body text no longer depends on the wallpaper. Style Settings (optional) offers Mist, Clear glass or Solid; reduced transparency always uses a solid surface.
