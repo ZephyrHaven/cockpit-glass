@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+- Readability: themed `--text-faint` and a full `--color-base-00…100` ramp. List markers, placeholders and unchecked checkboxes now reach 5.7:1 on the solid surface (was 2.1:1 light / 2.8:1 dark) and stay at or above 3:1 on glass; light `--text-muted` darkened to 7.2:1.
+- Notes sit on a half-opaque reading mist so body text no longer depends on the wallpaper. Style Settings (optional) offers Mist, Clear glass or Solid; reduced transparency always uses a solid surface.
+- Resting pane dividers are visible again (8% light / 7% dark) with hover and drag feedback unchanged.
+- Reading, live preview and source mode share line width (40rem), line height and a complete h1–h6 scale; h5/h6 use muted color.
+- Code blocks and table headers get their own surface; callouts, tags, properties, embeds, graph, canvas and PDF shadows follow the theme.
+- Menus, command palette, suggestions and hover previews share one floating material (radius, hairline, lifted shadow, accent-tinted selection).
+- Root and sidebar tabs use one active style; light glass strokes and tab tint recalibrated; dialog shadow uses a theme token.
+- Reduced transparency now turns shell, haze, title bar, edges and highlights solid; forced colors cover selected items, search focus and floating borders; mobile targets are 44px and mobile inputs 16px.
+
 ## 1.3.3
 
 - Sidebars share the window glass without a separate accent wash or panel fill; resting divider lines are quieter.

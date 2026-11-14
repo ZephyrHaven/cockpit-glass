@@ -24,7 +24,7 @@ Download the ZIP from [Releases](https://github.com/ZephyrHaven/cockpit-glass/re
 
 Select **Cockpit Glass** in **Settings → Appearance → Themes**. No Node.js, build step or plugin is needed for end users.
 
-On macOS, **Translucent window** is optional. Notes share the native window glass in reading and editing modes; dialogs and search palettes retain solid surfaces. Pane dividers stay faint until hovered or dragged. Other platforms, fullscreen and detached settings use solid fallbacks; CSS cannot provide native desktop wallpaper blur there. Windows/Linux and mobile visual acceptance are still pending. To uninstall, choose another theme and remove this theme's folder; no user data is stored by the theme.
+On macOS, **Translucent window** is optional. Notes sit on a light reading mist over the native window glass in reading and editing modes, so text stays legible on any wallpaper (with the optional Style Settings plugin you can choose Clear glass or Solid instead). Dialogs, menus and search palettes retain solid surfaces. Pane dividers are quiet hairlines that strengthen on hover or drag. Other platforms, fullscreen and detached settings use solid fallbacks; CSS cannot provide native desktop wallpaper blur there. Windows/Linux and mobile visual acceptance are still pending. To uninstall, choose another theme and remove this theme's folder; no user data is stored by the theme.
 
 ## Maintain and deploy
 
