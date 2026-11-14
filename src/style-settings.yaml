@@ -1,0 +1,18 @@
+name: Cockpit Glass
+id: cockpit-glass
+settings:
+  - id: cg-reading-surface
+    title: Reading surface
+    title.zh: 阅读面
+    description: Backing under top-level notes. Mist keeps text legible on any wallpaper; Clear shows the window glass directly; Solid is fully opaque.
+    description.zh: 顶层笔记下方的底。薄雾让正文不受墙纸影响；清透直接露出窗口玻璃；实色完全不透明。
+    type: class-select
+    allowEmpty: false
+    default: cg-reading-mist
+    options:
+      - label: Mist (default)
+        value: cg-reading-mist
+      - label: Clear glass
+        value: cg-reading-clear
+      - label: Solid
+        value: cg-reading-solid

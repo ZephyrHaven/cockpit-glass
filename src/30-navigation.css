@@ -7,7 +7,7 @@ body:is(.theme-light, .theme-dark) .mod-left-split .nav-files-container {
 }
 body:is(.theme-light, .theme-dark) :is(.mod-left-split, .mod-right-split) .tree-item-self {
   margin-block: 1px;
-  padding-block: 4px;
+  padding-block: 5px;
   line-height: 1.45;
   transition: background-color var(--cg-motion) var(--cg-ease), box-shadow var(--cg-motion) var(--cg-ease), color var(--cg-motion) ease;
 }
@@ -22,15 +22,15 @@ body:is(.theme-light, .theme-dark) .mod-left-split .nav-folder-title {
   margin-block: 2px;
 }
 body:is(.theme-light, .theme-dark) .mod-left-split .nav-folder.mod-root > .nav-folder-children > .nav-folder > .nav-folder-title {
-  border-radius: 7px;
-  font-weight: 560;
+  border-radius: var(--radius-s);
+  font-weight: 600;
 }
 body:is(.theme-light, .theme-dark) .mod-left-split .nav-folder.mod-root > .nav-folder-children > .nav-folder > .nav-folder-title:not(.is-active, .is-selected, .is-being-dragged, .is-being-dragged-over, .is-being-renamed, .has-active-menu, .has-focus) {
   background: none;
   box-shadow: none;
 }
 body:is(.theme-light, .theme-dark) .mod-left-split .nav-file-title {
-  border-radius: 7px;
+  border-radius: var(--radius-s);
   font-weight: 400;
 }
 body:is(.theme-light, .theme-dark) :is(.mod-left-split, .mod-right-split) .tree-item-self.is-active:not(.is-selected, .is-being-dragged, .is-being-dragged-over, .is-being-renamed, .has-active-menu, .has-focus) {

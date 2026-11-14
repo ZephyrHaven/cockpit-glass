@@ -15,8 +15,35 @@ body.mod-rtl :is(.mod-left-split, .mod-right-split) .tree-item-self.is-active:no
 body .modal:is(.mod-settings, .mod-community-modal) .setting-page-titlebar {
   background: var(--cg-window-surface);
 }
-body :is(.prompt, .menu, .popover) {
+body :is(.prompt, .menu, .popover, .suggestion-container) {
   --background-primary: var(--cg-window-surface);
+}
+/* Menus, the command palette, suggestions and hover previews share one floating
+   material: solid surface, hairline, lifted shadow, medium radius and an
+   accent-tinted selected row. */
+body:is(.theme-light, .theme-dark) {
+  --menu-background: var(--cg-window-surface);
+  --menu-border-color: var(--background-modifier-border);
+  --menu-radius: var(--radius-m);
+  --menu-shadow: 0 1px 2px var(--cg-shadow), 0 12px 32px -6px var(--cg-shadow-lift);
+  --prompt-border-color: var(--background-modifier-border);
+}
+body:is(.theme-light, .theme-dark) :is(.prompt, .menu, .popover, .suggestion-container) {
+  --background-modifier-hover: var(--cg-menu-selection);
+  border-radius: var(--radius-m);
+  box-shadow: inset 0 1px 0 var(--cg-glint), 0 1px 2px var(--cg-shadow), 0 16px 40px -8px var(--cg-shadow-lift);
+}
+body:is(.theme-light, .theme-dark) .prompt {
+  border-radius: var(--radius-l);
+}
+body:is(.theme-light, .theme-dark) :is(.suggestion-item, .menu-item) {
+  border-radius: var(--radius-s);
+}
+body:is(.theme-light, .theme-dark) :is(.suggestion-item.is-selected, .menu-item.selected:not(.is-disabled, .is-label)) {
+  background-color: var(--cg-menu-selection);
+}
+body:is(.theme-light, .theme-dark) :is(.menu-separator, .prompt-instructions) {
+  border-color: var(--cg-hairline);
 }
 
 @media (prefers-reduced-transparency: reduce) {
@@ -27,17 +54,27 @@ body :is(.prompt, .menu, .popover) {
     --cg-reading: var(--background-primary);
     --cg-divider: var(--background-modifier-border);
     --cg-solid: var(--cg-window-surface);
+    --cg-block: var(--background-primary-alt);
+    --cg-table-head: var(--background-secondary);
+  }
+  /* A Style Settings "clear" choice must not defeat the system preference. */
+  body.cg-reading-clear:is(.theme-light, .theme-dark) {
+    --cg-reading: var(--background-primary);
   }
 }
 
 /* Touch controls do not rely on hover and retain a comfortable target. */
 body.is-mobile :is(.nav-action-button, .workspace-drawer-vault-actions .clickable-icon, .view-header .clickable-icon) {
-  min-width: 40px;
-  min-height: 40px;
+  min-width: 44px;
+  min-height: 44px;
 }
 body.is-mobile :is(.mod-left-split, .mod-right-split) .tree-item-self {
-  min-height: 40px;
-  padding-block: 6px;
+  min-height: 44px;
+  padding-block: 8px;
+}
+/* iOS zooms the page when a focused input is smaller than 16px. */
+body.is-mobile :is(.search-input-container input, .prompt-input-container input, input[type="text"], input[type="search"]) {
+  font-size: 16px;
 }
 
 @media (forced-colors: active) {
@@ -49,6 +86,19 @@ body.is-mobile :is(.mod-left-split, .mod-right-split) .tree-item-self {
   }
   body :is(.tree-item-self, .clickable-icon, input):focus-visible {
     outline: 2px solid Highlight;
+  }
+  body :is(.mod-left-split, .mod-right-split) .tree-item-self.is-active {
+    outline: 1px solid Highlight;
+    outline-offset: -1px;
+  }
+  body .search-input-container input:focus {
+    outline: 2px solid Highlight;
+  }
+  body :is(.modal, .prompt, .menu, .popover, .suggestion-container) {
+    border: 1px solid CanvasText;
+  }
+  body :is(.suggestion-item.is-selected, .menu-item.selected) {
+    outline: 1px solid Highlight;
   }
 }
 

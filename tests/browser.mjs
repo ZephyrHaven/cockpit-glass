@@ -22,7 +22,11 @@ const check = (value, message) => { assert.ok(value, message); checks++; };
 const style = (selector, prop) => page.locator(selector).first().evaluate((el, p) => getComputedStyle(el).getPropertyValue(p), prop);
 const opaque = value => /^rgb\(/.test(value) || /,\s*1\)$/.test(value);
 const clear = value => value === 'rgba(0, 0, 0, 0)';
-const alpha = value => /^rgb\(/.test(value) ? 1 : parseFloat(value.split(',').at(-1));
+const alpha = value => /^rgb\(/.test(value) ? 1 : value.includes('/') ? parseFloat(value.split('/').at(-1)) : /^color\(/.test(value) ? 1 : parseFloat(value.split(',').at(-1));
+const mist = value => alpha(value) >= .3 && alpha(value) <= .7;
+const luminance = hex => hex.replace('#', '').match(/../g).map(c => parseInt(c, 16) / 255).map(c => c <= .03928 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4).reduce((sum, c, i) => sum + c * [.2126, .7152, .0722][i], 0);
+const contrast = (a, b) => { const [x, y] = [luminance(a), luminance(b)].sort((m, n) => n - m); return (x + .05) / (y + .05); };
+const token = name => page.locator('body').evaluate((el, n) => getComputedStyle(el).getPropertyValue(n).trim(), name);
 const backdropFor = mode => mode === 'light'
   ? 'linear-gradient(135deg, #b7bacd, #c3c7c4 45%, #a2b9bf)'
   : 'linear-gradient(135deg, #303341, #313b3d 45%, #20393f)';
@@ -58,15 +62,25 @@ try {
     await classes(`theme-${mode} mod-macos is-translucent is-focused is-hidden-frameless is-frameless`);
     check(JSON.stringify(await composition()) === JSON.stringify(nativeComposition), `${mode}: glass and scroll containers retain native composition properties`);
     check(await page.evaluate(() => document.getAnimations().every(a => a.effect.getComputedTiming().iterations !== Infinity)), `${mode}: no continuously animated background or control`);
-    for (const selector of ['.view-content', '.markdown-reading-view', '.markdown-preview-view']) {
+    for (const selector of ['.view-content', '.markdown-reading-view']) {
       check(clear(await style(selector, 'background-color')), `${mode}: ${selector} shares window glass`);
+    }
+    check(mist(await style('.markdown-preview-view', 'background-color')), `${mode}: reading view sits on a translucent mist`);
+    const background = await token('--background-primary');
+    check(contrast(await token('--text-faint'), background) >= 4.5, `${mode}: faint text reaches 4.5:1 on the solid surface`);
+    check(contrast(await token('--text-muted'), background) >= 4.5, `${mode}: muted text reaches 4.5:1 on the solid surface`);
+    for (const [option, expect, label] of [['cg-reading-clear', clear, 'clear glass'], ['cg-reading-solid', opaque, 'solid']]) {
+      await page.locator('body').evaluate((el, c) => el.classList.add(c), option);
+      check(expect(await style('.markdown-preview-view', 'background-color')), `${mode}: Style Settings ${label} reading surface`);
+      await page.locator('body').evaluate((el, c) => el.classList.remove(c), option);
     }
     const reading = await page.locator('.mod-root .view-content').innerHTML();
     for (const live of [false, true]) {
       await page.locator('.mod-root .workspace-leaf-content').evaluate(el => el.classList.remove('is-read-mode'));
       await page.locator('.mod-root .view-content').evaluate((el, html) => { el.innerHTML = html; }, editor(live));
-      for (const selector of ['.markdown-source-view', '.cm-editor', '.cm-scroller', '.cm-gutters']) {
-        check(clear(await style(selector, 'background-color')), `${mode}: ${live ? 'live preview' : 'source'} ${selector} shares window glass`);
+      check(mist(await style('.markdown-source-view', 'background-color')), `${mode}: ${live ? 'live preview' : 'source'} sits on the reading mist`);
+      for (const selector of ['.cm-editor', '.cm-scroller', '.cm-gutters']) {
+        check(clear(await style(selector, 'background-color')), `${mode}: ${live ? 'live preview' : 'source'} ${selector} adds no second layer`);
       }
       await page.locator('[aria-label="Note editor"]').fill('A new thought');
       check(await page.locator('.cm-content').textContent() === 'A new thought', `${mode}: editor remains editable`);
@@ -83,7 +97,8 @@ try {
     for (const side of ['left', 'right']) {
       const handle = `#${side}-divider`;
       const border = side === 'left' ? 'border-right-color' : 'border-left-color';
-      check(alpha(await style(handle, border)) <= .015, `${mode}: ${side} resting divider is nearly invisible`);
+      const resting = alpha(await style(handle, border));
+      check(resting >= .05 && resting <= .12, `${mode}: ${side} resting divider is visible but quiet`);
       check(parseFloat(await style(handle, 'width')) >= 3 && await style(handle, 'cursor') === 'col-resize', `${mode}: ${side} resize target and cursor retained`);
       await page.locator(handle).hover();
       await settle();
@@ -265,7 +280,7 @@ try {
   await page.emulateMedia({ forcedColors: 'none' });
   await classes('theme-light is-mobile is-phone mod-ios');
   check(await style('#bar', 'display') === 'none', 'mobile: native hidden tab bar retained');
-  check(parseFloat(await style('[aria-label="New note"]', 'min-width')) >= 40, 'mobile touch targets at least 40px');
+  check(parseFloat(await style('[aria-label="New note"]', 'min-width')) >= 44, 'mobile touch targets at least 44px');
   await classes('theme-light mod-macos');
   await page.locator('.mod-root > .workspace-tabs').evaluate(el => el.classList.add('mod-stacked'));
   const themedStack = await style('#tabs', 'padding');

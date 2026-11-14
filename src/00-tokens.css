@@ -1,4 +1,19 @@
+/* Light palette. One cool neutral ramp drives host base colors, text levels and
+   glass tokens. Contrast targets (WCAG 2.x, against --background-primary):
+   --text-normal 14.3:1, --text-muted 7.2:1, --text-faint 5.7:1 (>= 3:1 on glass). */
 body.theme-light {
+  --color-base-00: #ffffff;
+  --color-base-05: #fafbfc;
+  --color-base-10: #f5f6f7;
+  --color-base-20: #eef0f1;
+  --color-base-25: #e9ebed;
+  --color-base-30: #e2e5e7;
+  --color-base-35: #d3d8dc;
+  --color-base-40: #b7bec4;
+  --color-base-50: #8a929a;
+  --color-base-60: #5a626b;
+  --color-base-70: #4b535c;
+  --color-base-100: #20252a;
   --background-primary: #f5f6f7;
   --background-primary-alt: #eef0f1;
   --background-secondary: #e9ebed;
@@ -6,32 +21,54 @@ body.theme-light {
   --background-modifier-border: rgba(38, 43, 48, .16);
   --background-modifier-border-hover: rgba(38, 43, 48, .25);
   --text-normal: #20252a;
-  --text-muted: #58616a;
+  --text-muted: #4b535c;
+  --text-faint: #5a626b;
   --interactive-normal: rgba(255, 255, 255, .64);
   --interactive-hover: rgba(255, 255, 255, .78);
   --cg-shell: rgba(250, 251, 253, .025);
   --cg-haze: rgba(255, 255, 255, .025);
-  --cg-tab-active: color-mix(in srgb, var(--interactive-accent) 5%, rgba(255, 255, 255, .09));
-  --cg-reading: transparent;
-  --cg-divider: rgba(49, 61, 73, .012);
+  --cg-tab-active: color-mix(in srgb, var(--interactive-accent) 9%, rgba(255, 255, 255, .2));
+  /* Reading mist: half-opaque surface under top-level notes. Text no longer
+     depends on the wallpaper; Style Settings can switch it to clear or solid. */
+  --cg-reading-mist: color-mix(in srgb, var(--cg-solid) 50%, transparent);
+  --cg-reading: var(--cg-reading-mist);
+  --cg-divider: rgba(49, 61, 73, .08);
   --cg-solid: #f2f5f7;
   --cg-window-surface: #f2f5f7;
-  --cg-line: rgba(255, 255, 255, .32);
+  --cg-line: rgba(38, 43, 48, .12);
   --cg-glint: rgba(255, 255, 255, .38);
   --cg-control: rgba(255, 255, 255, .16);
   --cg-control-hover: rgba(255, 255, 255, .3);
   --cg-control-active: rgba(255, 255, 255, .24);
   --cg-edge: rgba(255, 255, 255, .52);
-  --cg-edge-low: rgba(49, 61, 73, .09);
+  --cg-edge-low: rgba(49, 61, 73, .11);
   --cg-reflection: rgba(255, 255, 255, .26);
   --cg-shadow: rgba(30, 42, 55, .09);
+  --cg-shadow-lift: rgba(30, 42, 55, .16);
   --cg-selection: color-mix(in srgb, var(--interactive-accent) 10%, var(--cg-control-active));
+  --cg-menu-selection: color-mix(in srgb, var(--interactive-accent) 14%, transparent);
   --cg-hairline: rgba(49, 61, 73, .11);
+  --cg-block: rgba(255, 255, 255, .62);
+  --cg-table-head: rgba(49, 61, 73, .05);
   --cg-sidebar-row-hover: rgba(255, 255, 255, .22);
   --workspace-background-translucent: rgba(250, 251, 253, .025);
 }
 
+/* Dark palette. --text-normal 13.7:1, --text-muted 8.2:1, --text-faint 5.7:1
+   against --background-primary; --text-faint stays >= 3.9:1 on dark glass. */
 body.theme-dark {
+  --color-base-00: #18191c;
+  --color-base-05: #1c1e21;
+  --color-base-10: #202226;
+  --color-base-20: #25272b;
+  --color-base-25: #292c31;
+  --color-base-30: #33363c;
+  --color-base-35: #3d4047;
+  --color-base-40: #50545b;
+  --color-base-50: #6c7179;
+  --color-base-60: #959ba3;
+  --color-base-70: #b6bac0;
+  --color-base-100: #eceef0;
   --background-primary: #202226;
   --background-primary-alt: #282b30;
   --background-secondary: #292c31;
@@ -40,16 +77,18 @@ body.theme-dark {
   --background-modifier-border-hover: rgba(235, 237, 240, .25);
   --text-normal: #eceef0;
   --text-muted: #b6bac0;
+  --text-faint: #959ba3;
   --interactive-normal: rgba(38, 40, 46, .64);
   --interactive-hover: rgba(52, 55, 62, .78);
   --cg-shell: rgba(13, 15, 19, .04);
   --cg-haze: rgba(255, 255, 255, .025);
-  --cg-tab-active: color-mix(in srgb, var(--interactive-accent) 7%, rgba(255, 255, 255, .025));
-  --cg-reading: transparent;
-  --cg-divider: rgba(255, 255, 255, .012);
+  --cg-tab-active: color-mix(in srgb, var(--interactive-accent) 9%, rgba(255, 255, 255, .03));
+  --cg-reading-mist: color-mix(in srgb, var(--cg-solid) 45%, transparent);
+  --cg-reading: var(--cg-reading-mist);
+  --cg-divider: rgba(255, 255, 255, .07);
   --cg-solid: #27292f;
   --cg-window-surface: #27292f;
-  --cg-line: rgba(255, 255, 255, .08);
+  --cg-line: rgba(255, 255, 255, .09);
   --cg-glint: rgba(255, 255, 255, .1);
   --cg-control: rgba(255, 255, 255, .025);
   --cg-control-hover: rgba(255, 255, 255, .075);
@@ -58,23 +97,37 @@ body.theme-dark {
   --cg-edge-low: rgba(255, 255, 255, .045);
   --cg-reflection: rgba(255, 255, 255, .075);
   --cg-shadow: rgba(5, 8, 14, .2);
+  --cg-shadow-lift: rgba(0, 0, 0, .42);
   --cg-selection: color-mix(in srgb, var(--interactive-accent) 13%, var(--cg-control-active));
+  --cg-menu-selection: color-mix(in srgb, var(--interactive-accent) 22%, transparent);
   --cg-hairline: rgba(255, 255, 255, .085);
+  --cg-block: rgba(8, 10, 14, .28);
+  --cg-table-head: rgba(255, 255, 255, .05);
   --cg-sidebar-row-hover: rgba(255, 255, 255, .055);
   --workspace-background-translucent: rgba(13, 15, 19, .04);
 }
 
+/* Style Settings: reading surface (see src/style-settings.yaml). */
+body.cg-reading-clear:is(.theme-light, .theme-dark) {
+  --cg-reading: transparent;
+}
+body.cg-reading-solid:is(.theme-light, .theme-dark) {
+  --cg-reading: var(--cg-solid);
+}
+
 body {
   --radius-s: 8px;
-  --radius-m: 12px;
+  --radius-m: 10px;
   --radius-l: 18px;
   --cg-ease: cubic-bezier(.22, 1, .36, 1);
   --cg-motion: 140ms;
   --cg-marker-position: left;
   --cg-motion-fast: 90ms;
-  --cg-glass-face: linear-gradient(155deg, var(--cg-reflection), transparent 62%);
   --cg-glass-edge: inset 0 1px 0 var(--cg-edge), inset 0 0 0 1px var(--cg-edge-low);
   --modal-background: var(--cg-solid);
   --modal-border-color: var(--cg-line);
   --modal-radius: var(--radius-l);
+  --list-marker-color: var(--text-faint);
+  --checkbox-border-color: var(--text-faint);
+  --checkbox-border-color-hover: var(--text-muted);
 }

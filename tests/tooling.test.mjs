@@ -148,7 +148,7 @@ async function validationSandbox(t) {
   const config = JSON.parse(await fs.readFile(path.join(PROJECT_ROOT, 'theme.config.json'), 'utf8'));
   const files = ['manifest.json', 'package.json', 'versions.json', 'theme.config.json', 'LICENSE',
     'README.md', 'README.zh-CN.md', 'docs/RELEASING.md', `releases/${artifact.manifest.version}.md`,
-    ...config.sources, config.communityScreenshot];
+    ...config.sources, ...(config.styleSettings ? [config.styleSettings] : []), config.communityScreenshot];
   for (const name of files) {
     await fs.mkdir(path.dirname(path.join(root, name)), { recursive: true });
     await fs.copyFile(path.join(PROJECT_ROOT, name), path.join(root, name));

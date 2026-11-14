@@ -17,7 +17,7 @@ body:is(.theme-light, .theme-dark) {
   --nav-item-color-hover: var(--text-normal);
   --nav-item-color-active: var(--text-normal);
   --nav-item-weight-active: 600;
-  --nav-item-radius: 9px;
+  --nav-item-radius: var(--radius-s);
 }
 
 /* Keep the native traffic-light spacing, drag region and stacked-tab layout. */
@@ -32,12 +32,14 @@ body:not(.is-mobile):is(.theme-light, .theme-dark) .workspace-tabs:not(.mod-stac
   display: none;
 }
 body:not(.is-mobile):is(.theme-light, .theme-dark) .workspace-tabs:not(.mod-stacked) > .workspace-tab-header-container .workspace-tab-header-inner {
-  border-radius: 10px;
+  border-radius: var(--radius-m);
   transition: background-color var(--cg-motion) var(--cg-ease), box-shadow var(--cg-motion) var(--cg-ease), color var(--cg-motion) ease;
 }
+/* One active-tab language for the root and sidebar tab bars: a faint accent
+   tint, a low edge and a lower accent stroke. Stacked tabs keep host styling. */
 body:not(.is-mobile):is(.theme-light, .theme-dark) .workspace-tabs:not(.mod-stacked) > .workspace-tab-header-container .workspace-tab-header.is-active .workspace-tab-header-inner {
-  background-image: var(--cg-glass-face);
-  box-shadow: var(--cg-glass-edge), 0 3px 9px -5px var(--cg-shadow);
+  background: var(--cg-tab-active);
+  box-shadow: inset 0 0 0 1px var(--cg-edge-low), inset 0 -2px 0 color-mix(in srgb, var(--interactive-accent) 65%, transparent);
 }
 body:is(.theme-light, .theme-dark) .workspace-tab-header.is-active .workspace-tab-header-inner-title {
   font-weight: 600;
@@ -66,10 +68,4 @@ body:is(.theme-light, .theme-dark) .workspace-tab-header.is-active .workspace-ta
    overflow menu. Fixed symmetric gutters can consume an entire narrow split. */
 body:not(.is-mobile) .mod-root .workspace-tabs:not(.mod-stacked) > .workspace-tab-header-container > .workspace-tab-header-container-inner {
   min-width: 0;
-}
-
-/* A faint accent tint and lower stroke identify the selected tab without closing the glass canvas. */
-body:not(.is-mobile):is(.theme-light, .theme-dark) .mod-root .workspace-tabs:not(.mod-stacked) > .workspace-tab-header-container .workspace-tab-header.is-active .workspace-tab-header-inner {
-  background: var(--cg-tab-active);
-  box-shadow: inset 0 0 0 1px var(--cg-edge-low), inset 0 -2px 0 color-mix(in srgb, var(--interactive-accent) 65%, transparent);
 }

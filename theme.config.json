@@ -6,8 +6,10 @@
     "src/30-navigation.css",
     "src/35-reading.css",
     "src/40-controls.css",
+    "src/45-content.css",
     "src/50-dialogs.css",
     "src/60-states.css"
   ],
-  "communityScreenshot": "screenshots/cockpit-glass-dark.png"
+  "communityScreenshot": "screenshots/cockpit-glass-dark.png",
+  "styleSettings": "src/style-settings.yaml"
 }

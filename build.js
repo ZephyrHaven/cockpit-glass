@@ -22,8 +22,16 @@ export function compileTheme(root = PROJECT_ROOT) {
   if (css.warnings.length) throw new Error(JSON.stringify(css.warnings));
   const license = read('LICENSE').trim().split('\n').map(line => line ? ' * ' + line : ' *').join('\n');
   const banner = `/*! Cockpit Glass ${manifest.version} | Generated from src/ by npm run build.\n${license}\n */\n`;
+  // Style Settings reads a raw comment block; the minifier would strip it, so it is appended verbatim.
+  let settings = '';
+  if (config.styleSettings !== undefined) {
+    if (!/^src\/[\w-]+\.ya?ml$/.test(config.styleSettings)) throw new Error(`Invalid Style Settings path: ${config.styleSettings}`);
+    const yaml = read(config.styleSettings).trim();
+    if (!yaml || yaml.includes('*/')) throw new Error('Style Settings block must be nonempty and must not contain */');
+    settings = `/* @settings\n\n${yaml}\n\n*/\n`;
+  }
   const files = {
-    'theme.css': Buffer.concat([Buffer.from(banner), css.code, Buffer.from('\n')]),
+    'theme.css': Buffer.concat([Buffer.from(banner + settings), css.code, Buffer.from('\n')]),
     'manifest.json': Buffer.from(JSON.stringify(manifest, null, 2) + '\n')
   };
   const archiveName = `Cockpit-Glass-${manifest.version}.zip`;
