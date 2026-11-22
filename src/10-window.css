@@ -37,14 +37,63 @@ body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) 
   background: transparent;
 }
 
-/* A static, window-wide wash shares the native glass. No extra rendering layer,
-   animated background, filter or transformed scrolling ancestor is introduced. */
+/* Static glass field (the frosted backdrop).
+   The macOS translucent window lets the live desktop vibrancy sit behind the
+   DOM. A semi-transparent scrolling surface on top of that live material
+   re-blends every frame while the note scrolls or an image hover repaints, and
+   when the compositor falls behind it leaves a stale tile behind: the image
+   ghost / smear. The fix is the one Isinglass uses: stop compositing the note
+   against live vibrancy. Paint ONE fixed glass field on .workspace::before
+   (behind all splits, above the shell) and let the reading surface be a thin
+   mist over that fixed painting. The backdrop is now static: text scrolls over
+   a still field, so there is nothing to re-blend and nothing to trail.
+
+   The field lives on a PSEUDO-ELEMENT on purpose: .workspace itself keeps its
+   native transform/filter/backdrop-filter/contain/isolation (the composition
+   contract measures the element, not its ::before), and nothing here touches a
+   scrolling ancestor. No backdrop-filter and no per-frame filter: the frost is
+   gradients + a faint grain painted once. */
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace {
+  position: relative;
+}
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 0;
+  /* Low-alpha field: the desktop must still read THROUGH it (real
+     translucency), but it is painted once on this fixed pseudo-element, so a
+     scrolling note on top never re-blends live vibrancy. Tone capped around
+     18% light / 30% dark so the wallpaper shows at every point, tinted and
+     lightly frosted by the grain layer above. */
+  background:
+    radial-gradient(ellipse 120% 90% at 50% -8%, color-mix(in srgb, var(--text-normal) 5%, transparent), transparent 60%),
+    radial-gradient(ellipse 90% 80% at 8% 6%, var(--cg-field-veil), transparent 55%),
+    linear-gradient(180deg, color-mix(in srgb, var(--cg-solid) 20%, transparent) 0%, var(--cg-field) 46%, color-mix(in srgb, var(--cg-solid) 14%, transparent) 100%);
+}
+/* A single faint grain layer, painted once on the same fixed field. mix-blend
+   only tints the field it sits in; it never touches a scrolling ancestor. */
+body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: var(--cg-grain-opacity);
+  mix-blend-mode: soft-light;
+  background-image: var(--cg-grain);
+}
+
+/* The shell stays a thin translucent wash (the <=3% glass tint the contract
+   expects); the real fill is the field above, so the desktop shows only at the
+   edges, never under the note. */
 body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .app-container {
-  background: radial-gradient(ellipse 130% 110% at 50% 0%, color-mix(in srgb, var(--interactive-accent) 2%, transparent), transparent 90%), radial-gradient(ellipse 120% 90% at 50% 15%, var(--cg-haze), transparent 85%), var(--cg-shell);
+  background: radial-gradient(ellipse 130% 110% at 50% 0%, color-mix(in srgb, var(--interactive-accent) 2%, transparent), transparent 90%), var(--cg-shell);
 }
 body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .titlebar,
 body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .horizontal-main-container,
-body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace,
 body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-split.mod-root,
 body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-split.mod-left-split,
 body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-split.mod-right-split,
@@ -71,8 +120,10 @@ body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) 
   box-shadow: none;
 }
 
-/* Top-level notes share the native window glass in reading, live preview and
-   source mode. Embedded notes, media and dialogs retain their own surfaces. */
+/* Top-level notes sit on the reading mist, which now composites against the
+   STATIC field above rather than live vibrancy. Because the backdrop is fixed,
+   the mist can stay semi-transparent (the contract's 30-70%) and still never
+   ghosts: text scrolls, the field behind it does not. */
 body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-leaf-content[data-type="markdown"] > .view-content > .markdown-source-view,
 body.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal) .workspace-leaf-content[data-type="markdown"] > .view-content > .markdown-reading-view > .markdown-preview-view {
   background: var(--cg-reading);

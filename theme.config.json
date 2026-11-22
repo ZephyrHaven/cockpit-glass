@@ -1,5 +1,6 @@
 {
   "sources": [
+    "src/05-fonts.css",
     "src/00-tokens.css",
     "src/10-window.css",
     "src/20-tabs.css",

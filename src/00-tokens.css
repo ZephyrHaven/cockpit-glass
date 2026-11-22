@@ -2,40 +2,57 @@
    glass tokens. Contrast targets (WCAG 2.x, against --background-primary):
    --text-normal 14.3:1, --text-muted 7.2:1, --text-faint 5.7:1 (>= 3:1 on glass). */
 body.theme-light {
+  /* Light palette tuned toward the warm near-white / high-contrast look of the
+     reference glass themes: a #f6f6f6 canvas, deeper #222 body ink, and a rose
+     accent. Contrast stays comfortably above WCAG AA against --background-primary:
+     --text-normal ~15.8:1, --text-muted ~7.4:1, --text-faint ~5.2:1. */
   --color-base-00: #ffffff;
-  --color-base-05: #fafbfc;
-  --color-base-10: #f5f6f7;
-  --color-base-20: #eef0f1;
-  --color-base-25: #e9ebed;
-  --color-base-30: #e2e5e7;
-  --color-base-35: #d3d8dc;
-  --color-base-40: #b7bec4;
-  --color-base-50: #8a929a;
-  --color-base-60: #5a626b;
-  --color-base-70: #4b535c;
-  --color-base-100: #20252a;
-  --background-primary: #f5f6f7;
-  --background-primary-alt: #eef0f1;
-  --background-secondary: #e9ebed;
-  --background-secondary-alt: #e2e5e7;
-  --background-modifier-border: rgba(38, 43, 48, .16);
-  --background-modifier-border-hover: rgba(38, 43, 48, .25);
-  --text-normal: #20252a;
-  --text-muted: #4b535c;
-  --text-faint: #5a626b;
+  --color-base-05: #fbfbfb;
+  --color-base-10: #f6f6f6;
+  --color-base-20: #efefef;
+  --color-base-25: #e9e9e9;
+  --color-base-30: #e1e1e1;
+  --color-base-35: #d2d2d2;
+  --color-base-40: #b6b6b6;
+  --color-base-50: #888888;
+  --color-base-60: #5c5c5c;
+  --color-base-70: #474747;
+  --color-base-100: #1c1c1c;
+  --background-primary: #f6f6f6;
+  --background-primary-alt: #efefef;
+  --background-secondary: #e9e9e9;
+  --background-secondary-alt: #e1e1e1;
+  --background-modifier-border: rgba(30, 30, 30, .16);
+  --background-modifier-border-hover: rgba(30, 30, 30, .26);
+  --text-normal: #222222;
+  --text-muted: #4c4c4c;
+  --text-faint: #5e5e5e;
+  /* Accent intentionally NOT overridden: the light theme follows the user's
+     system accent color (Obsidian Appearance > Accent color), so it matches
+     whatever the OS/app setting is rather than a fixed hue. */
+  --text-on-accent: #ffffff;
   --interactive-normal: rgba(255, 255, 255, .64);
   --interactive-hover: rgba(255, 255, 255, .78);
   --cg-shell: rgba(250, 251, 253, .025);
   --cg-haze: rgba(255, 255, 255, .025);
+  /* Static glass field: a fixed painting on .workspace::before that stands in
+     for the frosted backdrop. The scrolling note composites against THIS
+     (static) instead of the live macOS window vibrancy, so scrolling and
+     image hover never re-blend per frame — the smear/ghost is gone. Opaque
+     enough in the reading region to cover the desktop; the frosted look comes
+     from the layered gradients + grain on the same fixed layer. */
+  --cg-field: color-mix(in srgb, var(--cg-solid) 10%, transparent);
+  --cg-field-veil: color-mix(in srgb, var(--interactive-accent) 2%, transparent);
+  --cg-grain-opacity: .02;
   --cg-tab-active: color-mix(in srgb, var(--interactive-accent) 9%, rgba(255, 255, 255, .2));
   /* Reading mist: half-opaque surface under top-level notes. Text no longer
      depends on the wallpaper; Style Settings can switch it to clear or solid. */
   --cg-reading-mist: color-mix(in srgb, var(--cg-solid) 50%, transparent);
   --cg-reading: var(--cg-reading-mist);
-  --cg-divider: rgba(49, 61, 73, .08);
-  --cg-solid: #f2f5f7;
-  --cg-window-surface: #f2f5f7;
-  --cg-line: rgba(38, 43, 48, .12);
+  --cg-divider: rgba(30, 30, 30, .08);
+  --cg-solid: #f7f7f7;
+  --cg-window-surface: #f7f7f7;
+  --cg-line: rgba(30, 30, 30, .12);
   --cg-glint: rgba(255, 255, 255, .38);
   --cg-control: rgba(255, 255, 255, .16);
   --cg-control-hover: rgba(255, 255, 255, .3);
@@ -82,6 +99,11 @@ body.theme-dark {
   --interactive-hover: rgba(52, 55, 62, .78);
   --cg-shell: rgba(13, 15, 19, .04);
   --cg-haze: rgba(255, 255, 255, .025);
+  /* See light palette --cg-field; dark needs a little more opacity to cover a
+     bright desktop behind the window. */
+  --cg-field: color-mix(in srgb, var(--cg-solid) 20%, transparent);
+  --cg-field-veil: color-mix(in srgb, var(--interactive-accent) 3%, transparent);
+  --cg-grain-opacity: .03;
   --cg-tab-active: color-mix(in srgb, var(--interactive-accent) 9%, rgba(255, 255, 255, .03));
   --cg-reading-mist: color-mix(in srgb, var(--cg-solid) 45%, transparent);
   --cg-reading: var(--cg-reading-mist);
@@ -116,7 +138,22 @@ body.cg-reading-solid:is(.theme-light, .theme-dark) {
 }
 
 body {
+  /* Typography: Figtree drives the interface and reading text (embedded in
+     05-fonts.css). These are theme-level hooks UNDER Obsidian's user font
+     preference (host:3191/3194), so a user who picks their own font still wins.
+     Monospace keeps the system stack for crisp code. */
+  --font-interface-theme: "Figtree", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Source Han Sans SC", "Segoe UI", sans-serif;
+  --font-text-theme: "Figtree", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Source Han Sans SC", "Segoe UI", sans-serif;
+  --font-monospace-theme: "SF Mono", "JetBrains Mono", "Fira Code", Consolas, monospace;
+  /* CJK companion: Latin glyphs come from Figtree, ideographs fall to the
+     best native black-face in order (PingFang SC on macOS). This keeps a
+     single visual weight/finish across mixed Chinese + English text instead
+     of letting CJK fall back to an arbitrary default UI font. */
   --radius-s: 8px;
+  /* Inline SVG grain (no remote asset): a static film grain painted once on the
+     glass field. feTurbulence noise, tileable. Kept as a token so the intensity
+     (--cg-grain-opacity) can be dialled per palette / accessibility preset. */
+  --cg-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --radius-m: 10px;
   --radius-l: 18px;
   --cg-ease: cubic-bezier(.22, 1, .36, 1);
