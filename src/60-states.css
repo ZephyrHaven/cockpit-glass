@@ -1,11 +1,4 @@
-/* State rules must win over the top-level folder decoration. Selection, rename,
-   drag targets and keyboard focus are otherwise provided by the host. */
-body .mod-left-split .nav-folder-title:is(.is-active, .is-selected, .is-being-dragged-over, .has-focus) {
-  background-image: none;
-}
-body.mod-rtl {
-  --cg-marker-position: right;
-}
+/* Mirror the active row's accent stroke with the file tree. */
 body.mod-rtl :is(.mod-left-split, .mod-right-split) .tree-item-self.is-active:not(.is-selected, .is-being-dragged, .is-being-dragged-over, .is-being-renamed, .has-active-menu, .has-focus) {
   box-shadow: inset -2px 0 0 var(--interactive-accent);
 }

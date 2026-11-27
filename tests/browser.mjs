@@ -41,8 +41,8 @@ const composition = () => page.evaluate(selectors => selectors.map(selector => {
   const css = getComputedStyle(document.querySelector(selector));
   return Object.fromEntries(['transform', 'scale', 'filter', 'backdrop-filter', 'will-change', 'contain', 'isolation'].map(prop => [prop, css.getPropertyValue(prop)]));
 }), glassContainers);
-async function load(themeCss = theme) {
-  await page.setContent(fixture());
+async function load(themeCss = theme, useVirtualFileTree = true) {
+  await page.setContent(fixture(useVirtualFileTree));
   await page.addStyleTag({ content: host });
   await page.addStyleTag({ content: fixtureStyles });
   if (themeCss) await page.addStyleTag({ content: themeCss });
@@ -121,6 +121,24 @@ try {
     await page.addStyleTag({ content: `html { background: ${backdropFor(mode)}; }` });
     await settle();
     await page.screenshot({ path: path.join(output, `${mode}-glass-fixture.png`) });
+    const tree = page.locator('.nav-files-container');
+    const [folderTitle, firstFile] = await Promise.all([
+      tree.locator('#folder .nav-folder-title-content').boundingBox(),
+      tree.locator('.nav-file-title-content').first().boundingBox(),
+    ]);
+    check(firstFile.x - folderTitle.x >= 6 && firstFile.x - folderTitle.x <= 10, `${mode}: child file names gain room while staying indented`);
+    const collapsedFolder = tree.locator('.nav-folder.is-collapsed .nav-folder-title').first();
+    const collapsedFill = await collapsedFolder.evaluate(el => getComputedStyle(el).backgroundColor);
+    check(!clear(await style('#folder', 'background-color')) && clear(collapsedFill), `${mode}: an expanded top-level folder is distinct from a collapsed folder`);
+    const [folderRow, fileRow] = await Promise.all([page.locator('#folder').boundingBox(), tree.locator('.nav-file-title').first().boundingBox()]);
+    check(folderRow.height - fileRow.height >= 5, `${mode}: folder and file row rhythm is distinct`);
+    const inactiveFile = tree.locator('.nav-file-title:not(.is-active)').first();
+    await inactiveFile.hover();
+    await settle();
+    check(!clear(await inactiveFile.evaluate(el => getComputedStyle(el).backgroundColor)), `${mode}: hovering an ordinary file highlights its whole row`);
+    await page.mouse.move(640, 400);
+    await settle();
+    await page.locator('.mod-left-split').screenshot({ path: path.join(output, `${mode}-file-tree.png`) });
     await page.locator('#right-dock').evaluate(el => { el.style.display = 'none'; });
     await page.locator('#dialog').evaluate(el => { el.style.display = 'flex'; });
     check(opaque(await style('#dialog .modal', 'background-color')), `${mode}: dialog opacity`);
@@ -183,7 +201,7 @@ try {
       await page.locator('#right-dock').evaluate((el, open) => { el.style.display = open ? 'flex' : 'none'; }, i % 2 === 0);
     }
     check(await preview.evaluate(el => Math.abs(el.scrollTop - 500) < 2), `${mode}: search and sidebar state changes preserve reading position`);
-    await page.locator('.nav-folder.mod-root > .nav-folder-children').evaluate(el => {
+    await page.locator('#file-tree-items').evaluate(el => {
       for (let i = 0; i < 80; i++) {
         const row = document.createElement('div');
         row.className = 'nav-file';
@@ -246,15 +264,22 @@ try {
   check(opaque(await style('body', 'background-color')), 'detached settings window fallback');
 
   await classes('theme-light mod-macos is-translucent is-focused');
+  const normalFolderClass = await page.locator('#folder').getAttribute('class');
   for (const state of ['is-selected', 'is-being-dragged', 'is-being-dragged-over', 'is-being-renamed', 'has-active-menu', 'has-focus']) {
-    await page.locator('#folder').evaluate((el, s) => { el.className = `tree-item-self nav-folder-title ${s}`; }, state);
-    check(await style('#folder', 'background-image') === 'none', `${state}: folder decoration does not cover native state`);
+    await page.locator('#folder').evaluate((el, className) => { el.className = className; }, `${normalFolderClass} ${state}`);
+    await settle();
+    check(await style('#folder', 'background-color') === await page.locator('#folder').evaluate(el => {
+      const clone = el.cloneNode(true);
+      document.body.append(clone);
+      const color = getComputedStyle(clone).backgroundColor;
+      clone.remove();
+      return color;
+    }), `${state}: folder decoration yields to native row state`);
   }
-  await page.locator('#folder').evaluate(el => { el.className = 'tree-item-self nav-folder-title'; });
+  await page.locator('#folder').evaluate((el, className) => { el.className = className; }, normalFolderClass);
   await classes('theme-light mod-rtl');
-  await page.locator('#folder').hover();
   await settle();
-  check((await style('#folder', 'background-position')).startsWith('100%'), 'RTL folder marker mirrored');
+  check((await style('.nav-file-title.is-active', 'box-shadow')).endsWith('-2px 0px 0px 0px inset'), 'RTL active file marker mirrored');
 
   await classes('theme-light mod-macos is-focused');
   await page.locator('[aria-label="Search files"]').focus();
@@ -313,6 +338,8 @@ try {
   await classes('theme-light is-mobile is-phone mod-ios');
   check(await style('#bar', 'display') === 'none', 'mobile: native hidden tab bar retained');
   check(parseFloat(await style('[aria-label="New note"]', 'min-width')) >= 44, 'mobile touch targets at least 44px');
+  await load(theme, false);
+  check(!clear(await style('#folder', 'background-color')), 'expanded folder styling supports the legacy file tree');
   await classes('theme-light mod-macos');
   await page.locator('.mod-root > .workspace-tabs').evaluate(el => el.classList.add('mod-stacked'));
   const themedStack = await style('#tabs', 'padding');

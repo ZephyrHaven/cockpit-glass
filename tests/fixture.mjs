@@ -1,5 +1,40 @@
 const icon = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M9 4v16"/></svg>';
-export function fixture() {
+const chevron = '<svg class="svg-icon right-triangle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>';
+
+function file(name, { active, extension } = {}) {
+  return `<div class="tree-item nav-file"><div class="tree-item-self nav-file-title is-clickable${active ? ' is-active' : ''}" tabindex="0"><div class="tree-item-inner nav-file-title-content">${name}</div>${extension ? `<div class="nav-file-tag">${extension}</div>` : ''}</div></div>`;
+}
+
+function folder(name, children = '', id = '') {
+  const collapsed = children ? '' : ' is-collapsed';
+  return `<div class="tree-item nav-folder${collapsed}">
+    <div class="tree-item-self nav-folder-title is-clickable mod-collapsible" tabindex="0" ${id ? `id="${id}"` : ''}>
+      <div class="tree-item-icon collapse-icon${collapsed}">${chevron}</div><div class="tree-item-inner nav-folder-title-content">${name}</div>
+    </div>
+    <div class="tree-item-children nav-folder-children"${children ? '' : ' style="display:none"'}>${children}</div>
+  </div>`;
+}
+
+function fileTree() {
+  return [
+    folder('00-收集箱'),
+    folder('10-工作笔记', [
+      file('读书会与本周学习笔记'),
+      file('工作台布局与工具使用说明', { active: true }),
+      file('每月项目复盘与归档清单', { extension: 'DOCX' }),
+      folder('归档', file('上个季度的工作笔记')),
+    ].join(''), 'folder'),
+    folder('20-资料索引', [file('常用资料与参考手册'), file('资料分类整理方法')].join('')),
+    folder('30-项目计划'),
+    file('欢迎使用'),
+  ].join('');
+}
+
+export function fixture(useVirtualFileTree = true) {
+  // The virtual tree measures rows under a plain root with a layout spacer.
+  const tree = useVirtualFileTree
+    ? `<div id="file-tree-items"><div style="height:0.1px"></div>${fileTree()}</div>`
+    : `<div class="nav-folder mod-root"><div class="nav-folder-children" id="file-tree-items">${fileTree()}</div></div>`;
   // Reading-view inline dimensions mirror the host's runtime constructor.
   return `<!doctype html><html><head><meta charset="utf-8"><title>Cockpit Glass — synthetic regression fixture</title></head>
   <body class="theme-light mod-macos is-focused is-hidden-frameless is-frameless">
@@ -13,13 +48,7 @@ export function fixture() {
           <div class="clickable-icon nav-action-button is-disabled" aria-disabled="true" role="button" aria-label="Disabled action">${icon}</div>
         </div></div>
         <div class="search-input-container"><input aria-label="Search files" type="search" placeholder="Search your notes…"></div>
-        <div class="nav-files-container"><div class="nav-folder mod-root"><div class="nav-folder-children">
-          <div class="nav-folder"><div class="tree-item-self nav-folder-title" tabindex="0" id="folder"><div class="tree-item-inner">Field notes</div></div><div class="nav-folder-children tree-item-children">
-            <div class="nav-file"><div class="tree-item-self nav-file-title is-active" tabindex="0"><div class="tree-item-inner">A quieter workspace</div></div></div>
-            <div class="nav-file"><div class="tree-item-self nav-file-title" tabindex="0"><div class="tree-item-inner">Reading list</div></div></div>
-          </div></div>
-          <div class="nav-folder"><div class="tree-item-self nav-folder-title" tabindex="0"><div class="tree-item-inner">Projects</div></div></div>
-        </div></div></div>
+        <div class="nav-files-container">${tree}</div>
       </div></div></div></div>
     </div>
     <div class="workspace-split mod-vertical mod-root" style="flex:1; min-width:0">

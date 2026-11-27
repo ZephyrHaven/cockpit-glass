@@ -1,5 +1,4 @@
-/* Hierarchy comes from typography and native indentation, not separate panels.
-   Keep the host's collapse, rename, selection and drag geometry intact. */
+/* File-tree hierarchy uses one shallow surface for expanded section headers. */
 body:is(.theme-light, .theme-dark) .mod-left-split .nav-files-container {
   position: relative;
   padding-inline: 10px 12px;
@@ -18,23 +17,41 @@ body:is(.theme-light, .theme-dark) :is(.mod-left-split, .mod-right-split) .nav-f
   font-weight: 500;
   color: var(--text-normal);
 }
-body:is(.theme-light, .theme-dark) .mod-left-split .nav-folder-title {
-  margin-block: 2px;
+body:not(.is-mobile):is(.theme-light, .theme-dark) .nav-files-container {
+  --cg-folder-surface: color-mix(in srgb, var(--text-normal) 7%, transparent);
+  --cg-selection: color-mix(in srgb, var(--interactive-accent) 22%, transparent);
+  padding-inline: 8px;
 }
-body:is(.theme-light, .theme-dark) .mod-left-split .nav-folder.mod-root > .nav-folder-children > .nav-folder > .nav-folder-title {
-  border-radius: var(--radius-s);
-  font-weight: 600;
+/* Virtual file trees use a plain root wrapper, while older trees use .mod-root. */
+body:not(.is-mobile):is(.theme-light, .theme-dark) :is(.nav-files-container .nav-folder.mod-root > .nav-folder-children, .nav-files-container > div) > .nav-folder > .nav-folder-title {
+  padding-block: 6px;
+  font-weight: 650;
 }
-body:is(.theme-light, .theme-dark) .mod-left-split .nav-folder.mod-root > .nav-folder-children > .nav-folder + .nav-folder {
-  margin-block-start: 6px;
+body:not(.is-mobile):is(.theme-light, .theme-dark) :is(.nav-files-container .nav-folder.mod-root > .nav-folder-children, .nav-files-container > div) > .nav-folder:not(.is-collapsed) + :is(.nav-folder, .nav-file) {
+  margin-block-start: 8px;
 }
-body:is(.theme-light, .theme-dark) .mod-left-split .nav-folder.mod-root > .nav-folder-children > .nav-folder > .nav-folder-title:not(.is-active, .is-selected, .is-being-dragged, .is-being-dragged-over, .is-being-renamed, .has-active-menu, .has-focus) {
-  background: none;
-  box-shadow: none;
+body:not(.is-mobile):is(.theme-light, .theme-dark) :is(.nav-files-container .nav-folder.mod-root > .nav-folder-children, .nav-files-container > div) > .nav-folder:where(:not(.is-collapsed, .is-being-dragged-over)) > .nav-folder-title:where(:not(.is-active, .is-selected, .is-being-dragged, .is-being-dragged-over, .is-being-renamed, .has-active-menu, .has-focus)) {
+  background-color: var(--cg-folder-surface);
 }
-body:is(.theme-light, .theme-dark) .mod-left-split .nav-file-title {
-  border-radius: var(--radius-s);
-  font-weight: 450;
+body:not(.is-mobile):is(.theme-light, .theme-dark) .nav-files-container .nav-folder:not(.mod-root) > .nav-folder-children {
+  padding-block-start: 3px;
+}
+body:not(.is-mobile):is(.theme-light, .theme-dark) .nav-files-container .nav-file-title {
+  padding-block: 3px;
+  padding-inline-end: 5px;
+  line-height: 1.35;
+}
+body:not(.is-mobile):is(.theme-light, .theme-dark) .nav-files-container .nav-folder:not(.mod-root) > .nav-folder-children > .nav-file > .nav-file-title {
+  padding-inline-start: 14px;
+}
+body:not(.is-mobile):is(.theme-light, .theme-dark) .nav-files-container .nav-file-tag {
+  flex-shrink: 0;
+}
+body.styled-scrollbars:not(.is-mobile, .is-android):is(.theme-light, .theme-dark) .nav-files-container {
+  --scrollbar-border-width: 3px;
+}
+body:is(.theme-light, .theme-dark) .nav-files-container .collapse-icon svg.svg-icon {
+  transition: transform var(--cg-motion) var(--cg-ease);
 }
 body:is(.theme-light, .theme-dark) :is(.mod-left-split, .mod-right-split) .tree-item-self.is-active:not(.is-selected, .is-being-dragged, .is-being-dragged-over, .is-being-renamed, .has-active-menu, .has-focus) {
   background-color: var(--cg-selection);

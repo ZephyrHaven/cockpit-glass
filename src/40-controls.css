@@ -22,12 +22,8 @@ body:is(.theme-light, .theme-dark) :is(.nav-action-button, .workspace-tab-header
   body:is(.theme-light, .theme-dark) :is(.mod-left-split, .mod-right-split) .tree-item-self:not(.is-active, .is-selected, .is-being-dragged, .is-being-dragged-over, .is-being-renamed, .has-active-menu, .has-focus):hover {
     box-shadow: none;
   }
-  body:is(.theme-light, .theme-dark) .mod-left-split .nav-folder.mod-root > .nav-folder-children > .nav-folder > .nav-folder-title:not(.is-active, .is-selected, .is-being-dragged, .is-being-dragged-over, .is-being-renamed, .has-active-menu, .has-focus):hover {
-    background: var(--cg-sidebar-row-hover) linear-gradient(var(--interactive-accent), var(--interactive-accent)) var(--cg-marker-position) center / 2px 14px no-repeat;
-    box-shadow: none;
-  }
-  body:is(.theme-light, .theme-dark) .mod-left-split .nav-file-title:not(.is-active, .is-selected, .is-being-dragged, .is-being-dragged-over, .is-being-renamed, .has-active-menu, .has-focus):hover {
-    background: var(--cg-sidebar-row-hover);
+  body:not(.is-grabbing):is(.theme-light, .theme-dark) .nav-files-container :is(.nav-folder-title, .nav-file-title):not(.is-active, .is-selected, .is-being-dragged, .is-being-dragged-over, .is-being-renamed, .has-active-menu, .has-focus):hover {
+    background-color: var(--cg-sidebar-row-hover);
   }
 }
 body:is(.theme-light, .theme-dark) :is(.nav-action-button, .workspace-tab-header-inner-close-button, .workspace-tab-header-new-tab .clickable-icon, .workspace-tab-header-tab-list .clickable-icon, .sidebar-toggle-button .clickable-icon, .workspace-ribbon .clickable-icon, .workspace-drawer-vault-actions .clickable-icon, .view-header .clickable-icon):not(:disabled, .is-disabled, [aria-disabled="true"]):active {

@@ -3,7 +3,6 @@ body.theme-light:where(:not(.mod-macos.is-translucent:not(.is-mobile, .is-fullsc
   --cg-control: rgba(255, 255, 255, .58);
   --cg-control-hover: rgba(255, 255, 255, .85);
   --cg-control-active: rgba(255, 255, 255, .92);
-  --cg-sidebar-row-hover: rgba(255, 255, 255, .7);
   --cg-reflection: rgba(255, 255, 255, .4);
   --cg-line: rgba(38, 43, 48, .14);
 }
@@ -11,7 +10,6 @@ body.theme-dark:where(:not(.mod-macos.is-translucent:not(.is-mobile, .is-fullscr
   --cg-control: rgba(255, 255, 255, .045);
   --cg-control-hover: rgba(255, 255, 255, .09);
   --cg-control-active: rgba(255, 255, 255, .12);
-  --cg-sidebar-row-hover: rgba(255, 255, 255, .08);
 }
 body:not(.mod-macos.is-translucent:not(.is-mobile, .is-fullscreen, .is-popout-modal)) {
   --workspace-background-translucent: var(--background-primary);

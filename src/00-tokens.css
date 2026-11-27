@@ -67,7 +67,6 @@ body.theme-light {
   --cg-hairline: rgba(49, 61, 73, .11);
   --cg-block: rgba(255, 255, 255, .62);
   --cg-table-head: rgba(49, 61, 73, .05);
-  --cg-sidebar-row-hover: rgba(255, 255, 255, .22);
   --workspace-background-translucent: rgba(250, 251, 253, .025);
 }
 
@@ -125,7 +124,6 @@ body.theme-dark {
   --cg-hairline: rgba(255, 255, 255, .085);
   --cg-block: rgba(8, 10, 14, .28);
   --cg-table-head: rgba(255, 255, 255, .05);
-  --cg-sidebar-row-hover: rgba(255, 255, 255, .055);
   --workspace-background-translucent: rgba(13, 15, 19, .04);
 }
 
@@ -160,7 +158,7 @@ body {
   --cg-motion: 140ms;
   --cg-motion-fast: 90ms;
   --cg-motion-enter: 200ms;
-  --cg-marker-position: left;
+  --cg-sidebar-row-hover: color-mix(in srgb, var(--text-normal) 12%, transparent);
   --cg-glass-edge: inset 0 1px 0 var(--cg-edge), inset 0 0 0 1px var(--cg-edge-low);
   --modal-background: var(--cg-solid);
   --modal-border-color: var(--cg-line);
