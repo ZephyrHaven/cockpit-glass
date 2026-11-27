@@ -75,6 +75,7 @@ try {
       await page.locator('body').evaluate((el, c) => el.classList.remove(c), option);
     }
     const reading = await page.locator('.mod-root .view-content').innerHTML();
+    const readingLeading = await style('.markdown-preview-view', 'line-height');
     for (const live of [false, true]) {
       await page.locator('.mod-root .workspace-leaf-content').evaluate(el => el.classList.remove('is-read-mode'));
       await page.locator('.mod-root .view-content').evaluate((el, html) => { el.innerHTML = html; }, editor(live));
@@ -82,11 +83,14 @@ try {
       for (const selector of ['.cm-editor', '.cm-scroller', '.cm-gutters']) {
         check(clear(await style(selector, 'background-color')), `${mode}: ${live ? 'live preview' : 'source'} ${selector} adds no second layer`);
       }
+      const [editorLeading, editorSize] = await Promise.all(['line-height', 'font-size'].map(prop => style('.cm-scroller', prop)));
+      check(Math.abs(parseFloat(editorLeading) / parseFloat(editorSize) - 1.7) < .01, `${mode}: editor uses the note line-height ratio`);
       await page.locator('[aria-label="Note editor"]').fill('A new thought');
       check(await page.locator('.cm-content').textContent() === 'A new thought', `${mode}: editor remains editable`);
     }
     await page.locator('.mod-root .workspace-leaf-content').evaluate(el => el.classList.add('is-read-mode'));
     await page.locator('.mod-root .view-content').evaluate((el, html) => { el.innerHTML = html; }, reading);
+    check(await style('.markdown-preview-view', 'line-height') === readingLeading, `${mode}: returning to reading restores the same line height`);
     await page.locator('#right-dock').evaluate(el => { el.style.display = 'flex'; });
     for (const dock of ['.mod-left-split', '.mod-right-split']) {
       check(clear(await style(dock, 'background-color')) && await style(dock, 'background-image') === 'none', `${mode}: ${dock} has no independent surface or accent wash`);
@@ -121,7 +125,17 @@ try {
     await page.locator('#dialog').evaluate(el => { el.style.display = 'flex'; });
     check(opaque(await style('#dialog .modal', 'background-color')), `${mode}: dialog opacity`);
     check(!['transparent', 'rgba(0, 0, 0, 0)'].includes(await style('#dialog .modal-bg', 'background-color')), `${mode}: modal backdrop retained`);
+    check(await style('#dialog .modal', 'animation-name') === 'cg-dialog-enter', `${mode}: desktop dialog has a single entrance`);
+    await settle();
+    check(await style('#dialog .modal', 'translate') === 'none' && await style('#dialog .modal', 'opacity') === '1', `${mode}: open dialog settles at its native position and full opacity`);
     await page.locator('#dialog').evaluate(el => { el.style.display = 'none'; });
+    await page.locator('#commands').evaluate(el => { el.style.display = 'flex'; });
+    check(await style('.prompt', 'animation-name') === 'cg-dialog-enter', `${mode}: command palette has the same entrance`);
+    await page.locator('[aria-label="Search commands"]').fill('new note');
+    await settle();
+    check(await page.locator('[aria-label="Search commands"]').inputValue() === 'new note', `${mode}: command input accepts text during opening`);
+    await page.screenshot({ path: path.join(output, `${mode}-commands.png`) });
+    await page.locator('#commands').evaluate(el => { el.style.display = 'none'; });
     await page.locator('#settings').evaluate(el => { el.style.display = 'flex'; });
     check(opaque(await style('.setting-page-titlebar', 'background-color')), `${mode}: sticky heading opaque`);
     check((await style('#settings .modal', 'background-color')) === (await style('.setting-page-titlebar', 'background-color')), `${mode}: settings share the same tint`);
@@ -142,6 +156,10 @@ try {
     const sizer = preview.locator('.markdown-preview-sizer');
     const fontSize = parseFloat(await style('.markdown-preview-view', 'font-size'));
     check(parseFloat(await style('.markdown-preview-view', 'line-height')) >= fontSize * 1.7, `${mode}: reading lines have room to breathe`);
+    const [titleLeading, titleSize] = await Promise.all(['line-height', 'font-size'].map(prop => style('.markdown-rendered h1', prop)));
+    check(Math.abs(parseFloat(titleLeading) / parseFloat(titleSize) - 1.2) < .01, `${mode}: heading lines stay grouped`);
+    check(await style('.markdown-rendered td', 'font-variant-numeric') === 'tabular-nums', `${mode}: table numerals have a stable width`);
+    check(await style('p > code', 'box-shadow') !== 'none' && await style('pre > code', 'box-shadow') === 'none', `${mode}: code keyline is confined to inline code`);
     check((await sizer.boundingBox()).width <= 737, `${mode}: readable width limits long lines`);
     await preview.evaluate(el => el.classList.remove('is-readable-line-width'));
     check(await style('.markdown-preview-sizer', 'max-width') === 'none', `${mode}: native full-width reading preference remains available`);
@@ -243,16 +261,30 @@ try {
   check(await style('[aria-label="Search files"]', 'border-top-color') === await style('body', '--interactive-accent').then(x => page.evaluate(v => { const el = document.createElement('div'); el.style.color = v; document.body.append(el); const c = getComputedStyle(el).color; el.remove(); return c; }, x)), 'search focus follows accent');
   await page.locator('[aria-label="New note"]').focus();
   check(await style('[aria-label="New note"]', 'outline-style') === 'solid', 'keyboard focus visible');
+  const noteAction = page.locator('[aria-label="New note"]');
+  const noteActionBox = await noteAction.boundingBox();
+  await noteAction.hover();
+  await page.mouse.down();
+  await settle();
+  check(await style('[aria-label="New note"] > svg', 'scale') === '0.94', 'enabled action gives icon press feedback');
+  assert.deepEqual(await noteAction.boundingBox(), noteActionBox, 'pressed icon retains its button hit area');
+  await page.mouse.up();
+  await settle();
+  check(await style('[aria-label="New note"] > svg', 'scale') === 'none', 'released icon returns to its resting size');
   await page.locator('[aria-label="Disabled action"]').hover();
   await page.mouse.down();
-  check(await style('[aria-label="Disabled action"]', 'scale') === 'none', 'disabled action has no theme press scale');
+  check(await style('[aria-label="Disabled action"] > svg', 'scale') === 'none', 'disabled action has no theme press scale');
   await page.mouse.up();
   await page.emulateMedia({ reducedMotion: 'reduce' });
   check((await style('[aria-label="New note"]', 'transition-duration')).split(',').every(v => parseFloat(v) === 0), 'reduced motion stops theme transitions');
   await page.locator('[aria-label="New note"]').hover();
   await page.mouse.down();
-  check(await style('[aria-label="New note"]', 'scale') === 'none', 'reduced motion stops press scale');
+  check(await style('[aria-label="New note"] > svg', 'scale') === 'none', 'reduced motion stops press scale');
   await page.mouse.up();
+  await page.locator('#dialog').evaluate(el => { el.style.display = 'flex'; });
+  check(await style('#dialog .modal', 'animation-name') === 'none', 'reduced motion skips dialog entrance');
+  await page.locator('#dialog').evaluate(el => { el.style.display = 'none'; });
+  check(await style('.prompt', 'animation-name') === 'none', 'reduced motion skips command palette entrance');
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await cdp.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-transparency', value: 'reduce' }] });
   check(await page.evaluate(() => matchMedia('(prefers-reduced-transparency: reduce)').matches), 'browser supports reduced transparency emulation');

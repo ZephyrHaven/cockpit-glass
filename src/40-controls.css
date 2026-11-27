@@ -1,7 +1,7 @@
-/* Short color transitions acknowledge input without moving or scaling content. */
+/* Animate control feedback without moving the hit area or focus outline. */
 body:is(.theme-light, .theme-dark) :is(.nav-action-button, .workspace-tab-header-inner-close-button, .workspace-tab-header-new-tab .clickable-icon, .workspace-tab-header-tab-list .clickable-icon, .sidebar-toggle-button .clickable-icon, .workspace-ribbon .clickable-icon, .workspace-drawer-vault-actions .clickable-icon, .view-header .clickable-icon) {
   border-radius: var(--radius-s);
-  transition: background-color var(--cg-motion) var(--cg-ease), box-shadow var(--cg-motion) var(--cg-ease), color var(--cg-motion) ease;
+  transition: background-color var(--cg-motion) var(--cg-ease), box-shadow var(--cg-motion) var(--cg-ease), color var(--cg-motion) var(--cg-ease);
 }
 body:is(.theme-light, .theme-dark) :is(.nav-action-button, .workspace-tab-header-new-tab .clickable-icon, .workspace-tab-header-tab-list .clickable-icon, .sidebar-toggle-button .clickable-icon, .workspace-ribbon .clickable-icon, .workspace-drawer-vault-actions .clickable-icon, .view-header .clickable-icon) {
   display: grid;
@@ -23,7 +23,7 @@ body:is(.theme-light, .theme-dark) :is(.nav-action-button, .workspace-tab-header
     box-shadow: none;
   }
   body:is(.theme-light, .theme-dark) .mod-left-split .nav-folder.mod-root > .nav-folder-children > .nav-folder > .nav-folder-title:not(.is-active, .is-selected, .is-being-dragged, .is-being-dragged-over, .is-being-renamed, .has-active-menu, .has-focus):hover {
-    background: linear-gradient(var(--interactive-accent), var(--interactive-accent)) var(--cg-marker-position) center / 2px 14px no-repeat, linear-gradient(90deg, var(--cg-sidebar-row-hover), transparent 90%);
+    background: var(--cg-sidebar-row-hover) linear-gradient(var(--interactive-accent), var(--interactive-accent)) var(--cg-marker-position) center / 2px 14px no-repeat;
     box-shadow: none;
   }
   body:is(.theme-light, .theme-dark) .mod-left-split .nav-file-title:not(.is-active, .is-selected, .is-being-dragged, .is-being-dragged-over, .is-being-renamed, .has-active-menu, .has-focus):hover {
@@ -33,6 +33,15 @@ body:is(.theme-light, .theme-dark) :is(.nav-action-button, .workspace-tab-header
 body:is(.theme-light, .theme-dark) :is(.nav-action-button, .workspace-tab-header-inner-close-button, .workspace-tab-header-new-tab .clickable-icon, .workspace-tab-header-tab-list .clickable-icon, .sidebar-toggle-button .clickable-icon, .workspace-ribbon .clickable-icon, .workspace-drawer-vault-actions .clickable-icon, .view-header .clickable-icon):not(:disabled, .is-disabled, [aria-disabled="true"]):active {
   background-color: var(--cg-control-active);
   transition-duration: var(--cg-motion-fast);
+}
+@media (prefers-reduced-motion: no-preference) {
+  body:is(.theme-light, .theme-dark) :is(.nav-action-button, .view-header .clickable-icon) > svg {
+    transition: scale var(--cg-motion) var(--cg-ease);
+  }
+  body:is(.theme-light, .theme-dark) :is(.nav-action-button, .view-header .clickable-icon):not(:disabled, .is-disabled, [aria-disabled="true"]):active > svg {
+    scale: .94;
+    transition-duration: var(--cg-motion-fast);
+  }
 }
 body:is(.theme-light, .theme-dark) :is(.workspace-tab-header, .tree-item-self, .nav-action-button, .workspace-tab-header-inner-close-button, .workspace-tab-header-new-tab .clickable-icon, .workspace-tab-header-tab-list .clickable-icon, .sidebar-toggle-button .clickable-icon, .workspace-ribbon .clickable-icon, .workspace-drawer-vault-actions .clickable-icon, .view-header .clickable-icon):focus-visible {
   outline: 2px solid var(--interactive-accent);
@@ -58,6 +67,7 @@ body:is(.theme-light, .theme-dark) .status-bar {
   background: color-mix(in srgb, var(--cg-solid) 55%, transparent);
   border-color: var(--cg-hairline);
   color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 @media (prefers-reduced-motion: reduce) {

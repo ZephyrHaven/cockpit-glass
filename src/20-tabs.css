@@ -33,7 +33,7 @@ body:not(.is-mobile):is(.theme-light, .theme-dark) .workspace-tabs:not(.mod-stac
 }
 body:not(.is-mobile):is(.theme-light, .theme-dark) .workspace-tabs:not(.mod-stacked) > .workspace-tab-header-container .workspace-tab-header-inner {
   border-radius: var(--radius-m);
-  transition: background-color var(--cg-motion) var(--cg-ease), box-shadow var(--cg-motion) var(--cg-ease), color var(--cg-motion) ease;
+  transition: background-color var(--cg-motion) var(--cg-ease), box-shadow var(--cg-motion) var(--cg-ease), color var(--cg-motion) var(--cg-ease);
 }
 /* One active-tab language for the root and sidebar tab bars: a faint accent
    tint, a low edge and a lower accent stroke. Stacked tabs keep host styling. */

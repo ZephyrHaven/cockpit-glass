@@ -156,10 +156,11 @@ body {
   --cg-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --radius-m: 10px;
   --radius-l: 18px;
-  --cg-ease: cubic-bezier(.22, 1, .36, 1);
+  --cg-ease: cubic-bezier(.32, .72, 0, 1);
   --cg-motion: 140ms;
-  --cg-marker-position: left;
   --cg-motion-fast: 90ms;
+  --cg-motion-enter: 200ms;
+  --cg-marker-position: left;
   --cg-glass-edge: inset 0 1px 0 var(--cg-edge), inset 0 0 0 1px var(--cg-edge-low);
   --modal-background: var(--cg-solid);
   --modal-border-color: var(--cg-line);

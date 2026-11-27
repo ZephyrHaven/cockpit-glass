@@ -4,6 +4,18 @@ body:is(.theme-light, .theme-dark) .modal {
   box-shadow: inset 0 1px 0 var(--cg-glint), 0 22px 60px var(--cg-shadow-lift);
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  body:not(.is-mobile):is(.theme-light, .theme-dark) :is(.modal-container > .modal, .prompt) {
+    animation: cg-dialog-enter var(--cg-motion-enter) var(--cg-ease);
+  }
+  @keyframes cg-dialog-enter {
+    from {
+      opacity: .8;
+      translate: 0 5px;
+    }
+  }
+}
+
 /* Settings paint one surface only. Nested headers/panes must not add opaque fills. */
 body:is(.theme-light, .theme-dark) .modal:is(.mod-settings, .mod-community-modal) {
   --settings-background: var(--cg-window-surface);
