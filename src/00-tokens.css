@@ -1,130 +1,198 @@
-/* Light palette. One cool neutral ramp drives host base colors, text levels and
-   glass tokens. Contrast targets (WCAG 2.x, against --background-primary):
-   --text-normal 14.3:1, --text-muted 7.2:1, --text-faint 5.7:1 (>= 3:1 on glass). */
+/* Light palette — warm architectural alabaster chrome + luminous porcelain paper.
+   High-craft neutral depth for both opaque and translucent windows.
+   Contrast targets (WCAG 2.x, against --background-primary #fcfcfb):
+   --text-normal ~16.4:1, --text-muted ~7.1:1, --text-faint ~5.2:1. */
 body.theme-light {
-  /* Light palette tuned toward the warm near-white / high-contrast look of the
-     reference glass themes: a #f6f6f6 canvas, deeper #222 body ink, and a rose
-     accent. Contrast stays comfortably above WCAG AA against --background-primary:
-     --text-normal ~15.8:1, --text-muted ~7.4:1, --text-faint ~5.2:1. */
   --color-base-00: #ffffff;
-  --color-base-05: #fbfbfb;
-  --color-base-10: #f6f6f6;
-  --color-base-20: #efefef;
-  --color-base-25: #e9e9e9;
-  --color-base-30: #e1e1e1;
-  --color-base-35: #d2d2d2;
-  --color-base-40: #b6b6b6;
-  --color-base-50: #888888;
-  --color-base-60: #5c5c5c;
-  --color-base-70: #474747;
-  --color-base-100: #1c1c1c;
-  --background-primary: #f6f6f6;
-  --background-primary-alt: #efefef;
-  --background-secondary: #e9e9e9;
-  --background-secondary-alt: #e1e1e1;
-  --background-modifier-border: rgba(30, 30, 30, .16);
-  --background-modifier-border-hover: rgba(30, 30, 30, .26);
-  --text-normal: #222222;
-  --text-muted: #4c4c4c;
-  --text-faint: #5e5e5e;
-  /* Accent intentionally NOT overridden: the light theme follows the user's
-     system accent color (Obsidian Appearance > Accent color), so it matches
-     whatever the OS/app setting is rather than a fixed hue. */
+  --color-base-05: #fcfcfb;
+  --color-base-10: #f7f7f5;
+  --color-base-20: #f1f1ee;
+  --color-base-25: #eaeae6;
+  --color-base-30: #e0e0db;
+  --color-base-35: #d2d3ce;
+  --color-base-40: #b8bac0;
+  --color-base-50: #8a8f98;
+  --color-base-60: #676b74;
+  --color-base-70: #52565e;
+  --color-base-100: #1b1d21;
+
+  --background-primary: #fcfcfb;
+  --background-primary-alt: #f5f5f2;
+  --background-secondary: #f1f1ee;
+  --background-secondary-alt: #e9e9e5;
+  --background-modifier-border: rgba(24, 28, 36, .09);
+  --background-modifier-border-hover: rgba(24, 28, 36, .16);
+  --background-modifier-hover: rgba(24, 28, 36, .05);
+  --background-modifier-form-field: #ffffff;
+  --background-modifier-form-field-hover: #ffffff;
+
+  --text-normal: #1b1d21;
+  --text-muted: #52565e;
+  --text-faint: #676b74;
+  /* Accent follows Obsidian Appearance > Accent color so every user palette works cleanly. */
   --text-on-accent: #ffffff;
-  --interactive-normal: rgba(255, 255, 255, .64);
-  --interactive-hover: rgba(255, 255, 255, .78);
-  --cg-shell: rgba(250, 251, 253, .025);
-  --cg-haze: rgba(255, 255, 255, .025);
-  /* Static glass field: a fixed painting on .workspace::before that stands in
-     for the frosted backdrop. The scrolling note composites against THIS
-     (static) instead of the live macOS window vibrancy, so scrolling and
-     image hover never re-blend per frame — the smear/ghost is gone. Opaque
-     enough in the reading region to cover the desktop; the frosted look comes
-     from the layered gradients + grain on the same fixed layer. */
-  --cg-field: color-mix(in srgb, var(--cg-solid) 10%, transparent);
-  --cg-field-veil: color-mix(in srgb, var(--interactive-accent) 2%, transparent);
-  --cg-grain-opacity: .02;
-  --cg-tab-active: color-mix(in srgb, var(--interactive-accent) 9%, rgba(255, 255, 255, .2));
-  /* Reading mist: half-opaque surface under top-level notes. Text no longer
-     depends on the wallpaper; Style Settings can switch it to clear or solid. */
-  --cg-reading-mist: color-mix(in srgb, var(--cg-solid) 50%, transparent);
+
+  --interactive-normal: #ffffff;
+  --interactive-hover: #f7f7f5;
+
+  /* Glass tokens (macOS translucent window) */
+  --cg-shell: rgba(250, 250, 248, .025);
+  --cg-haze: rgba(255, 255, 255, .04);
+  --cg-field: color-mix(in srgb, var(--cg-solid) 14%, transparent);
+  --cg-field-top: rgba(255, 255, 255, .28);
+  --cg-field-veil: color-mix(in srgb, var(--interactive-accent) 2.5%, transparent);
+  --cg-grain-opacity: .018;
+
+  /* Reading surface */
+  --cg-solid: #fcfcfb;
+  --cg-window-surface: #ffffff;
+  --cg-surface-elevated: #ffffff;
+  --cg-reading-mist: color-mix(in srgb, #ffffff 58%, transparent);
   --cg-reading: var(--cg-reading-mist);
-  --cg-divider: rgba(30, 30, 30, .08);
-  --cg-solid: #f7f7f7;
-  --cg-window-surface: #f7f7f7;
-  --cg-line: rgba(30, 30, 30, .12);
-  --cg-glint: rgba(255, 255, 255, .38);
-  --cg-control: rgba(255, 255, 255, .16);
-  --cg-control-hover: rgba(255, 255, 255, .3);
-  --cg-control-active: rgba(255, 255, 255, .24);
-  --cg-edge: rgba(255, 255, 255, .52);
-  --cg-edge-low: rgba(49, 61, 73, .11);
-  --cg-reflection: rgba(255, 255, 255, .26);
-  --cg-shadow: rgba(30, 42, 55, .09);
-  --cg-shadow-lift: rgba(30, 42, 55, .16);
-  --cg-selection: color-mix(in srgb, var(--interactive-accent) 10%, var(--cg-control-active));
-  --cg-menu-selection: color-mix(in srgb, var(--interactive-accent) 14%, transparent);
-  --cg-hairline: rgba(49, 61, 73, .11);
-  --cg-block: rgba(255, 255, 255, .62);
-  --cg-table-head: rgba(49, 61, 73, .05);
-  --workspace-background-translucent: rgba(250, 251, 253, .025);
+  --cg-reading-edge: rgba(255, 255, 255, .62);
+
+  /* Active tab & navigation pills (glass defaults; overridden for crisp opaque mode in 10-window.css) */
+  --cg-tab-active: rgba(255, 255, 255, .72);
+  --cg-tab-active-shadow: inset 0 1px 0 rgba(255, 255, 255, .92), inset 0 0 0 1px rgba(24, 28, 36, .08), 0 1px 3px rgba(20, 26, 36, .07);
+  --cg-nav-active: rgba(255, 255, 255, .66);
+  --cg-nav-active-shadow: inset 0 1px 0 rgba(255, 255, 255, .85), inset 0 0 0 1px rgba(24, 28, 36, .075), 0 1px 2px rgba(20, 26, 36, .045);
+  --cg-folder-surface: rgba(24, 28, 36, .042);
+  --cg-sheet-shadow: inset 0 1px 0 rgba(255, 255, 255, .78), 0 0 0 1px rgba(24, 28, 36, .075), 0 8px 28px -12px rgba(18, 26, 40, .14);
+
+  /* Controls & optical hairlines */
+  --cg-divider: rgba(24, 28, 36, .08);
+  --cg-line: rgba(24, 28, 36, .11);
+  --cg-hairline: rgba(24, 28, 36, .085);
+  --cg-glint: rgba(255, 255, 255, .65);
+  --cg-edge: rgba(255, 255, 255, .72);
+  --cg-edge-low: rgba(24, 28, 36, .085);
+  --cg-reflection: rgba(255, 255, 255, .36);
+  --cg-control: rgba(255, 255, 255, .28);
+  --cg-control-hover: rgba(255, 255, 255, .52);
+  --cg-control-active: rgba(255, 255, 255, .42);
+  --cg-input-bg: rgba(255, 255, 255, .44);
+  --cg-input-shadow: inset 0 1px 2px rgba(24, 28, 36, .045), inset 0 0 0 1px rgba(24, 28, 36, .085);
+  --cg-sidebar-row-hover: rgba(24, 28, 36, .055);
+
+  /* Elevation shadows */
+  --cg-shadow: rgba(20, 28, 42, .07);
+  --cg-shadow-lift: rgba(18, 26, 40, .15);
+
+  /* Accent-derived washes (restrained and refined) */
+  --cg-selection: color-mix(in srgb, var(--interactive-accent) 10%, transparent);
+  --cg-menu-selection: color-mix(in srgb, var(--interactive-accent) 9%, rgba(24, 28, 36, .03));
+  --cg-menu-selection-ring: color-mix(in srgb, var(--interactive-accent) 18%, transparent);
+
+  /* Content surfaces */
+  --cg-block: rgba(24, 28, 36, .032);
+  --cg-inline-code: rgba(24, 28, 36, .048);
+  --cg-table-head: rgba(24, 28, 36, .03);
+  --cg-table-stripe: rgba(24, 28, 36, .016);
+  --cg-quote-bg: rgba(24, 28, 36, .024);
+  --cg-badge-bg: rgba(24, 28, 36, .055);
+  --cg-status-bg: color-mix(in srgb, #fcfcfb 78%, transparent);
+
+  --workspace-background-translucent: rgba(250, 250, 248, .025);
+  --scrollbar-thumb-bg: rgba(24, 28, 36, .16);
+  --scrollbar-active-thumb-bg: rgba(24, 28, 36, .3);
 }
 
-/* Dark palette. --text-normal 13.7:1, --text-muted 8.2:1, --text-faint 5.7:1
-   against --background-primary; --text-faint stays >= 3.9:1 on dark glass. */
+/* Dark palette — deep obsidian chrome + luminous graphite canvas.
+   Sidebar/chrome stays deeper than the reading canvas for effortless visual focus.
+   Contrast targets (against --background-primary #1c1e24):
+   --text-normal ~14.3:1, --text-muted ~7.0:1, --text-faint ~5.0:1. */
 body.theme-dark {
-  --color-base-00: #18191c;
-  --color-base-05: #1c1e21;
-  --color-base-10: #202226;
-  --color-base-20: #25272b;
-  --color-base-25: #292c31;
-  --color-base-30: #33363c;
-  --color-base-35: #3d4047;
-  --color-base-40: #50545b;
-  --color-base-50: #6c7179;
-  --color-base-60: #959ba3;
-  --color-base-70: #b6bac0;
-  --color-base-100: #eceef0;
-  --background-primary: #202226;
-  --background-primary-alt: #282b30;
-  --background-secondary: #292c31;
-  --background-secondary-alt: #1e2024;
-  --background-modifier-border: rgba(235, 237, 240, .15);
-  --background-modifier-border-hover: rgba(235, 237, 240, .25);
-  --text-normal: #eceef0;
-  --text-muted: #b6bac0;
-  --text-faint: #959ba3;
-  --interactive-normal: rgba(38, 40, 46, .64);
-  --interactive-hover: rgba(52, 55, 62, .78);
-  --cg-shell: rgba(13, 15, 19, .04);
-  --cg-haze: rgba(255, 255, 255, .025);
-  /* See light palette --cg-field; dark needs a little more opacity to cover a
-     bright desktop behind the window. */
-  --cg-field: color-mix(in srgb, var(--cg-solid) 20%, transparent);
+  --color-base-00: #111317;
+  --color-base-05: #15171c;
+  --color-base-10: #191b21;
+  --color-base-20: #1c1e24;
+  --color-base-25: #22252d;
+  --color-base-30: #2a2e37;
+  --color-base-35: #343944;
+  --color-base-40: #464c5a;
+  --color-base-50: #666e7d;
+  --color-base-60: #868e9c;
+  --color-base-70: #a1a8b5;
+  --color-base-100: #eceef2;
+
+  --background-primary: #1c1e24;
+  --background-primary-alt: #22252d;
+  --background-secondary: #15171c;
+  --background-secondary-alt: #111317;
+  --background-modifier-border: rgba(255, 255, 255, .085);
+  --background-modifier-border-hover: rgba(255, 255, 255, .15);
+  --background-modifier-hover: rgba(255, 255, 255, .055);
+  --background-modifier-form-field: #13151a;
+  --background-modifier-form-field-hover: #171a20;
+
+  --text-normal: #eceef2;
+  --text-muted: #a1a8b5;
+  --text-faint: #868e9c;
+  --text-on-accent: #ffffff;
+
+  --interactive-normal: #242831;
+  --interactive-hover: #2d323d;
+
+  /* Glass tokens (macOS translucent window) */
+  --cg-shell: rgba(12, 14, 18, .04);
+  --cg-haze: rgba(255, 255, 255, .02);
+  --cg-field: color-mix(in srgb, #14161c 22%, transparent);
+  --cg-field-top: rgba(255, 255, 255, .045);
   --cg-field-veil: color-mix(in srgb, var(--interactive-accent) 3%, transparent);
-  --cg-grain-opacity: .03;
-  --cg-tab-active: color-mix(in srgb, var(--interactive-accent) 9%, rgba(255, 255, 255, .03));
-  --cg-reading-mist: color-mix(in srgb, var(--cg-solid) 45%, transparent);
+  --cg-grain-opacity: .024;
+
+  /* Reading surface */
+  --cg-solid: #1c1e24;
+  --cg-window-surface: #1f222a;
+  --cg-surface-elevated: #252933;
+  --cg-reading-mist: color-mix(in srgb, #191b22 52%, transparent);
   --cg-reading: var(--cg-reading-mist);
+  --cg-reading-edge: rgba(255, 255, 255, .06);
+
+  /* Active tab & navigation pills */
+  --cg-tab-active: rgba(255, 255, 255, .105);
+  --cg-tab-active-shadow: inset 0 1px 0 rgba(255, 255, 255, .18), inset 0 0 0 1px rgba(255, 255, 255, .085), 0 1px 4px rgba(0, 0, 0, .24);
+  --cg-nav-active: rgba(255, 255, 255, .09);
+  --cg-nav-active-shadow: inset 0 1px 0 rgba(255, 255, 255, .13), inset 0 0 0 1px rgba(255, 255, 255, .065);
+  --cg-folder-surface: rgba(255, 255, 255, .042);
+  --cg-sheet-shadow: inset 0 1px 0 rgba(255, 255, 255, .09), 0 0 0 1px rgba(255, 255, 255, .07), 0 12px 32px -12px rgba(0, 0, 0, .42);
+
+  /* Controls & optical hairlines */
   --cg-divider: rgba(255, 255, 255, .07);
-  --cg-solid: #27292f;
-  --cg-window-surface: #27292f;
-  --cg-line: rgba(255, 255, 255, .09);
-  --cg-glint: rgba(255, 255, 255, .1);
-  --cg-control: rgba(255, 255, 255, .025);
-  --cg-control-hover: rgba(255, 255, 255, .075);
-  --cg-control-active: rgba(255, 255, 255, .065);
-  --cg-edge: rgba(255, 255, 255, .17);
-  --cg-edge-low: rgba(255, 255, 255, .045);
-  --cg-reflection: rgba(255, 255, 255, .075);
-  --cg-shadow: rgba(5, 8, 14, .2);
-  --cg-shadow-lift: rgba(0, 0, 0, .42);
-  --cg-selection: color-mix(in srgb, var(--interactive-accent) 13%, var(--cg-control-active));
-  --cg-menu-selection: color-mix(in srgb, var(--interactive-accent) 22%, transparent);
-  --cg-hairline: rgba(255, 255, 255, .085);
-  --cg-block: rgba(8, 10, 14, .28);
-  --cg-table-head: rgba(255, 255, 255, .05);
-  --workspace-background-translucent: rgba(13, 15, 19, .04);
+  --cg-line: rgba(255, 255, 255, .1);
+  --cg-hairline: rgba(255, 255, 255, .075);
+  --cg-glint: rgba(255, 255, 255, .11);
+  --cg-edge: rgba(255, 255, 255, .15);
+  --cg-edge-low: rgba(255, 255, 255, .06);
+  --cg-reflection: rgba(255, 255, 255, .06);
+  --cg-control: rgba(255, 255, 255, .04);
+  --cg-control-hover: rgba(255, 255, 255, .085);
+  --cg-control-active: rgba(255, 255, 255, .12);
+  --cg-input-bg: rgba(10, 12, 16, .28);
+  --cg-input-shadow: inset 0 1px 2px rgba(0, 0, 0, .22), inset 0 0 0 1px rgba(255, 255, 255, .075);
+  --cg-sidebar-row-hover: rgba(255, 255, 255, .055);
+
+  /* Elevation shadows */
+  --cg-shadow: rgba(0, 0, 0, .28);
+  --cg-shadow-lift: rgba(0, 0, 0, .52);
+
+  /* Accent-derived washes */
+  --cg-selection: color-mix(in srgb, var(--interactive-accent) 12%, transparent);
+  --cg-menu-selection: color-mix(in srgb, var(--interactive-accent) 10%, rgba(255, 255, 255, .055));
+  --cg-menu-selection-ring: color-mix(in srgb, var(--interactive-accent) 22%, transparent);
+
+  /* Content surfaces */
+  --cg-block: rgba(9, 11, 16, .34);
+  --cg-inline-code: rgba(255, 255, 255, .065);
+  --cg-table-head: rgba(255, 255, 255, .042);
+  --cg-table-stripe: rgba(255, 255, 255, .018);
+  --cg-quote-bg: rgba(255, 255, 255, .026);
+  --cg-badge-bg: rgba(255, 255, 255, .075);
+  --cg-status-bg: color-mix(in srgb, #181a21 76%, transparent);
+
+  --workspace-background-translucent: rgba(12, 14, 18, .04);
+  --scrollbar-thumb-bg: rgba(255, 255, 255, .14);
+  --scrollbar-active-thumb-bg: rgba(255, 255, 255, .26);
 }
 
 /* Style Settings: reading surface (see src/style-settings.yaml). */
@@ -137,33 +205,35 @@ body.cg-reading-solid:is(.theme-light, .theme-dark) {
 
 body {
   /* Typography: Figtree drives the interface and reading text (embedded in
-     05-fonts.css). These are theme-level hooks UNDER Obsidian's user font
-     preference (host:3191/3194), so a user who picks their own font still wins.
-     Monospace keeps the system stack for crisp code. */
+     05-fonts.css). User-chosen fonts in Obsidian Appearance still win. */
   --font-interface-theme: "Figtree", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Source Han Sans SC", "Segoe UI", sans-serif;
   --font-text-theme: "Figtree", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Source Han Sans SC", "Segoe UI", sans-serif;
   --font-monospace-theme: "SF Mono", "JetBrains Mono", "Fira Code", Consolas, monospace;
-  /* CJK companion: Latin glyphs come from Figtree, ideographs fall to the
-     best native black-face in order (PingFang SC on macOS). This keeps a
-     single visual weight/finish across mixed Chinese + English text instead
-     of letting CJK fall back to an arbitrary default UI font. */
-  --radius-s: 8px;
-  /* Inline SVG grain (no remote asset): a static film grain painted once on the
-     glass field. feTurbulence noise, tileable. Kept as a token so the intensity
-     (--cg-grain-opacity) can be dialled per palette / accessibility preset. */
-  --cg-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  --radius-s: 7px;
   --radius-m: 10px;
-  --radius-l: 18px;
+  --radius-l: 16px;
+  --button-radius: 8px;
+  --checkbox-radius: 5px;
+  --input-radius: 9px;
+
+  /* Inline SVG film grain (no remote asset), painted once on the static field. */
+  --cg-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
   --cg-ease: cubic-bezier(.32, .72, 0, 1);
   --cg-motion: 140ms;
   --cg-motion-fast: 90ms;
-  --cg-motion-enter: 200ms;
-  --cg-sidebar-row-hover: color-mix(in srgb, var(--text-normal) 12%, transparent);
+  --cg-motion-enter: 190ms;
+
   --cg-glass-edge: inset 0 1px 0 var(--cg-edge), inset 0 0 0 1px var(--cg-edge-low);
-  --modal-background: var(--cg-solid);
+
+  --modal-background: var(--cg-window-surface);
   --modal-border-color: var(--cg-line);
   --modal-radius: var(--radius-l);
   --list-marker-color: var(--text-faint);
   --checkbox-border-color: var(--text-faint);
   --checkbox-border-color-hover: var(--text-muted);
+  --divider-width: 1px;
+  --scrollbar-width: 8px;
+  --scrollbar-radius: 999px;
 }

@@ -1,4 +1,4 @@
-/* Animate control feedback without moving the hit area or focus outline. */
+/* Crisp, responsive control feedback without shifting hit areas or focus rings. */
 body:is(.theme-light, .theme-dark) :is(.nav-action-button, .workspace-tab-header-inner-close-button, .workspace-tab-header-new-tab .clickable-icon, .workspace-tab-header-tab-list .clickable-icon, .sidebar-toggle-button .clickable-icon, .workspace-ribbon .clickable-icon, .workspace-drawer-vault-actions .clickable-icon, .view-header .clickable-icon) {
   border-radius: var(--radius-s);
   transition: background-color var(--cg-motion) var(--cg-ease), box-shadow var(--cg-motion) var(--cg-ease), color var(--cg-motion) var(--cg-ease);
@@ -44,28 +44,50 @@ body:is(.theme-light, .theme-dark) :is(.workspace-tab-header, .tree-item-self, .
   outline-offset: -2px;
 }
 
-/* Search has its own shallow surface; the surrounding sidebar stays clear. */
+/* Search input: refined recessed trough in both opaque and translucent modes. */
 body:is(.theme-light, .theme-dark) :is(.mod-left-split, .mod-right-split) .search-input-container input {
-  background: var(--cg-control);
-  border-color: var(--cg-edge-low);
-  border-radius: var(--radius-m);
-  box-shadow: inset 0 1px 0 var(--cg-glint);
-  transition: background-color var(--cg-motion) ease, box-shadow var(--cg-motion) ease;
+  background: var(--cg-input-bg);
+  border: 1px solid transparent;
+  border-radius: var(--input-radius);
+  box-shadow: var(--cg-input-shadow);
+  font-size: 13px;
+  transition: background-color var(--cg-motion) var(--cg-ease), box-shadow var(--cg-motion) var(--cg-ease);
+}
+body:is(.theme-light, .theme-dark) :is(.mod-left-split, .mod-right-split) .search-input-container input:hover:not(:focus) {
+  border-color: var(--cg-line);
 }
 body:is(.theme-light, .theme-dark) :is(.mod-left-split, .mod-right-split) .search-input-container input:focus {
-  background: var(--cg-control-hover);
+  background: var(--cg-surface-elevated);
   border-color: var(--interactive-accent);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--interactive-accent) 20%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--interactive-accent) 18%, transparent);
 }
-/* The status bar floats over glass; a thin mist and hairline keep its 12px
-   text legible (text-muted 7.2:1 light / 8.2:1 dark on the solid surface). */
+
+/* Empty tab actions & standard buttons: crisp macOS tactile pills. */
+body:is(.theme-light, .theme-dark) .empty-state-action {
+  border-radius: 999px;
+  border: 1px solid var(--cg-hairline);
+  background: var(--cg-tab-active);
+  box-shadow: var(--cg-tab-active-shadow);
+  transition: background-color var(--cg-motion) var(--cg-ease), border-color var(--cg-motion) var(--cg-ease), box-shadow var(--cg-motion) var(--cg-ease), color var(--cg-motion) var(--cg-ease);
+}
+@media (hover: hover) {
+  body:is(.theme-light, .theme-dark) .empty-state-action:hover {
+    border-color: var(--cg-line);
+    background: var(--cg-control-hover);
+  }
+}
+
+/* Status bar: quiet frosted pill strip with tabular figures. */
 body:is(.theme-light, .theme-dark) .status-bar {
-  background: color-mix(in srgb, var(--cg-solid) 55%, transparent);
+  background: var(--cg-status-bg);
   border-color: var(--cg-hairline);
   color: var(--text-muted);
   font-variant-numeric: tabular-nums;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body:is(.theme-light, .theme-dark) { --cg-motion: 0ms; --cg-motion-fast: 0ms; }
+  body:is(.theme-light, .theme-dark) {
+    --cg-motion: 0ms;
+    --cg-motion-fast: 0ms;
+  }
 }

@@ -279,7 +279,11 @@ try {
   await page.locator('#folder').evaluate((el, className) => { el.className = className; }, normalFolderClass);
   await classes('theme-light mod-rtl');
   await settle();
-  check((await style('.nav-file-title.is-active', 'box-shadow')).endsWith('-2px 0px 0px 0px inset'), 'RTL active file marker mirrored');
+  const rtlMarker = await page.locator('.nav-file-title.is-active').first().evaluate(el => {
+    const css = getComputedStyle(el, '::before');
+    return { right: css.right, width: parseFloat(css.width) };
+  });
+  check(rtlMarker.right === '3px' && rtlMarker.width >= 2, 'RTL active file marker mirrored');
 
   await classes('theme-light mod-macos is-focused');
   await page.locator('[aria-label="Search files"]').focus();
@@ -339,6 +343,7 @@ try {
   check(await style('#bar', 'display') === 'none', 'mobile: native hidden tab bar retained');
   check(parseFloat(await style('[aria-label="New note"]', 'min-width')) >= 44, 'mobile touch targets at least 44px');
   await load(theme, false);
+  await settle();
   check(!clear(await style('#folder', 'background-color')), 'expanded folder styling supports the legacy file tree');
   await classes('theme-light mod-macos');
   await page.locator('.mod-root > .workspace-tabs').evaluate(el => el.classList.add('mod-stacked'));

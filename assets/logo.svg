@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="Cockpit Glass">
+  <title>Cockpit Glass</title>
+  <defs>
+    <linearGradient id="cg-bg" x1="16" y1="8" x2="112" y2="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#272d3b"/>
+      <stop offset="52%" stop-color="#191d27"/>
+      <stop offset="100%" stop-color="#12151d"/>
+    </linearGradient>
+    <radialGradient id="cg-glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(36 22) rotate(48) scale(96 84)">
+      <stop offset="0%" stop-color="#8b9cf9" stop-opacity="0.34"/>
+      <stop offset="55%" stop-color="#60a5fa" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#12151d" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="cg-rim" x1="64" y1="6" x2="64" y2="122" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.32"/>
+      <stop offset="35%" stop-color="#ffffff" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.04"/>
+    </linearGradient>
+    <linearGradient id="cg-sheet" x1="50" y1="30" x2="104" y2="102" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.24"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="cg-sheet-stroke" x1="77" y1="30" x2="77" y2="102" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.52"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.12"/>
+    </linearGradient>
+    <linearGradient id="cg-accent" x1="25" y1="48" x2="25" y2="62" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#a5b4fc"/>
+      <stop offset="100%" stop-color="#60a5fa"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Outer squircle shell -->
+  <rect x="6" y="6" width="116" height="116" rx="28" fill="url(#cg-bg)"/>
+  <rect x="6" y="6" width="116" height="116" rx="28" fill="url(#cg-glow)"/>
+  <rect x="6.75" y="6.75" width="114.5" height="114.5" rx="27.25" stroke="url(#cg-rim)" stroke-width="1.5"/>
+
+  <!-- Subtle traffic-light dots -->
+  <circle cx="26" cy="24" r="2.75" fill="#ffffff" fill-opacity="0.32"/>
+  <circle cx="35.5" cy="24" r="2.75" fill="#ffffff" fill-opacity="0.2"/>
+  <circle cx="45" cy="24" r="2.75" fill="#ffffff" fill-opacity="0.14"/>
+
+  <!-- Top active tab pill -->
+  <rect x="56" y="19.5" width="34" height="9" rx="4.5" fill="#ffffff" fill-opacity="0.18" stroke="#ffffff" stroke-opacity="0.24" stroke-width="0.8"/>
+
+  <!-- Sidebar rail items -->
+  <rect x="21" y="38" width="21" height="4.5" rx="2.25" fill="#ffffff" fill-opacity="0.16"/>
+  <rect x="19" y="48" width="25" height="13" rx="4.5" fill="#ffffff" fill-opacity="0.12" stroke="#ffffff" stroke-opacity="0.14" stroke-width="0.75"/>
+  <rect x="22" y="51" width="2.5" height="7" rx="1.25" fill="url(#cg-accent)"/>
+  <rect x="28" y="52.75" width="12" height="3.5" rx="1.75" fill="#ffffff" fill-opacity="0.72"/>
+  <rect x="21" y="68" width="18" height="4" rx="2" fill="#ffffff" fill-opacity="0.14"/>
+  <rect x="21" y="78" width="20" height="4" rx="2" fill="#ffffff" fill-opacity="0.1"/>
+
+  <!-- Elevated frosted-glass document sheet -->
+  <rect x="50" y="35" width="57" height="70" rx="12" fill="url(#cg-sheet)"/>
+  <rect x="50.6" y="35.6" width="55.8" height="68.8" rx="11.4" stroke="url(#cg-sheet-stroke)" stroke-width="1.2"/>
+
+  <!-- Minimal editorial content lines inside the sheet -->
+  <rect x="60" y="47" width="28" height="5.5" rx="2.75" fill="#ffffff" fill-opacity="0.88"/>
+  <rect x="60" y="59" width="37" height="3.5" rx="1.75" fill="#ffffff" fill-opacity="0.34"/>
+  <rect x="60" y="67.5" width="33" height="3.5" rx="1.75" fill="#ffffff" fill-opacity="0.26"/>
+  <rect x="60" y="76" width="24" height="3.5" rx="1.75" fill="#ffffff" fill-opacity="0.2"/>
+  <rect x="60" y="87" width="37" height="9" rx="4" fill="#ffffff" fill-opacity="0.09" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.75"/>
+</svg>

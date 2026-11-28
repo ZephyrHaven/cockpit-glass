@@ -1,117 +1,189 @@
-<h1 align="center">Cockpit Glass</h1>
+<div align="center">
 
-<h3 align="center">A standalone light &amp; dark frosted-glass theme for <a href="https://obsidian.md">Obsidian</a></h3>
+<img src="./assets/logo.svg" width="84" height="84" alt="Cockpit Glass logo" />
 
-<p align="center">
-  <a href="https://github.com/ZephyrHaven/cockpit-glass/releases/latest"><img alt="Download" src="https://img.shields.io/badge/download-latest-111?style=for-the-badge&logo=obsidian"></a>
-  <img alt="Version" src="https://img.shields.io/badge/version-1.4.1-111?style=for-the-badge">
-  <img alt="Min app" src="https://img.shields.io/badge/app-1.14.0%2B-111?style=for-the-badge">
-  <img alt="License" src="https://img.shields.io/badge/license-MIT-111?style=for-the-badge">
+<h1>Cockpit Glass</h1>
+
+<p><strong>A serene optical-glass &amp; architectural theme for Obsidian — refined with or without translucency.</strong></p>
+
+<p>
+  <a href="https://github.com/ZephyrHaven/cockpit-glass/releases/latest">
+    <img alt="Latest Release" src="https://img.shields.io/github/v/release/ZephyrHaven/cockpit-glass?style=flat-square&logo=github&label=Release&color=24292f" />
+  </a>
+  <img alt="Obsidian 1.14.0+" src="https://img.shields.io/badge/Obsidian-1.14.0%2B-7c3aed?style=flat-square&logo=obsidian&logoColor=white" />
+  <img alt="Light & Dark" src="https://img.shields.io/badge/Mode-Light%20%26%20Dark-475569?style=flat-square" />
+  <img alt="Offline Ready" src="https://img.shields.io/badge/Offline-Zero%20Requests-0f766e?style=flat-square" />
+  <a href="./LICENSE">
+    <img alt="MIT License" src="https://img.shields.io/badge/License-MIT-334155?style=flat-square" />
+  </a>
 </p>
 
-**English** · [简体中文](./README.zh-CN.md) · [Architecture](./docs/ARCHITECTURE.md) · [Audit](./docs/AUDIT.md)
+<p>
+  <strong>English</strong> ·
+  <a href="./README.zh-CN.md">简体中文</a> ·
+  <a href="#preview">Preview</a> ·
+  <a href="#highlights">Highlights</a> ·
+  <a href="#installation">Install</a> ·
+  <a href="./docs/ARCHITECTURE.md">Architecture</a>
+</p>
 
-One continuous sheet of frosted glass across the whole window, quiet navigation, gentle control feedback and comfortable reading typography. It follows your accent color and needs **no plugins, remote fonts, images or network requests**.
+</div>
 
-## Screenshots
+---
 
-<p align="center"><img src="./screenshots/cockpit-glass-light.png" width="900" alt="Cockpit Glass in light mode"></p>
-<p align="center"><em>Light mode — follows your system accent color</em></p>
+**Cockpit Glass** is a standalone light & dark theme for [Obsidian](https://obsidian.md). It pairs a calm, recessed outer shell with an elevated rounded reading sheet, tactile pill tabs, crisp file-tree hierarchy, and publication-grade Markdown typography — engineered to look just as deliberate in **opaque desktop mode** as it does over **native macOS translucency**.
 
-<p align="center"><img src="./screenshots/cockpit-glass-dark.png" width="900" alt="Cockpit Glass in dark mode"></p>
-<p align="center"><em>Dark mode</em></p>
+> [!TIP]
+> **100% standalone & offline.** No required plugins, no remote fonts or images, no runtime scripts, no persistent `backdrop-filter` smear, and zero `!important` overrides so your personal CSS snippets stay in control.
 
-> Captured from the real macOS interface with synthetic content. The Cockpit tab and AI shortcut come from the optional Cockpit Dashboard plugin — the theme works fully on its own.
+<br />
 
-## Main features
+## Preview
 
-<details>
-<summary><b>1. Glassy, single-window design</b></summary>
+<p align="center">
+  <img src="./screenshots/cockpit-glass-light.png" width="900" alt="Cockpit Glass — Light Mode" />
+  <br />
+  <sub><strong>Light Mode</strong> — Warm alabaster frame, luminous porcelain sheet &amp; system accent</sub>
+</p>
 
-The entire window shares one continuous frosted surface. Navigation panes, tabs, controls and dialogs sit on it with soft hairlines and subtle hover feedback. The glass field is painted once on a static layer, so scrolling long notes and hovering images never re-blend the backdrop per frame — no smear, ghosting or color blocks under native macOS translucency.
-</details>
+<br />
 
-<details>
-<summary><b>2. Follows your accent color</b></summary>
+<p align="center">
+  <img src="./screenshots/cockpit-glass-dark.png" width="900" alt="Cockpit Glass — Dark Mode" />
+  <br />
+  <sub><strong>Dark Mode</strong> — Deep obsidian frame, elevated graphite canvas &amp; crisp specular edges</sub>
+</p>
 
-Both light and dark modes read the accent from **Settings → Appearance → Accent color**. Nothing is hard-coded, so highlights, selections, links and dividers take on whatever color you choose.
-</details>
+> [!NOTE]
+> Captured from macOS using synthetic content. The Cockpit tab and AI shortcut shown in the screenshot come from the optional Cockpit Dashboard plugin — **Cockpit Glass works completely independently**.
 
-<details>
-<summary><b>3. Comfortable typography with bundled Figtree</b></summary>
+<br />
 
-Figtree (SIL OFL, embedded — offline, no network) drives the Latin glyphs of the interface and reading text; Chinese automatically falls back to the system black face (PingFang on macOS) so mixed Chinese + English stays visually consistent. Any font you pick in Appearance still overrides it.
-</details>
+## Highlights
 
-<details>
-<summary><b>4. Reading surface option (Style Settings)</b></summary>
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <h3>Crafted for Opaque &amp; Glass Alike</h3>
+      <p><strong>Without translucency</strong>, warm alabaster / deep obsidian chrome frames a softly elevated, rounded document sheet — never a flat fallback. <strong>With macOS translucency</strong>, a static frosted field eliminates scroll ghosting while letting wallpaper tones breathe softly through.</p>
+    </td>
+    <td width="50%" valign="top">
+      <h3>Restrained, System-First Accent</h3>
+      <p>Reads your accent directly from <strong>Settings → Appearance → Accent color</strong>. Structural surfaces stay calm and neutral, reserving your accent for deliberate touches: active file markers, tab icons, focus rings, checkboxes, and links.</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <h3>Tactile Tabs &amp; Airy File Tree</h3>
+      <p>Pipe dividers and harsh chrome seams are gone. Active tabs float as crisp neutral pills with delicate top catch-lights; active files pair an elevated pill with an independent rounded vertical accent mark and compact extension badges.</p>
+    </td>
+    <td width="50%" valign="top">
+      <h3>Editorial Typography &amp; Bundled Figtree</h3>
+      <p>Shared <code>1.7</code> line height across Reading, Live Preview, and Source modes. Embedded offline <strong>Figtree</strong> (SIL OFL) pairs seamlessly with native CJK sans-serifs, alongside open-edge tables, soft blockquotes, fade-out dividers, and layered code blocks.</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <h3>Unified Floating Surfaces</h3>
+      <p>Command palette, quick switcher, context menus, popovers, and Settings share one calibrated floating material — subtle hairlines, multi-layered elevation shadows, tactile keycap badges, and refined row selection.</p>
+    </td>
+    <td width="50%" valign="top">
+      <h3>Accessibility &amp; Native Respect</h3>
+      <p>WCAG AA contrast across normal, muted, and faint ink (≥ 5:1 on solid). Full support for <em>Reduce transparency</em>, <em>Reduce motion</em>, <em>Forced colors</em>, RTL mirroring, stacked tabs, native drag/rename states, and 44px mobile touch targets.</p>
+    </td>
+  </tr>
+</table>
 
-With the optional [Style Settings](https://github.com/mgmeyers/obsidian-style-settings) plugin: **Settings → Style Settings → Cockpit Glass → Reading surface**.
+<br />
 
-- **Mist** (default) — a half-opaque layer under top-level notes keeps text legible on any wallpaper.
-- **Clear glass** — shows the window glass directly.
-- **Solid** — fully opaque.
+## Reading Surface & Platform Modes
 
-Without the plugin the theme uses Mist. When the system *Reduce transparency* is on, notes are always solid.
-</details>
+Optional [Style Settings](https://github.com/mgmeyers/obsidian-style-settings) support is built right in (**Settings → Style Settings → Cockpit Glass → Reading surface**):
 
-<details>
-<summary><b>5. Readable secondary text &amp; components</b></summary>
+| Mode | Best for | Visual behavior |
+| :--- | :--- | :--- |
+| **Mist** *(default)* | macOS with Translucent Window | Rounded frosted-crystal reading sheet (~55% opacity) keeps body text effortlessly readable on any wallpaper. |
+| **Clear glass** | Minimalists on subtle wallpapers | Removes the reading sheet backdrop and frame so notes float directly on the continuous glass field. |
+| **Solid** | Maximum contrast & focus | Fully opaque document sheet over translucent chrome — automatically enforced whenever system *Reduce transparency* is enabled. |
+| **Opaque Desktop** | Windows, Linux, Fullscreen & non-translucent macOS | Seamless recessed outer shell framing an elevated porcelain (light) or graphite (dark) document sheet. |
 
-List markers, placeholders, unchecked checkboxes and other faint text reach about 5.7:1 contrast on solid surfaces and at least 3:1 on glass; muted text is 7:1 or higher. Code blocks and table headers get their own surface; callouts, tags, properties, embeds, graph, canvas and PDF follow the theme palette and radius.
-</details>
+<br />
 
-<details>
-<summary><b>6. Menus, tabs &amp; accessibility</b></summary>
+## Installation
 
-Menus, the command palette, suggestions and hover previews share one floating style with an accent-tinted selection; root and sidebar tabs use the same active style. *Reduce transparency* turns every glass layer solid; forced-colors mode keeps selection, focus and floating borders; on mobile, touch targets are 44px and inputs 16px to avoid iOS zoom.
-</details>
+### From GitHub Releases *(Recommended)*
 
-## Install
+1. Download the latest `Cockpit-Glass-<version>.zip` from [**Releases**](https://github.com/ZephyrHaven/cockpit-glass/releases/latest).
+2. Extract the `Cockpit Glass` folder into your vault's `.obsidian/themes/` directory.
+3. Open **Settings → Appearance → Themes** and select **Cockpit Glass**.
 
-1. Download the ZIP from [Releases](https://github.com/ZephyrHaven/cockpit-glass/releases/latest).
-2. Unzip the `Cockpit Glass` folder into your vault's `.obsidian/themes/` folder.
-3. Pick **Cockpit Glass** in **Settings → Appearance → Themes**.
+### Manual Files
 
-Prefer manual files? Copy the release's `theme.css` and `manifest.json` into `.obsidian/themes/Cockpit Glass/`. No Node.js, build step or plugin is needed for end users.
+Copy `theme.css` and `manifest.json` from the release into `.obsidian/themes/Cockpit Glass/`. End users need no Node.js, build step, or helper plugins.
 
-On macOS, **Translucent window** is optional — notes sit on a light reading mist over the native window glass, so text stays legible on any wallpaper. Windows, Linux, fullscreen and detached settings windows use solid fallbacks (CSS cannot blur the desktop wallpaper there). To uninstall, choose another theme and delete this theme's folder; the theme stores no user data.
+> [!TIP]
+> On macOS, **Translucent window** is completely optional — try both modes in **Settings → Appearance** and pick whichever feels calmer for your desktop. To uninstall, switch to another theme and delete the `Cockpit Glass` folder; the theme stores no user data.
+
+<br />
 
 ## Support
 
 <p align="center">
-  <a href="https://afdian.com/a/zephyrhaven"><img src="./assets/afdian-badge.svg" alt="Support on Afdian"></a>
+  <a href="https://afdian.com/a/zephyrhaven">
+    <img src="./assets/afdian-badge.svg" alt="Support on Afdian" />
+  </a>
 </p>
 
-If Cockpit Glass is useful to you, you can support its ongoing development on [Afdian](https://afdian.com/a/zephyrhaven). Thank you!
+<p align="center">
+  <sub>If Cockpit Glass makes your daily writing quieter and more enjoyable, consider supporting ongoing maintenance on <a href="https://afdian.com/a/zephyrhaven">Afdian</a> or starring the repository.</sub>
+</p>
 
-## Maintain &amp; deploy
+<br />
 
-This is a source project; the install result is just two files:
+## Development & Deployment
+
+<details>
+<summary><strong>Build pipeline, verification suite, and one-command local deploy</strong></summary>
+
+<br />
+
+Styles are maintained in modular CSS files under `src/` with explicit cascade order in `theme.config.json`. Never edit the generated root `theme.css` by hand.
 
 ```text
-src/*.css → build.js → theme.css + dist/
-                              ├── theme.css
-                              ├── manifest.json
-                              ├── Cockpit-Glass-<version>.zip
-                              └── SHA256SUMS.txt
+src/*.css ──▶ build.js (Lightning CSS) ──▶ theme.css + dist/
+                                                       ├── theme.css
+                                                       ├── manifest.json
+                                                       ├── Cockpit-Glass-<version>.zip
+                                                       └── SHA256SUMS.txt
 ```
-
-Edit the modules under `src/`; their cascade order is declared in `theme.config.json`. Root `theme.css` is generated and committed for the community directory — never edit it by hand.
 
 ```sh
 npm ci
-npm test            # build + validate + tooling tests
-npm run release:check
-npm run test:ui     # browser checks (needs local host CSS + Chromium)
+npm test                 # build + manifest/CSS constraints + deployment tests
+npm run build:check      # verify generated outputs match src/
+npm run release:check    # verify release notes, archive, checksums & screenshot
+npm run test:ui          # 190+ Chromium checks against local host CSS
 ```
 
-One-command deployment on macOS/Linux builds, validates, backs up the installed theme, then copies only the two runtime files:
+Deploy directly to a local vault (builds, validates, backs up previous files to `.cockpit-backups/`, and replaces only `theme.css` and `manifest.json` atomically):
 
 ```sh
+# macOS / Linux
 bash deploy.sh --vault /path/to/vault
+
+# Custom config directory
+bash deploy.sh --vault /path/to/vault --config-dir custom-config
+
+# Windows
+npm run deploy -- --vault C:/path/to/vault
 ```
 
-Add `--config-dir custom-config` for a custom config directory, or copy `deploy.local.example.json` to `deploy.local.json` and run `bash deploy.sh` with no arguments. On Windows: `npm ci` once, then `npm run deploy -- --vault C:/path/to/vault`. Backups live in `.cockpit-backups/`. See [architecture](./docs/ARCHITECTURE.md) and [releasing](./docs/RELEASING.md).
+Or copy `deploy.local.example.json` to `deploy.local.json` (git-ignored) and run `bash deploy.sh` with no arguments. For engineering boundaries and release checklists, see [Architecture](./docs/ARCHITECTURE.md), [Releasing](./docs/RELEASING.md), and [Audit](./docs/AUDIT.md).
 
-MIT License. Original attribution is preserved in [LICENSE](./LICENSE).
+</details>
+
+---
+
+<p align="center">
+  <sub>Released under the <a href="./LICENSE">MIT License</a> · Crafted by <a href="https://github.com/ZephyrHaven">ZephyrHaven</a></sub>
+</p>

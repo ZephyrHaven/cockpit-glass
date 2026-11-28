@@ -1,31 +1,42 @@
-/* File-tree hierarchy uses one shallow surface for expanded section headers. */
+/* File tree & sidebars — airy architectural hierarchy with subtle folder
+   grouping and a crisp elevated active pill + floating vertical accent mark. */
+body:is(.theme-light, .theme-dark) {
+  --nav-collapse-icon-color: var(--text-faint);
+  --nav-collapse-icon-color-collapsed: var(--text-faint);
+  --nav-indentation-guide-color: var(--cg-hairline);
+  --nav-indentation-guide-width: 1px;
+  --nav-item-size: 13px;
+}
+
 body:is(.theme-light, .theme-dark) .mod-left-split .nav-files-container {
   position: relative;
-  padding-inline: 10px 12px;
-  padding-bottom: 16px;
+  padding-inline: 10px 10px;
+  padding-bottom: 18px;
 }
 body:is(.theme-light, .theme-dark) :is(.mod-left-split, .mod-right-split) .tree-item-self {
-  margin-block: 1px;
-  padding-block: 4px;
+  margin-block: 1.5px;
+  padding-block: 4.5px;
   line-height: 1.4;
+  border-radius: var(--radius-s);
   transition: background-color var(--cg-motion) var(--cg-ease), box-shadow var(--cg-motion) var(--cg-ease), color var(--cg-motion) var(--cg-ease);
 }
 body:is(.theme-light, .theme-dark) :is(.mod-left-split, .mod-right-split) .tree-item-self.is-active .tree-item-icon {
   color: var(--interactive-accent);
 }
 body:is(.theme-light, .theme-dark) :is(.mod-left-split, .mod-right-split) .nav-folder-title {
-  font-weight: 500;
+  font-weight: 550;
+  letter-spacing: -.005em;
   color: var(--text-normal);
 }
+
 body:not(.is-mobile):is(.theme-light, .theme-dark) .nav-files-container {
-  --cg-folder-surface: color-mix(in srgb, var(--text-normal) 7%, transparent);
-  --cg-selection: color-mix(in srgb, var(--interactive-accent) 22%, transparent);
   padding-inline: 8px;
 }
-/* Virtual file trees use a plain root wrapper, while older trees use .mod-root. */
+/* Top-level folders: calm section headers with distinct rhythm. */
 body:not(.is-mobile):is(.theme-light, .theme-dark) :is(.nav-files-container .nav-folder.mod-root > .nav-folder-children, .nav-files-container > div) > .nav-folder > .nav-folder-title {
   padding-block: 6px;
-  font-weight: 650;
+  font-weight: 600;
+  font-size: 13px;
 }
 body:not(.is-mobile):is(.theme-light, .theme-dark) :is(.nav-files-container .nav-folder.mod-root > .nav-folder-children, .nav-files-container > div) > .nav-folder:not(.is-collapsed) + :is(.nav-folder, .nav-file) {
   margin-block-start: 8px;
@@ -37,62 +48,94 @@ body:not(.is-mobile):is(.theme-light, .theme-dark) .nav-files-container .nav-fol
   padding-block-start: 3px;
 }
 body:not(.is-mobile):is(.theme-light, .theme-dark) .nav-files-container .nav-file-title {
-  padding-block: 3px;
-  padding-inline-end: 5px;
+  padding-block: 3.5px;
+  padding-inline-end: 7px;
   line-height: 1.35;
 }
 body:not(.is-mobile):is(.theme-light, .theme-dark) .nav-files-container .nav-folder:not(.mod-root) > .nav-folder-children > .nav-file > .nav-file-title {
   padding-inline-start: 14px;
 }
+
+/* Crisp miniature pill badge for non-markdown file extensions (DOCX, PDF, etc.). */
 body:not(.is-mobile):is(.theme-light, .theme-dark) .nav-files-container .nav-file-tag {
   flex-shrink: 0;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  line-height: 1.35;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--cg-badge-bg);
+  color: var(--text-faint);
 }
+
 body.styled-scrollbars:not(.is-mobile, .is-android):is(.theme-light, .theme-dark) .nav-files-container {
   --scrollbar-border-width: 3px;
 }
 body:is(.theme-light, .theme-dark) .nav-files-container .collapse-icon svg.svg-icon {
-  transition: transform var(--cg-motion) var(--cg-ease);
+  transition: transform var(--cg-motion) var(--cg-ease), color var(--cg-motion) var(--cg-ease);
 }
+
+/* Active file row: elevated neutral pill + floating vertical rounded accent indicator.
+   Yields cleanly to native multi-select, drag, rename, menu and focus states. */
 body:is(.theme-light, .theme-dark) :is(.mod-left-split, .mod-right-split) .tree-item-self.is-active:not(.is-selected, .is-being-dragged, .is-being-dragged-over, .is-being-renamed, .has-active-menu, .has-focus) {
-  background-color: var(--cg-selection);
+  position: relative;
+  background-color: var(--cg-nav-active);
   background-image: none;
-  box-shadow: inset 2px 0 0 var(--interactive-accent);
+  box-shadow: var(--cg-nav-active-shadow);
+  color: var(--text-normal);
 }
+body:is(.theme-light, .theme-dark) :is(.mod-left-split, .mod-right-split) .tree-item-self.is-active:not(.is-selected, .is-being-dragged, .is-being-dragged-over, .is-being-renamed, .has-active-menu, .has-focus)::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  translate: 0 -50%;
+  width: 2.5px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--interactive-accent);
+  pointer-events: none;
+}
+
 body:is(.theme-light, .theme-dark) :is(.mod-left-split, .mod-right-split) .tree-item-children {
-  border-inline-start-color: var(--cg-edge-low);
-}
-body:is(.theme-light, .theme-dark) .mod-left-split .nav-folder:focus-within > .tree-item-children {
   border-inline-start-color: var(--cg-hairline);
 }
+body:is(.theme-light, .theme-dark) .mod-left-split .nav-folder:focus-within > .tree-item-children {
+  border-inline-start-color: var(--cg-line);
+}
+
+/* Sidebar action toolbar & vault profile footer. */
 body:is(.theme-light, .theme-dark) .nav-buttons-container {
-  gap: 6px;
-  padding-block: 8px 10px;
+  gap: 5px;
+  padding-block: 8px 8px;
   border-block-end: 1px solid var(--cg-hairline);
 }
 body:is(.theme-light, .theme-dark) .mod-left-split .nav-buttons-container {
   justify-content: flex-start;
-  gap: 4px;
-  margin: 6px 10px 8px;
-  padding: 3px 2px;
+  gap: 3px;
+  margin: 6px 10px 4px;
+  padding: 2px;
   border: 0;
   background: transparent;
   box-shadow: none;
 }
 body:is(.theme-light, .theme-dark) .mod-left-split .nav-buttons-container .nav-action-button {
-  flex: 0 0 32px;
-  width: 32px;
-  height: 32px;
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
   padding: 0;
 }
 body:is(.theme-light, .theme-dark) .workspace-sidedock-vault-profile {
-  box-shadow: inset 0 1px 0 var(--cg-edge-low);
+  box-shadow: inset 0 1px 0 var(--cg-hairline);
 }
 body:is(.theme-light, .theme-dark) .mod-left-split .workspace-sidedock-vault-profile {
   box-sizing: border-box;
-  width: calc(100% - 24px);
-  margin: 8px 12px 10px;
-  padding: 5px 8px;
+  width: calc(100% - 20px);
+  margin: 6px 10px 10px;
+  padding: 6px 8px;
   border: 0;
+  border-radius: var(--radius-s);
   background: transparent;
   box-shadow: none;
 }
